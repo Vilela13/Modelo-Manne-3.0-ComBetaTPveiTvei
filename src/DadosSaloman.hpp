@@ -590,7 +590,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 
 //Inicializa Parametros
 
-		NumeroPlantas 	= 3;
+		NumeroPlantas 	= 1;
 
 		//NumeroPlantas 	= 3;
 		NoPlanta.resize(NumeroPlantas + 1);
@@ -598,10 +598,10 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 		HoraFinalPlanta.resize(NumeroPlantas + 1);
 
 		NoPlanta[1] = 4;	HoraInicioPlanta[1] = 7; 	HoraFinalPlanta[1] = 18;
-		NoPlanta[2] = 11;	HoraInicioPlanta[2] = 7; 	HoraFinalPlanta[2] = 18;
-		NoPlanta[3] = 19;	HoraInicioPlanta[3] = 7; 	HoraFinalPlanta[3] = 18;
+		//NoPlanta[2] = 11;	HoraInicioPlanta[2] = 7; 	HoraFinalPlanta[2] = 18;
+		//NoPlanta[3] = 19;	HoraInicioPlanta[3] = 7; 	HoraFinalPlanta[3] = 18;
 
-		NumeroClientes 	= 22;
+		NumeroClientes 	= 9;
 		NoCliente.resize(	NumeroClientes	+	1);
 		HoraInicioCliente.resize(	NumeroClientes	+	1);
 		HoraFinalCliente.resize( 	NumeroClientes	+	1);
@@ -649,28 +649,28 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 		NoCliente[9] = 20;		HoraInicioCliente[9] = 10.5; 	 HoraFinalCliente[9] = 12.5;		//5
 
 
-		NoCliente[10] = 1;		HoraInicioCliente[10] = 8;	 HoraFinalCliente[10] = 9;		//3
-		NoCliente[11] = 2;		HoraInicioCliente[11] = 8.5;	 HoraFinalCliente[11] = 9.5;		//4
-		NoCliente[12] = 5;		HoraInicioCliente[12] = 9; 	HoraFinalCliente[12] = 10.5;		//4
-		NoCliente[13] = 14;		HoraInicioCliente[13] = 9;	 HoraFinalCliente[13] = 10;		//1
-		NoCliente[14] = 15;		HoraInicioCliente[14] = 9.5;	 HoraFinalCliente[14] = 11;		//4
-		NoCliente[15] = 16;		HoraInicioCliente[15] = 10;	 HoraFinalCliente[15] = 11.5;		//5
-		NoCliente[16] = 17;		HoraInicioCliente[16] = 10.5;	 HoraFinalCliente[16] = 12;		//4
+		//NoCliente[10] = 1;		HoraInicioCliente[10] = 8;	 HoraFinalCliente[10] = 9;		//3
+		//NoCliente[11] = 2;		HoraInicioCliente[11] = 8.5;	 HoraFinalCliente[11] = 9.5;		//4
+		//NoCliente[12] = 5;		HoraInicioCliente[12] = 9; 	HoraFinalCliente[12] = 10.5;		//4
+		//NoCliente[13] = 14;		HoraInicioCliente[13] = 9;	 HoraFinalCliente[13] = 10;		//1
+		//NoCliente[14] = 15;		HoraInicioCliente[14] = 9.5;	 HoraFinalCliente[14] = 11;		//4
+		//NoCliente[15] = 16;		HoraInicioCliente[15] = 10;	 HoraFinalCliente[15] = 11.5;		//5
+		//NoCliente[16] = 17;		HoraInicioCliente[16] = 10.5;	 HoraFinalCliente[16] = 12;		//4
 
-		NoCliente[17] = 12;		HoraInicioCliente[17] = 8;	 HoraFinalCliente[17] = 9;		//4
-		NoCliente[18] = 21;		HoraInicioCliente[18] = 8;	 HoraFinalCliente[18] = 8.5;		//5
-		NoCliente[19] = 22;		HoraInicioCliente[19] = 8.5; 	HoraFinalCliente[19] = 9.5;		//3
-		NoCliente[20] = 23;		HoraInicioCliente[20] = 9.5;	 HoraFinalCliente[20] = 11;		//2
-		NoCliente[21] = 24;		HoraInicioCliente[21] = 10;	 HoraFinalCliente[21] = 12;		//2
-		NoCliente[22] = 25;		HoraInicioCliente[22] = 10.5;	 HoraFinalCliente[22] = 12.5;		//2
+		//NoCliente[17] = 12;		HoraInicioCliente[17] = 8;	 HoraFinalCliente[17] = 9;		//4
+		//NoCliente[18] = 21;		HoraInicioCliente[18] = 8;	 HoraFinalCliente[18] = 8.5;		//5
+		//NoCliente[19] = 22;		HoraInicioCliente[19] = 8.5; 	HoraFinalCliente[19] = 9.5;		//3
+		//NoCliente[20] = 23;		HoraInicioCliente[20] = 9.5;	 HoraFinalCliente[20] = 11;		//2
+		//NoCliente[21] = 24;		HoraInicioCliente[21] = 10;	 HoraFinalCliente[21] = 12;		//2
+		//NoCliente[22] = 25;		HoraInicioCliente[22] = 10.5;	 HoraFinalCliente[22] = 12.5;		//2
 
-		NumeroCaminhoes = 30;
+		NumeroCaminhoes = 10;
 
 		//NumeroCaminhoes = 60;
 		CaminhoesPlanta.resize(NumeroPlantas + 1);
 		CaminhoesPlanta[1] = 10;
-		CaminhoesPlanta[2] = 10;
-		CaminhoesPlanta[3] = 10;
+		//CaminhoesPlanta[2] = 10;
+		//CaminhoesPlanta[3] = 10;
 
 		Velocidade 		= 30;
 

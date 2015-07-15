@@ -90,12 +90,15 @@ int main(int argc, char **argv) {
 		free(InstanciaSaloman);
 
 
-/*
+
 
 	// Resolve o problema
 
 
 		No PreInstancia;
+
+		PreInstancia.PreencheEstrutura();
+		PreInstancia.CriaTXT();
 
 
 		char* Instancias;
@@ -159,9 +162,13 @@ int main(int argc, char **argv) {
 				it = ListaInstancias.begin();
 				a = *it;
 				ListaInstancias.pop_front();
-				cout << " Modelo <= " << a << endl;
+				cout << " Modelo <= " << a << endl << endl;
+
+
+
 
 				if( Instancia->LeDados(a) == 1){
+
 					resolveu = Instancia->Cplex(a, Status, SolucaoPrimal, SolucaoDual, Gap, Tempo);
 					cout << endl << endl << " Resolveu = " << resolveu << endl ;
 					ArquivoExcelResposta << a  << '\t' ;
@@ -198,7 +205,7 @@ int main(int argc, char **argv) {
 			cout << "\n \n Arquivo inexistente! \n \n";
 			return 0;
 		}
-*/
+
 
 	}else{
 		cout << "\n \n Passagem de parametros errada \n \n";

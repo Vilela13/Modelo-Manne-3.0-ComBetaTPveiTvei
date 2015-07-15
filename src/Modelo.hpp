@@ -284,9 +284,9 @@ void No::PreencheEstrutura(){
 void No::CriaTXT(){
 
 	ofstream Instancia;
-	Instancia.open("T-M-V1-2P-4E-5C.txt");
+	Instancia.open("T-M-V1.txt");
 
-cout << "T-M-V1-2P-4E-5C" << endl;
+cout << "T-M-V1" << endl;
 	Instancia <<"T-M-V1-2P-4E-5C" << endl;
 
 cout << " Numero de Plantas " << endl << '\t';
@@ -454,14 +454,20 @@ int No::LeDados(char *a){
 
 	double AuxSvii;
 
+
+
 // Abre arquivo das instâncias
 
 	CaminhoArquivo1 = "./InstS/";
+
+
 
 	b = new char[CaminhoArquivo1.size()+1];
 	b[CaminhoArquivo1.size()]=0;
 	memcpy(b,CaminhoArquivo1.c_str(),CaminhoArquivo1.size());
 	strcat(b,a);
+
+
 
 	arq.open(b);
 	if (arq.is_open()){
@@ -502,8 +508,10 @@ int No::LeDados(char *a){
 		}
 		TCVP.resize(NP);
 		CVP.resize(NP);
+
 		for( int i = 0; i < NP ; i++){
 			arq >> Aux1;
+			cout << Aux1;
 			TCVP[i] = Aux1;
 			if( comentarios == 1){
 				cout << '\t' << "Planta " << i + 1 <<  " ( " << TCVP[i] << " ) -> ";
@@ -647,6 +655,8 @@ int No::LeDados(char *a){
 	// le tempos entre chegadas
 
 		Omega.resize(NE);
+
+
 
 		if( comentarios == 1){
 			cout << " Tempo entre chagadas " << endl;
@@ -805,6 +815,8 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 
 	int UsouCaminhao;
 	int AtendeCliente;
+
+	double BigMauternativo;
 
 	Escreve = 0;
 	EscreveVariaveis = 0;
@@ -978,7 +990,7 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 
 
 
-// Restrição 1 : de que os caminhões temq ue suprir as demandas
+// Restrição 1 : de que os caminhões tem que suprir as demandas
 
 	for (int e = 0; e < NE; e++) {
 		for (int i = 0; i < TCDE[e]; i++) {
@@ -998,7 +1010,8 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	for (int e = 0; e < NE; e++) {
 		for (int i = 0; i < TCDE[e]; i++) {
 			for (int v = 0; v < NV; v++) {
-				model.add( Ze[e] >=  Tvei[v][e][i] + Pvi[v][e][i] - BigM * ( 1 - Alfa[v][e][i]) );
+                BigMauternativo = TmaxE[e] + Pvi[v][e][i];
+				model.add( Ze[e] >=  Tvei[v][e][i] + Pvi[v][e][i] - BigMauternativo  * ( 1 - Alfa[v][e][i]) );
 			}
 		}
 	}
@@ -1017,7 +1030,8 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 					if ( Escreve == 1){
 						cout << " Tvei[ " << vAux << "][" << e<< "][ " << i << "] >=  Tv[" << vAux << "] + Dpe[" << p << "][" << e << "] - BigM * ( 1 - Alfa[" << vAux << "][" << e << "][" << i << "])" << endl;
 					}
-					model.add(   Tvei[vAux][e][i] >=  Tv[vAux] + Dpe[p][e] - BigM * ( 1 - Alfa[vAux][e][i]) );
+					BigMauternativo = TmaxP[p] + Dpe[p][e];
+					model.add(   Tvei[vAux][e][i] >=  Tv[vAux] + Dpe[p][e] - BigMauternativo * ( 1 - Alfa[vAux][e][i]) );
 					vAux = vAux + 1;
 				}
 			}
@@ -1036,7 +1050,8 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 					if ( Escreve == 1){
 						cout << " Zr[ " << p << "] >=  Tvei[" << vAux << "][" << e << "][" << i << "]+ Dep[" << vAux << "][" << e << "][" << i << "] + Dep[" << e << "][" << p << "] - BigM * ( 1 - Alfa[" << vAux << "][" << e << "][" << i << "])" << endl;
 					}
-					model.add( Zr[p] >=  Tvei[vAux][e][i] + Pvi[vAux][e][i] + Dep[e][p] - BigM * ( 1 - Alfa[vAux][e][i]) );
+					BigMauternativo = TmaxE[e] + Pvi[vAux][e][i] + Dep[e][p];
+					model.add( Zr[p] >=  Tvei[vAux][e][i] + Pvi[vAux][e][i] + Dep[e][p] - BigMauternativo * ( 1 - Alfa[vAux][e][i]) );
 					vAux = vAux + 1;
 				}
 			}
@@ -1059,11 +1074,13 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 								if ( Escreve == 1){
 									cout << " BigM * ( 1 - Alfa[" <<v<< "][" <<e1<< "][" <<i<< "]) + BigM * ( 1 - Alfa[" <<v<< "][" <<e2<< "][" <<j<< "]) + BigM *(1- Beta[" <<v<< "][" <<e1<< "][" <<i<< "][" <<e2<< "][" <<j<< "])  + Tvei[" <<v<< "][" <<e2<< "][" <<j<< "] >= Tvei[" <<v<< "][" <<e1<< "][" <<i<< "] +  Pvi[" <<v<< "][" <<e1<< "][" <<i<< "] + Svii[" <<v<< "][" <<e1<< "][" <<i<< "][" <<e2<< "][" <<j<< "])" << endl;
 								}
-								model.add( BigM * ( 1 - Alfa[v][e1][i]) + BigM * ( 1 - Alfa[v][e2][j]) + BigM *(1- Beta[v][e1][i][e2][j])  + Tvei[v][e2][j] >= Tvei[v][e1][i] +  Pvi[v][e1][i] + Svii[v][e1][i][e2][j]);
+								BigMauternativo = TmaxE[e1] + Pvi[v][e1][i] + Svii[v][e1][i][e2][j];
+								model.add(BigMauternativo  * ( 1 - Alfa[v][e1][i]) + BigMauternativo  * ( 1 - Alfa[v][e2][j]) + BigMauternativo  *(1- Beta[v][e1][i][e2][j])  + Tvei[v][e2][j] >= Tvei[v][e1][i] +  Pvi[v][e1][i] + Svii[v][e1][i][e2][j]);
 								if ( Escreve == 1){
 									cout << " BigM * ( 1 - Alfa[" <<v<< "][" <<e1<< "][" <<i<< "]) + BigM * ( 1 - Alfa[" <<v<< "][" <<e2<< "][" <<j<< "]) + BigM * Beta[" <<v<< "][" <<e1<< "][" <<i<< "][" <<e2<< "][" <<j<< "]  + Tvei[" <<v<< "][" <<e2<< "][" <<j<< "] >= Tvei[" <<v<< "][" <<e1<< "][" <<i<< "] +  Pvi[" <<v<< "][" <<e1<< "][" <<i<< "] + Svii[" <<v<< "][" <<e1<< "][" <<i<< "][" <<e2<< "][" <<j<< "])" << endl;
 								}
-								model.add( BigM * ( 1 - Alfa[v][e1][i]) + BigM * ( 1 - Alfa[v][e2][j]) + BigM * Beta[v][e1][i][e2][j]  + Tvei[v][e1][i] >= Tvei[v][e2][j] +  Pvi[v][e2][j] + Svii[v][e2][j][e1][i]);
+								BigMauternativo = TmaxE[e2] + Pvi[v][e2][j] + Svii[v][e2][j][e1][i];
+								model.add( BigMauternativo  * ( 1 - Alfa[v][e1][i]) + BigMauternativo  * ( 1 - Alfa[v][e2][j]) + BigMauternativo  * Beta[v][e1][i][e2][j]  + Tvei[v][e1][i] >= Tvei[v][e2][j] +  Pvi[v][e2][j] + Svii[v][e2][j][e1][i]);
 							}
 						//}
 					}
@@ -1099,7 +1116,8 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 						if ( Escreve == 1){
 							cout <<" BigM * ( 1 - Alfa[" <<v1<< "][" <<e1<< "][" <<i<< "]) +  Tvei[" <<v1<< "][" <<e1<< "][" <<i<< "] >= - BigM * ( 1 - Alfa[" <<v2<< "][" <<e1<< "][" <<i<< "]) Tvei[" <<v2<< "][" <<e1<< "][" <<i<< "] + Omega["<<e1<<"]" << endl;
 						}
-							model.add( BigM * ( 1 - Alfa[v1][e1][i+1]) +  Tvei[v1][e1][i+1] >= - BigM * ( 1 - Alfa[v2][e1][i]) + Tvei[v2][e1][i] + Omega[e1]);
+						BigMauternativo = TmaxE[e1] + Omega[e1];
+                        model.add( BigMauternativo * ( 1 - Alfa[v1][e1][i+1]) +  Tvei[v1][e1][i+1] >= - BigMauternativo * ( 1 - Alfa[v2][e1][i]) + Tvei[v2][e1][i] + Omega[e1]);
 					}
 				}
 			}
