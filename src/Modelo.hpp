@@ -90,7 +90,20 @@ public:
 	void CriaZe(IloFloatVarArray*, int);
 	void CriaZr(IloFloatVarArray*, int);
 
+	void FuncaoObjetivo(IloFloatVarArray, IloFloatVarArray, IloModel*);
+
+	void Restricao1(IloArray<IloArray<IloBoolVarArray> >, IloModel* );
+	void Restricao2(IloFloatVarArray, IloArray < IloArray < IloFloatVarArray > >, IloArray<IloArray<IloBoolVarArray> >, IloModel*);
+	void Restricao3(IloArray < IloArray < IloFloatVarArray > >, IloFloatVarArray,IloArray<IloArray<IloBoolVarArray> >, IloModel*, int);
+	void Restricao4( IloFloatVarArray,IloArray < IloArray < IloFloatVarArray > >, IloArray<IloArray<IloBoolVarArray> >, IloModel*, int );
+	void Restricao5e6( IloArray<IloArray<IloBoolVarArray> > ,IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > ,IloArray < IloArray < IloFloatVarArray > > , IloModel* , int , int );
+	void Restricao7( IloArray<IloArray<IloBoolVarArray> > ,IloArray < IloArray < IloFloatVarArray > > , IloModel*, int );
+	void Restricao8( IloArray < IloArray < IloFloatVarArray > >, IloModel*, int  );
+	void Restricao9( IloFloatVarArray, IloModel*, int);
+	void Restricao10(IloFloatVarArray, IloFloatVarArray, IloModel*);
+
 	void VerificaOuCriaPastaOut(int);
+	void VerificaOuCriaPastaSol(int);
 	void InicializaVariaveisImprimir();
 	void PegaValoresDasVariaveis( IloCplex, IloArray<IloArray<IloBoolVarArray> > , IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > , IloFloatVarArray, IloFloatVarArray, IloArray < IloArray < IloFloatVarArray > > , IloFloatVarArray);
 
@@ -909,6 +922,199 @@ void No::CriaZr(IloFloatVarArray* Zr , int Escreve ){
 	*Zr = Zr2;
 }
 
+void No::FuncaoObjetivo(IloFloatVarArray Ze, IloFloatVarArray Zr, IloModel* model){
+	IloExpr funcao_objetivo(env);
+	for (int e = 0; e < NE; e++) {
+		funcao_objetivo += Ze[e];
+	}
+	for (int p = 0; p < NP; p++) {
+		funcao_objetivo += Zr[p];
+	}
+	IloObjective obj = IloMinimize(env, funcao_objetivo);
+	model->add(obj);
+	funcao_objetivo.end();
+}
+
+void No::Restricao1(IloArray<IloArray<IloBoolVarArray> > Alfa, IloModel* model){
+	for (int e = 0; e < NE; e++) {
+		for (int i = 0; i < TCDE[e]; i++) {
+			IloExpr expr(env);
+			for (int v = 0; v < NV; v++) {
+				expr += Alfa[v][e][i];
+			}
+			model->add(expr == 1);
+			expr.end();
+		}
+	}
+}
+
+void No::Restricao2(IloFloatVarArray Ze, IloArray < IloArray < IloFloatVarArray > > Tvei, IloArray<IloArray<IloBoolVarArray> > Alfa, IloModel* model){
+	double BigMauternativo;
+	for (int e = 0; e < NE; e++) {
+		for (int i = 0; i < TCDE[e]; i++) {
+			for (int v = 0; v < NV; v++) {
+                BigMauternativo = TmaxE[e] + Pvi[v][e][i];
+				model->add( Ze[e] >=  Tvei[v][e][i] + Pvi[v][e][i] - BigMauternativo  * ( 1 - Alfa[v][e][i]) );
+			}
+		}
+	}
+}
+
+void No::Restricao3(IloArray < IloArray < IloFloatVarArray > > Tvei, IloFloatVarArray Tv,IloArray<IloArray<IloBoolVarArray> > Alfa, IloModel* model, int EscreveRestricao3){
+	int vAux;
+	double BigMauternativo;
+	for (int e = 0; e < NE; e++) {
+		for (int i = 0; i < TCDE[e]; i++) {
+			vAux = 0;
+			for (int p = 0; p < NP; p++) {
+				for (int v = 0; v < TCVP[p]; v++) {
+					if ( EscreveRestricao3 == 1){
+						cout << " Tvei[ " << vAux << "][" << e<< "][ " << i << "] >=  Tv[" << vAux << "] + Dpe[" << p << "][" << e << "] - BigM * ( 1 - Alfa[" << vAux << "][" << e << "][" << i << "])" << endl;
+					}
+					BigMauternativo = TmaxP[p] + Dpe[p][e];
+					model->add(   Tvei[vAux][e][i] >=  Tv[vAux] + Dpe[p][e] - BigMauternativo * ( 1 - Alfa[vAux][e][i]) );
+					vAux = vAux + 1;
+				}
+			}
+		}
+	}
+}
+
+void No::Restricao4( IloFloatVarArray Zr,IloArray < IloArray < IloFloatVarArray > > Tvei, IloArray<IloArray<IloBoolVarArray> > Alfa, IloModel* model, int EscreveRestricao4){
+	int vAux;
+	double BigMauternativo;
+	for (int e = 0; e < NE; e++) {
+		for (int i = 0; i < TCDE[e]; i++) {
+			vAux = 0;
+			for (int p = 0; p < NP; p++) {
+				for (int v = 0; v < TCVP[p]; v++) {
+					if ( EscreveRestricao4 == 1){
+						cout << " Zr[ " << p << "] >=  Tvei[" << vAux << "][" << e << "][" << i << "]+ Dep[" << vAux << "][" << e << "][" << i << "] + Dep[" << e << "][" << p << "] - BigM * ( 1 - Alfa[" << vAux << "][" << e << "][" << i << "])" << endl;
+					}
+					BigMauternativo = TmaxE[e] + Pvi[vAux][e][i] + Dep[e][p];
+					model->add( Zr[p] >=  Tvei[vAux][e][i] + Pvi[vAux][e][i] + Dep[e][p] - BigMauternativo * ( 1 - Alfa[vAux][e][i]) );
+					vAux = vAux + 1;
+				}
+			}
+		}
+	}
+}
+
+void No::Restricao5e6( IloArray<IloArray<IloBoolVarArray> > Alfa,IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > Beta,IloArray < IloArray < IloFloatVarArray > > Tvei, IloModel* model, int EscrveRestricao5, int EscreveRestricao6){
+	double BigMauternativo;
+	for (int e1 = 0; e1 < NE; e1++) {
+		for (int i = 0; i < TCDE[e1]; i++) {
+			for (int e2 = 0; e2 < NE; e2++) {
+				for (int j = 0; j < TCDE[e2]; j++) {
+					for (int v = 0; v < NV; v++) {
+						if ( i == j and e1 == e2){
+
+						}else{
+							//if( e1 == e2){
+								if ( EscrveRestricao5 == 1){
+									cout << " BigM * ( 1 - Alfa[" <<v<< "][" <<e1<< "][" <<i<< "]) + BigM * ( 1 - Alfa[" <<v<< "][" <<e2<< "][" <<j<< "]) + BigM *(1- Beta[" <<v<< "][" <<e1<< "][" <<i<< "][" <<e2<< "][" <<j<< "])  + Tvei[" <<v<< "][" <<e2<< "][" <<j<< "] >= Tvei[" <<v<< "][" <<e1<< "][" <<i<< "] +  Pvi[" <<v<< "][" <<e1<< "][" <<i<< "] + Svii[" <<v<< "][" <<e1<< "][" <<i<< "][" <<e2<< "][" <<j<< "])" << endl;
+								}
+								BigMauternativo = TmaxE[e1] + Pvi[v][e1][i] + Svii[v][e1][i][e2][j];
+								model->add(BigMauternativo  * ( 1 - Alfa[v][e1][i]) + BigMauternativo  * ( 1 - Alfa[v][e2][j]) + BigMauternativo  *(1- Beta[v][e1][i][e2][j])  + Tvei[v][e2][j] >= Tvei[v][e1][i] +  Pvi[v][e1][i] + Svii[v][e1][i][e2][j]);
+								if ( EscreveRestricao6 == 1){
+									cout << " BigM * ( 1 - Alfa[" <<v<< "][" <<e1<< "][" <<i<< "]) + BigM * ( 1 - Alfa[" <<v<< "][" <<e2<< "][" <<j<< "]) + BigM * Beta[" <<v<< "][" <<e1<< "][" <<i<< "][" <<e2<< "][" <<j<< "]  + Tvei[" <<v<< "][" <<e2<< "][" <<j<< "] >= Tvei[" <<v<< "][" <<e1<< "][" <<i<< "] +  Pvi[" <<v<< "][" <<e1<< "][" <<i<< "] + Svii[" <<v<< "][" <<e1<< "][" <<i<< "][" <<e2<< "][" <<j<< "])" << endl;
+								}
+								BigMauternativo = TmaxE[e2] + Pvi[v][e2][j] + Svii[v][e2][j][e1][i];
+								model->add( BigMauternativo  * ( 1 - Alfa[v][e1][i]) + BigMauternativo  * ( 1 - Alfa[v][e2][j]) + BigMauternativo  * Beta[v][e1][i][e2][j]  + Tvei[v][e1][i] >= Tvei[v][e2][j] +  Pvi[v][e2][j] + Svii[v][e2][j][e1][i]);
+							}
+						//}
+					}
+				}
+			}
+		}
+	}
+}
+
+void No::Restricao7( IloArray<IloArray<IloBoolVarArray> > Alfa,IloArray < IloArray < IloFloatVarArray > > Tvei, IloModel* model, int EscreveRestricao7 ){
+	double BigMauternativo;
+	/*
+		for (int v1 = 0; v1 < NV; v1++) {
+			for (int v2 = 0; v2 < NV; v2++) {
+				for (int e1 = 0; e1 < NE; e1++) {
+					for (int i = 0; i < (TCDE[e1] - 1); i++) {
+						if ( Escreve == 1){
+							cout << "  Tvei[" <<v1<< "][" <<e1<< "][" <<i+1<< "] >= Tvei[" <<v2<< "][" <<e1<< "][" <<i<< "] + Omega["<<e1<<"]" << endl;
+						}
+							model.add(  Tvei[v1][e1][i+1] >= Tvei[v2][e1][i] + Omega[e1]);
+					}
+				}
+			}
+		}
+
+	*/
+	// Com o Big M
+
+	for (int v1 = 0; v1 < NV; v1++) {
+		for (int v2 = 0; v2 < NV; v2++) {
+			for (int e1 = 0; e1 < NE; e1++) {
+				for (int i = 0; i < (TCDE[e1] - 1); i++) {
+					if ( EscreveRestricao7 == 1){
+						cout <<" BigM * ( 1 - Alfa[" <<v1<< "][" <<e1<< "][" <<i<< "]) +  Tvei[" <<v1<< "][" <<e1<< "][" <<i<< "] >= - BigM * ( 1 - Alfa[" <<v2<< "][" <<e1<< "][" <<i<< "]) Tvei[" <<v2<< "][" <<e1<< "][" <<i<< "] + Omega["<<e1<<"]" << endl;
+					}
+					BigMauternativo = TmaxE[e1] + Omega[e1];
+					model->add( BigMauternativo * ( 1 - Alfa[v1][e1][i+1]) +  Tvei[v1][e1][i+1] >= - BigMauternativo * ( 1 - Alfa[v2][e1][i]) + Tvei[v2][e1][i] + Omega[e1]);
+				}
+			}
+		}
+	}
+}
+
+void No::Restricao8( IloArray < IloArray < IloFloatVarArray > > Tvei, IloModel* model, int EscreveRestricao8 ){
+	for (int v = 0; v < NV; v++) {
+		for (int e1 = 0; e1 < NE; e1++) {
+			for (int i = 0; i < TCDE[e1]; i++) {
+				if ( EscreveRestricao8 == 1){
+					cout << "  Tvei[" <<v<< "][" <<e1<< "][" <<i<< "] >= TminE[" << e1 <<"]" << endl;
+				}
+				model->add(  Tvei[v][e1][i] >= TminE[e1] );
+				if ( EscreveRestricao8 == 1){
+					cout << "  Tvei[" <<v<< "][" <<e1<< "][" <<i<< "] <= TmaxE[" << e1 <<"]" << endl;
+				}
+				model->add(  Tvei[v][e1][i] <= TmaxE[e1] );
+			}
+		}
+	}
+}
+
+void No::Restricao9( IloFloatVarArray Tv, IloModel* model, int EscreveRestricao9 ){
+	int vAux;
+	vAux = 0;
+	for (int p = 0; p < NP; p++) {
+		for (int v = 0; v < TCVP[p]; v++) {
+			if ( EscreveRestricao9 == 1){
+				cout << "  Tv[" <<vAux<< "] >= TminP[" << p <<"]" << endl;
+			}
+			model->add(  Tv[vAux] >= TminP[p] );
+			if ( EscreveRestricao9 == 1){
+				cout << "  Tv[" <<vAux<< "] <= TmaxP[" << p <<"]" << endl;
+			}
+			model->add(  Tv[vAux] <= TmaxP[p] );
+			vAux = vAux + 1;
+		}
+	}
+}
+
+void No::Restricao10(IloFloatVarArray Ze, IloFloatVarArray Zr, IloModel* model){
+	for (int e = 0; e < NE; e++) {
+		IloExpr expr(env);
+		expr += Ze[e];
+		model->add(expr >= 0);
+		expr.end();
+	}
+
+	for (int p = 0; p < NP; p++) {
+		IloExpr expr(env);
+		expr += Zr[p];
+		model->add(expr >= 0);
+		expr.end();
+	}
+}
+
 void No::VerificaOuCriaPastaOut(int EscreveNaTelaResultados){
 	if(!opendir ("Out")){
 		cout <<  "\n\n Nao tem diretorio \"Out\" !!        FUDEU MUITO!! \n" << endl;
@@ -932,6 +1138,33 @@ void No::VerificaOuCriaPastaOut(int EscreveNaTelaResultados){
 	}else{
 		if( EscreveNaTelaResultados == 1){
 			cout << " Tem diretorio \"Out\" !!  " << endl;
+		}
+	}
+}
+
+void No::VerificaOuCriaPastaSol(int EscreveNaTelaResultados){
+	if(!opendir ("Sol")){
+		cout <<  "\n\n Nao tem diretorio \"Sol\" !!        FUDEU MUITO!! \n" << endl;
+
+		if(system("mkdir Sol;") == 0){
+			cout << " Criou pasta Sol" << endl;
+		}else{
+			cout << " Problema ao criar pasta Sol" << endl;
+		}
+
+		/* Outra maneira de criar arquivos
+
+		SituacaoDiretorio = mkdir("./myfolder", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+		*/
+
+		if(!opendir ("Sol")){
+			cout << "\n Nao tem diretorio  \"Sol\" !!        FUDEU MUITO!! \n" << endl;
+		}else{
+			cout << " Tem diretorio \"Sol\" !!  " << endl;
+		}
+	}else{
+		if( EscreveNaTelaResultados == 1){
+			cout << " Tem diretorio \"Sol\" !!  " << endl;
 		}
 	}
 }
@@ -1311,9 +1544,17 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 
 	char varName[24];
 
-	int vAux;
 
 	int Escreve;				// Escreve variaveis criadas
+	int EscreveRestricao3;
+	int EscreveRestricao4;
+	int EscrveRestricao5;
+	int EscreveRestricao6;
+	int EscreveRestricao7;
+	int EscreveRestricao8;
+	int EscreveRestricao9;
+
+
 	int EscreveVariaveis;
 	int OutPut1;
 	int OutPut2;
@@ -1321,9 +1562,15 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	int EscreveArquivoComRespostas;
 	int EscreveNaTelaResultados;
 
-	double BigMauternativo;
-
 	Escreve = 0;
+	EscreveRestricao3 = 0;
+	EscreveRestricao4 = 0;
+	EscrveRestricao5 = 0;
+	EscreveRestricao6 = 0;
+	EscreveRestricao7 = 0;
+	EscreveRestricao8 = 0;
+	EscreveRestricao9 = 0;
+
 	EscreveVariaveis = 0;
 	OutPut1 = 1;
 	OutPut2 = 1;
@@ -1402,202 +1649,26 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 
 
 // Funcao Objetivo
-	IloExpr funcao_objetivo(env);
-	for (int e = 0; e < NE; e++) {
-		funcao_objetivo += Ze[e];
-	}
-	for (int p = 0; p < NP; p++) {
-		funcao_objetivo += Zr[p];
-	}
-	IloObjective obj = IloMinimize(env, funcao_objetivo);
-	model.add(obj);
-	funcao_objetivo.end();
-
-// Restrição de não negatividade
-	for (int e = 0; e < NE; e++) {
-		IloExpr expr(env);
-		expr += Ze[e];
-		model.add(expr >= 0);
-		expr.end();
-	}
-
-	for (int p = 0; p < NP; p++) {
-		IloExpr expr(env);
-		expr += Zr[p];
-		model.add(expr >= 0);
-		expr.end();
-	}
-
-
+	FuncaoObjetivo(Ze, Zr, &model);
 
 // Restrição 1 : de que os caminhões tem que suprir as demandas
-
-	for (int e = 0; e < NE; e++) {
-		for (int i = 0; i < TCDE[e]; i++) {
-			IloExpr expr(env);
-			for (int v = 0; v < NV; v++) {
-				expr += Alfa[v][e][i];
-			}
-			model.add(expr == 1);
-			expr.end();
-		}
-	}
-
-
-
+	Restricao1(Alfa, &model);
 // Restrição  2 : de lower bound Ze
-
-	for (int e = 0; e < NE; e++) {
-		for (int i = 0; i < TCDE[e]; i++) {
-			for (int v = 0; v < NV; v++) {
-                BigMauternativo = TmaxE[e] + Pvi[v][e][i];
-				model.add( Ze[e] >=  Tvei[v][e][i] + Pvi[v][e][i] - BigMauternativo  * ( 1 - Alfa[v][e][i]) );
-			}
-		}
-	}
-
-
-
+	Restricao2(Ze, Tvei, Alfa, &model);
 // Restrição  3 : de lower bound Tvi
-
-
-
-	for (int e = 0; e < NE; e++) {
-		for (int i = 0; i < TCDE[e]; i++) {
-			vAux = 0;
-			for (int p = 0; p < NP; p++) {
-				for (int v = 0; v < TCVP[p]; v++) {
-					if ( Escreve == 1){
-						cout << " Tvei[ " << vAux << "][" << e<< "][ " << i << "] >=  Tv[" << vAux << "] + Dpe[" << p << "][" << e << "] - BigM * ( 1 - Alfa[" << vAux << "][" << e << "][" << i << "])" << endl;
-					}
-					BigMauternativo = TmaxP[p] + Dpe[p][e];
-					model.add(   Tvei[vAux][e][i] >=  Tv[vAux] + Dpe[p][e] - BigMauternativo * ( 1 - Alfa[vAux][e][i]) );
-					vAux = vAux + 1;
-				}
-			}
-		}
-	}
-
-
-
+	Restricao3( Tvei, Tv, Alfa, &model,EscreveRestricao3);
 // Restrição  4 : de lower bound Zr
-
-	for (int e = 0; e < NE; e++) {
-		for (int i = 0; i < TCDE[e]; i++) {
-			vAux = 0;
-			for (int p = 0; p < NP; p++) {
-				for (int v = 0; v < TCVP[p]; v++) {
-					if ( Escreve == 1){
-						cout << " Zr[ " << p << "] >=  Tvei[" << vAux << "][" << e << "][" << i << "]+ Dep[" << vAux << "][" << e << "][" << i << "] + Dep[" << e << "][" << p << "] - BigM * ( 1 - Alfa[" << vAux << "][" << e << "][" << i << "])" << endl;
-					}
-					BigMauternativo = TmaxE[e] + Pvi[vAux][e][i] + Dep[e][p];
-					model.add( Zr[p] >=  Tvei[vAux][e][i] + Pvi[vAux][e][i] + Dep[e][p] - BigMauternativo * ( 1 - Alfa[vAux][e][i]) );
-					vAux = vAux + 1;
-				}
-			}
-		}
-	}
-
-
-
-// Restrição  6 e 7: de precedencia
-
-	for (int e1 = 0; e1 < NE; e1++) {
-		for (int i = 0; i < TCDE[e1]; i++) {
-			for (int e2 = 0; e2 < NE; e2++) {
-				for (int j = 0; j < TCDE[e2]; j++) {
-					for (int v = 0; v < NV; v++) {
-						if ( i == j and e1 == e2){
-
-						}else{
-							//if( e1 == e2){
-								if ( Escreve == 1){
-									cout << " BigM * ( 1 - Alfa[" <<v<< "][" <<e1<< "][" <<i<< "]) + BigM * ( 1 - Alfa[" <<v<< "][" <<e2<< "][" <<j<< "]) + BigM *(1- Beta[" <<v<< "][" <<e1<< "][" <<i<< "][" <<e2<< "][" <<j<< "])  + Tvei[" <<v<< "][" <<e2<< "][" <<j<< "] >= Tvei[" <<v<< "][" <<e1<< "][" <<i<< "] +  Pvi[" <<v<< "][" <<e1<< "][" <<i<< "] + Svii[" <<v<< "][" <<e1<< "][" <<i<< "][" <<e2<< "][" <<j<< "])" << endl;
-								}
-								BigMauternativo = TmaxE[e1] + Pvi[v][e1][i] + Svii[v][e1][i][e2][j];
-								model.add(BigMauternativo  * ( 1 - Alfa[v][e1][i]) + BigMauternativo  * ( 1 - Alfa[v][e2][j]) + BigMauternativo  *(1- Beta[v][e1][i][e2][j])  + Tvei[v][e2][j] >= Tvei[v][e1][i] +  Pvi[v][e1][i] + Svii[v][e1][i][e2][j]);
-								if ( Escreve == 1){
-									cout << " BigM * ( 1 - Alfa[" <<v<< "][" <<e1<< "][" <<i<< "]) + BigM * ( 1 - Alfa[" <<v<< "][" <<e2<< "][" <<j<< "]) + BigM * Beta[" <<v<< "][" <<e1<< "][" <<i<< "][" <<e2<< "][" <<j<< "]  + Tvei[" <<v<< "][" <<e2<< "][" <<j<< "] >= Tvei[" <<v<< "][" <<e1<< "][" <<i<< "] +  Pvi[" <<v<< "][" <<e1<< "][" <<i<< "] + Svii[" <<v<< "][" <<e1<< "][" <<i<< "][" <<e2<< "][" <<j<< "])" << endl;
-								}
-								BigMauternativo = TmaxE[e2] + Pvi[v][e2][j] + Svii[v][e2][j][e1][i];
-								model.add( BigMauternativo  * ( 1 - Alfa[v][e1][i]) + BigMauternativo  * ( 1 - Alfa[v][e2][j]) + BigMauternativo  * Beta[v][e1][i][e2][j]  + Tvei[v][e1][i] >= Tvei[v][e2][j] +  Pvi[v][e2][j] + Svii[v][e2][j][e1][i]);
-							}
-						//}
-					}
-				}
-			}
-		}
-	}
-
-
+	Restricao4( Zr, Tvei, Alfa, &model, EscreveRestricao4);
+// Restrição  5 e 6: de precedencia
+	Restricao5e6(  Alfa, Beta, Tvei, &model,  EscrveRestricao5, EscreveRestricao6);
+// Restrição  7:
+	Restricao7(  Alfa, Tvei, &model, EscreveRestricao7 );
 // Restrição  8:
-
-/*
-	for (int v1 = 0; v1 < NV; v1++) {
-		for (int v2 = 0; v2 < NV; v2++) {
-			for (int e1 = 0; e1 < NE; e1++) {
-				for (int i = 0; i < (TCDE[e1] - 1); i++) {
-					if ( Escreve == 1){
-						cout << "  Tvei[" <<v1<< "][" <<e1<< "][" <<i+1<< "] >= Tvei[" <<v2<< "][" <<e1<< "][" <<i<< "] + Omega["<<e1<<"]" << endl;
-					}
-						model.add(  Tvei[v1][e1][i+1] >= Tvei[v2][e1][i] + Omega[e1]);
-				}
-			}
-		}
-	}
-
-*/
-// Com o Big M
-
-	for (int v1 = 0; v1 < NV; v1++) {
-			for (int v2 = 0; v2 < NV; v2++) {
-				for (int e1 = 0; e1 < NE; e1++) {
-					for (int i = 0; i < (TCDE[e1] - 1); i++) {
-						if ( Escreve == 1){
-							cout <<" BigM * ( 1 - Alfa[" <<v1<< "][" <<e1<< "][" <<i<< "]) +  Tvei[" <<v1<< "][" <<e1<< "][" <<i<< "] >= - BigM * ( 1 - Alfa[" <<v2<< "][" <<e1<< "][" <<i<< "]) Tvei[" <<v2<< "][" <<e1<< "][" <<i<< "] + Omega["<<e1<<"]" << endl;
-						}
-						BigMauternativo = TmaxE[e1] + Omega[e1];
-                        model.add( BigMauternativo * ( 1 - Alfa[v1][e1][i+1]) +  Tvei[v1][e1][i+1] >= - BigMauternativo * ( 1 - Alfa[v2][e1][i]) + Tvei[v2][e1][i] + Omega[e1]);
-					}
-				}
-			}
-		}
-
+	Restricao8( Tvei, &model, EscreveRestricao8 );
 // Restrição  9:
-
-	for (int v = 0; v < NV; v++) {
-		for (int e1 = 0; e1 < NE; e1++) {
-			for (int i = 0; i < TCDE[e1]; i++) {
-				if ( Escreve == 1){
-					cout << "  Tvei[" <<v<< "][" <<e1<< "][" <<i<< "] >= TminE[" << e1 <<"]" << endl;
-				}
-				model.add(  Tvei[v][e1][i] >= TminE[e1] );
-				if ( Escreve == 1){
-					cout << "  Tvei[" <<v<< "][" <<e1<< "][" <<i<< "] <= TmaxE[" << e1 <<"]" << endl;
-				}
-				model.add(  Tvei[v][e1][i] <= TmaxE[e1] );
-			}
-		}
-	}
-
-// Restrição  10:
-
-
-	vAux = 0;
-	for (int p = 0; p < NP; p++) {
-		for (int v = 0; v < TCVP[p]; v++) {
-			if ( Escreve == 1){
-				cout << "  Tv[" <<vAux<< "] >= TminP[" << p <<"]" << endl;
-			}
-			model.add(  Tv[vAux] >= TminP[p] );
-			if ( Escreve == 1){
-				cout << "  Tv[" <<vAux<< "] <= TmaxP[" << p <<"]" << endl;
-			}
-			model.add(  Tv[vAux] <= TmaxP[p] );
-			vAux = vAux + 1;
-		}
-	}
-
+	Restricao9(  Tv, &model, EscreveRestricao9 );
+// Restrição 10
+	Restricao10(Ze, Zr, &model);
 
 // Modelo
 	IloCplex cplex(model);
@@ -1605,7 +1676,6 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 
 // Cria pasta OUT
 	VerificaOuCriaPastaOut(EscreveNaTelaResultados);
-
 
 	Nome1 = "./Out/";
 	c1 = new char[Nome1.size()+1];
@@ -1620,7 +1690,7 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	if(SaidaPastaSeparada == 1){
 		cplex.setOut(logfile1);
 	}
-	cplex.setParam(IloCplex::TiLim, 60);
+	cplex.setParam(IloCplex::TiLim, 3600);
 
 	Tempo1 = cplex.getCplexTime();
 
@@ -1644,30 +1714,7 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 
 		Tempo2 = cplex.getCplexTime();
 
-		if(!opendir ("Sol")){
-			cout <<  "\n\n Nao tem diretorio \"Sol\" !!        FUDEU MUITO!! \n" << endl;
-
-			if(system("mkdir Sol;") == 0){
-				cout << " Criou pasta Sol" << endl;
-			}else{
-				cout << " Problema ao criar pasta Sol" << endl;
-			}
-
-			/* Outra maneira de criar arquivos
-
-			SituacaoDiretorio = mkdir("./myfolder", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-			*/
-
-			if(!opendir ("Sol")){
-				cout << "\n Nao tem diretorio  \"Sol\" !!        FUDEU MUITO!! \n" << endl;
-			}else{
-				cout << " Tem diretorio \"Sol\" !!  " << endl;
-			}
-		}else{
-			if( EscreveNaTelaResultados == 1){
-				cout << " Tem diretorio \"Sol\" !!  " << endl;
-			}
-		}
+		VerificaOuCriaPastaSol(EscreveNaTelaResultados);
 
 		Nome2 = "./Sol/";
 		c2 = new char[Nome2.size()+1];

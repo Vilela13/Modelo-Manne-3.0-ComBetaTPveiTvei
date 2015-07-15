@@ -5,7 +5,6 @@ int main(int argc, char **argv) {
 
 	if( argc == 2){
 
-
 		char *a;
 		list<char*> ListaInstancias;
 		string Nome;
@@ -22,17 +21,12 @@ int main(int argc, char **argv) {
 		double Gap;
 		double Tempo;
 
-
-
-	// RecriaInstancias
-
 	// -------------------------- Le arquivo com as instancias de Solomon e as guarda em uma lista ----------------------- //
 
 		ifstream ArquivoInstanciaSaloman( "ArquivosSaloman.txt" );
 		if(!ArquivoInstanciaSaloman){
 			cout << " Arquivo nao Existe! \n FUDEU MUITO! \n";
 		}else{
-
 
 			ArquivoInstanciaSaloman >> Nome;
 			cout << " \n   Arqmazena nome de instancias \n " << endl;
@@ -50,7 +44,6 @@ int main(int argc, char **argv) {
 
 		ArquivoInstanciaSaloman.close();
 
-
 	// -------------------------- Le nome dos arquivos Solomon, carrega os dados, cria arquivo do R, Excel e cria arquivo que pode ser lido pelo Modelo ----------------------- //
 
 		DadosSaloman *InstanciaSaloman = new DadosSaloman;
@@ -62,45 +55,30 @@ int main(int argc, char **argv) {
 			//cout <<  " ai 1" << endl;
 
 			cout << a << endl;
-
 			//cout <<  " ai 2" << endl;
 
 			InstanciaSaloman->CarregarNumeroNosCoordenadas(a);
-
 			//InstanciaSaloman->EscreverDadosLidosInstanciaSaloman();
-
 			cout << " entrei 0 - carrega dados" << endl;
 
 			InstanciaSaloman->CriarInstanciaSaloman(a);
-
 			cout << " entrei 1 - escreve Instancia Salomon" << endl;
 
 			InstanciaSaloman->EscreverComandosR(a,'4');
 			// 1 => .ps	  2 =>.png   3 =>.jpeg    4 =>.pdf
-
 			cout << " entrei 2 - escreve comandos R" << endl;
 
-			InstanciaSaloman->EscreverComandosExcel(a);
-
+			InstanciaSaloman->EscreverComandosExcel(a);					// Não implementado ainda
 			cout << " entrei 3 - escreve comandos excel" << endl;
-
 		}
-
-
 		free(InstanciaSaloman);
 
-
-
-
 	// Resolve o problema
-
-
 		No PreInstancia;
 
 //Cria instância que criei na mão
 		//PreInstancia.PreencheEstrutura();
 		//PreInstancia.CriaTXT();
-
 
 		char* Instancias;
 		Instancias = argv[1];
@@ -117,13 +95,8 @@ int main(int argc, char **argv) {
 				ListaInstancias.push_back(a);
 				ArquivoInstancia >> Nome;
 			}
-
 			ArquivoInstancia.close();
-
-
-
 		 // ----------- Cria uma Instancia para testes -------------------------- //
-
 			//PreInstancia.PreencheEstrutura();
 			//PreInstancia.CriaTXT();
 
@@ -143,8 +116,6 @@ int main(int argc, char **argv) {
 
 			//cout << " Saida = > "<< Saida << "   Tamanho entrada = " << TamanhoEntrda << endl;
 
-
-
 			ArquivoExcelResposta.open(Saida);
 
 			ArquivoExcelResposta << " Instância" << '\t';
@@ -154,8 +125,6 @@ int main(int argc, char **argv) {
 			ArquivoExcelResposta << " Gap" << '\t';
 			ArquivoExcelResposta << " Tempo" << '\n';
 
-
-
 			No *Instancia;
 
 			while( !ListaInstancias.empty()){
@@ -164,9 +133,6 @@ int main(int argc, char **argv) {
 				a = *it;
 				ListaInstancias.pop_front();
 				cout << " Modelo <= " << a << endl << endl;
-
-
-
 
 				if( Instancia->LeDados(a) == 1){
 
@@ -190,23 +156,12 @@ int main(int argc, char **argv) {
 
 			ArquivoExcelResposta.close();
 
-
-
-
-
-
-			//cout << endl << " BigM -> " << BigM << endl;
-
-
-
-
 			cout << "\n \n Galo Doido! \n \n";
 			return 1;
 		}else{
 			cout << "\n \n Arquivo inexistente! \n \n";
 			return 0;
 		}
-
 
 	}else{
 		cout << "\n \n Passagem de parametros errada \n \n";
