@@ -97,8 +97,9 @@ int main(int argc, char **argv) {
 
 		No PreInstancia;
 
-		PreInstancia.PreencheEstrutura();
-		PreInstancia.CriaTXT();
+//Cria instância que criei na mão
+		//PreInstancia.PreencheEstrutura();
+		//PreInstancia.CriaTXT();
 
 
 		char* Instancias;
@@ -133,7 +134,7 @@ int main(int argc, char **argv) {
 			char Saida[200];
 			int TamanhoEntrda;
 			strcpy (Saida,"Res-");				// coloca Res- no char*
-			TamanhoEntrda = strcspn (Instancias,"\n");	// Ve o tamanho do char* passado na entrada
+			TamanhoEntrda = strcspn (Instancias,".");	// Ve o tamanho do char* passado na entrada
 			if(TamanhoEntrda > 12){				// Fixa o tamanho minimo da string
 				TamanhoEntrda = 12;
 			}

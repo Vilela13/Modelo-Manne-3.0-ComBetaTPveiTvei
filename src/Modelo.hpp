@@ -16,7 +16,7 @@ class No{
 public:
     No();                                       // construtora da classe
 
- /* Escreve arquivo TXT */
+ // Escreve arquivo TXT
 
     int NumPlantas;						// Número de plantas
     int NumEntregas;					// Número de entregas
@@ -48,8 +48,9 @@ public:
 
     void PreencheEstrutura();
     void CriaTXT();
+    int  LeDados(char*);
 
-/* Le arquivo para resolver o CPLEX, parametros */
+// Le arquivo para resolver o CPLEX, parametros
     ifstream arq;
 
     int NP;						// Número de plantas
@@ -80,10 +81,27 @@ public:
 	vector <  double  > TminP;
 	vector <  double  > TmaxP;
 
-	int LeDados(char*);
+// Variaveis do CPLEX
+	IloEnv env;
 
-/* Variaveis do CPLEX */
+// Funções que inicializam as variaveis do modleo
+	void CriaAlfa(IloArray<IloArray<IloBoolVarArray> >* , int);
+	void CriaBeta(IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > >*, int);
+	void CriaZe(IloFloatVarArray*, int);
+	void CriaZr(IloFloatVarArray*, int);
 
+	void VerificaOuCriaPastaOut(int);
+	void InicializaVariaveisImprimir();
+	void PegaValoresDasVariaveis( IloCplex, IloArray<IloArray<IloBoolVarArray> > , IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > , IloFloatVarArray, IloFloatVarArray, IloArray < IloArray < IloFloatVarArray > > , IloFloatVarArray);
+
+	void EscreveVariaveisDoModeloAposResolucao(int, int,ofstream* , IloCplex, IloArray<IloArray<IloBoolVarArray> > , IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > , IloArray < IloArray < IloFloatVarArray > >,IloFloatVarArray );
+	void EscreveItinerarioVeiculos( int,int, ofstream*, IloCplex, IloArray<IloArray<IloBoolVarArray> >, IloArray < IloArray < IloFloatVarArray > >,IloFloatVarArray );
+	void EscreveEntregasNosClientes(int,int, ofstream*);
+	void EscreveUtilizacaoVeiculos(int ,int, ofstream* );
+
+
+
+// Variaveis para imprimir
 	vector < vector < vector < int > > > AlfaImprimir;
 	vector < vector < vector < vector < vector < int > > > > > BetaImprimir;
 	vector < double > ZeImprimir;
@@ -93,11 +111,11 @@ public:
 
 
 
-/* Funções Cplex */
+// Funções que chama o Cplex
 
     int Cplex(char *a, int &status, double &primal, double &dual, double &gap, double &tempo);
 
-/* Escrever em diretorio a saída */
+// Escrever em diretorio a saída
 
     char *c1;
     char *c2;
@@ -799,51 +817,16 @@ int No::LeDados(char *a){
 	}
 }
 
-int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, double &tempo){
-
+void No::CriaAlfa(IloArray<IloArray<IloBoolVarArray> >* Alfa, int Escreve){
 	char varName[24];
-
-	int vAux;
-
-	int Escreve;
-	int EscreveVariaveis;
-	int OutPut1;
-	int OutPut2;
-	int SaidaPastaSeparada;
-	int EscreveArquivoComRespostas;
-	int EscreveNaTelaResultados;
-
-	int UsouCaminhao;
-	int AtendeCliente;
-
-	double BigMauternativo;
-
-	Escreve = 0;
-	EscreveVariaveis = 0;
-	OutPut1 = 1;
-	OutPut2 = 1;
-	SaidaPastaSeparada = 0;
-	EscreveArquivoComRespostas = 1;
-	EscreveNaTelaResultados = 0;
-
-
-// Começa a escrever modelo do Cplex
-
-	IloEnv env;
-	IloModel model(env);
-
-/* Declara variaveis */
-
-// Variavel ALFA
-
-	IloArray<IloArray<IloBoolVarArray> > Alfa(env, NV);
+	IloArray<IloArray<IloBoolVarArray> > Alfa2(env, NV);
 	for (int v = 0; v < NV; v++) {
-		Alfa[v] = IloArray< IloBoolVarArray>(env, NE);
+		Alfa2[v] = IloArray< IloBoolVarArray>(env, NE);
 		for (int e = 0; e < NE; e++) {
-			Alfa[v][e] =  IloBoolVarArray(env, TCDE[e]);
+			Alfa2[v][e] =  IloBoolVarArray(env, TCDE[e]);
 			for (int k = 0; k < TCDE[e]; k++) {
 				sprintf(varName, "Alfa_%d_%d_%d", v, e,k);
-				Alfa[v][e][k] = IloBoolVar(env,varName);
+				Alfa2[v][e][k] = IloBoolVar(env,varName);
 				if ( Escreve == 1){
 					cout << " Alfa["<< v << "][" << e << "][" << k << "] "<< endl;
 				}
@@ -853,25 +836,27 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 			}
 		}
 	}
+	*Alfa = Alfa2;
+}
 
-// Variavel BETA
-
-	IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > Beta(env, NV);
+void No::CriaBeta(IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > >* Beta, int Escreve ){
+	char varName[24];
+	IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > Beta2(env, NV);
 	for (int v = 0; v < NV; v++) {
-		Beta[v] = IloArray< IloArray< IloArray< IloBoolVarArray> > >(env, NE);
+		Beta2[v] = IloArray< IloArray< IloArray< IloBoolVarArray> > >(env, NE);
 		for (int e1 = 0; e1 < NE; e1++) {
-			Beta[v][e1] =  IloArray< IloArray< IloBoolVarArray > > (env, TCDE[e1]);
+			Beta2[v][e1] =  IloArray< IloArray< IloBoolVarArray > > (env, TCDE[e1]);
 			for (int i = 0; i < TCDE[e1]; i++) {
-				Beta[v][e1][i] =   IloArray< IloBoolVarArray >  (env, NE);
+				Beta2[v][e1][i] =   IloArray< IloBoolVarArray >  (env, NE);
 				for (int e2 = 0; e2 < NE; e2++) {
-					Beta[v][e1][i][e2] =  IloBoolVarArray (env, TCDE[e2]);
+					Beta2[v][e1][i][e2] =  IloBoolVarArray (env, TCDE[e2]);
 					for (int j = 0; j < TCDE[e2]; j++) {
 						if( e1 == e2 and i == j){
 
 						}else{
 							if( e1 == e2){
 								sprintf(varName, "Beta_%d_%d_%d_%d_%d", v, e1, i, e2,  j);
-								Beta[v][e1][i][e2][j] = IloBoolVar(env,varName);
+								Beta2[v][e1][i][e2][j] = IloBoolVar(env,varName);
 								if ( Escreve == 1){
 									cout << " Beta["<< v << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "] "<< endl;
 								}
@@ -889,15 +874,15 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 			cout << endl;
 		}
 	}
+	*Beta = Beta2;
+}
 
-
-
-// Variavel Ze
-
-	IloFloatVarArray Ze(env,NE);
+void No::CriaZe(IloFloatVarArray* Ze , int Escreve){
+	char varName[24];
+	IloFloatVarArray Ze2(env,NE);
 	for (int e = 0; e < NE; e++) {
 		sprintf(varName, "Ze_%d", e);
-		Ze[e] = IloFloatVar(env,varName);
+		Ze2[e] = IloFloatVar(env,varName);
 		if ( Escreve == 1){
 			cout << " Z_Entrada["<< e << "] "<< endl;
 		}
@@ -905,13 +890,15 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	if ( Escreve == 1){
 		cout << endl;
 	}
+	*Ze = Ze2;
+}
 
-// Variavel Zr
-
-	IloFloatVarArray Zr(env,NP);
+void No::CriaZr(IloFloatVarArray* Zr , int Escreve ){
+	char varName[24];
+	IloFloatVarArray Zr2(env,NP);
 	for (int p = 0; p < NP; p++) {
 		sprintf(varName, "Zr_%d", p);
-		Zr[p] = IloFloatVar(env,varName);
+		Zr2[p] = IloFloatVar(env,varName);
 		if ( Escreve == 1){
 			cout << " Z_Retorno["<< p << "] "<< endl;
 		}
@@ -919,6 +906,459 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	if ( Escreve == 1){
 		cout << endl;
 	}
+	*Zr = Zr2;
+}
+
+void No::VerificaOuCriaPastaOut(int EscreveNaTelaResultados){
+	if(!opendir ("Out")){
+		cout <<  "\n\n Nao tem diretorio \"Out\" !!        FUDEU MUITO!! \n" << endl;
+
+		if(system("mkdir Out;") == 0){
+			cout << " Criou pasta Out" << endl;
+		}else{
+			cout << " Problema ao criar pasta Out" << endl;
+		}
+
+		/* Outra maneira de criar arquivos
+
+		SituacaoDiretorio = mkdir("./myfolder", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+		*/
+
+		if(!opendir ("Out")){
+			cout << "\n Nao tem diretorio  \"InstS\" !!        FUDEU MUITO!! \n" << endl;
+		}else{
+			cout << " Tem diretorio \"Out\" !!  " << endl;
+		}
+	}else{
+		if( EscreveNaTelaResultados == 1){
+			cout << " Tem diretorio \"Out\" !!  " << endl;
+		}
+	}
+}
+
+void No::InicializaVariaveisImprimir(){
+	AlfaImprimir.resize(NV);
+	for (int v = 0; v < NV; v++) {
+		AlfaImprimir[v].resize(NE);
+		for (int e = 0; e < NE; e++) {
+			AlfaImprimir[v][e].resize(TCDE[e]);
+		}
+	}
+
+	BetaImprimir.resize(NV);
+	for (int v = 0; v < NV; v++) {
+		BetaImprimir[v].resize(NE);
+		for (int e1 = 0; e1 < NE; e1++) {
+			BetaImprimir[v][e1].resize(TCDE[e1]);
+			for (int i = 0; i < TCDE[e1]; i++) {
+				BetaImprimir[v][e1][i].resize(NE);
+				for (int e2 = 0; e2 < NE; e2++) {
+					BetaImprimir[v][e1][i][e2].resize(TCDE[e2]);
+				}
+			}
+		}
+	}
+
+	ZeImprimir.resize(NE);
+	ZrImprimir.resize(NP);
+
+	TveiImprime.resize(NV);
+	for (int v = 0; v < NV; v++) {
+		TveiImprime[v].resize(NE);
+		for (int e = 0; e < NE; e++) {
+			TveiImprime[v][e].resize(TCDE[e]);
+		}
+	}
+
+	TvImprime.resize(NV);
+}
+
+void No::PegaValoresDasVariaveis( IloCplex cplex, IloArray<IloArray<IloBoolVarArray> > Alfa, IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > Beta, IloFloatVarArray Ze, IloFloatVarArray Zr, IloArray < IloArray < IloFloatVarArray > > Tvei, IloFloatVarArray Tv  ){
+	for (int v = 0; v< NV; v++) {
+		for (int e = 0; e < NE; e++) {
+			for( int i = 0; i < TCDE[e]; i++){
+				AlfaImprimir[v][e][i] = cplex.getValue(Alfa[v][e][i]) ;
+			}
+		}
+	}
+
+	for (int v = 0; v< NV; v++) {
+		for (int e1 = 0; e1 < NE; e1++) {
+			for( int i = 0; i < TCDE[e1]; i++){
+				for (int e2 = 0; e2 < NE; e2++) {
+					for( int j = 0; j < TCDE[e2]; j++){
+						if( e1 == e2 and i == j){
+
+						}else{
+							if( e1 == e2){
+								BetaImprimir[v][e1][i][e2][j] = cplex.getValue(Beta[v][e1][i][e2][j]) ;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	for (int e = 0; e < NE; e++) {
+		ZeImprimir[e] = cplex.getValue(Ze[e]);
+	}
+
+	for (int p = 0; p < NP; p++) {
+		ZrImprimir[p] = cplex.getValue(Zr[p]);
+	}
+
+	for (int v = 0; v < NV; v++) {
+		for (int e = 0; e < NE; e++) {
+			for( int i = 0; i < TCDE[e]; i++){
+				TveiImprime[v][e][i] = cplex.getValue(Tvei[v][e][i]);
+			}
+		}
+	}
+
+	for (int v = 0; v < NV; v++) {
+		TvImprime[v] = cplex.getValue(Tv[v]);
+	}
+}
+
+
+void No::EscreveVariaveisDoModeloAposResolucao(int EscreveArquivoComRespostas, int EscreveNaTelaResultados,ofstream* logfile2, IloCplex cplex, IloArray<IloArray<IloBoolVarArray> > Alfa, IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > Beta, IloArray < IloArray < IloFloatVarArray > > Tvei,IloFloatVarArray Tv ){
+	int vAux;
+
+	for (int v = 0; v< NV; v++) {
+		if( EscreveArquivoComRespostas == 1){
+			*logfile2 << " Veiculo " << v << endl;
+		}
+		if( EscreveNaTelaResultados == 1){
+			cout << " Veiculo " << v << endl;
+		}
+		for (int e = 0; e < NE; e++) {
+			for( int i = 0; i < TCDE[e]; i++){
+				if( EscreveNaTelaResultados == 1){
+					cout << Alfa[v][e][i].getName() << " [" << cplex.getValue(Alfa[v][e][i]) << "]  ";
+				}
+				if( EscreveArquivoComRespostas == 1){
+					*logfile2 << Alfa[v][e][i].getName() << " [" << cplex.getValue(Alfa[v][e][i]) << "]  ";
+				}
+			}
+			if( EscreveNaTelaResultados == 1){
+				cout << endl;
+			}
+			if( EscreveArquivoComRespostas == 1){
+				*logfile2 << endl;
+			}
+		}
+	}
+
+	for (int v = 0; v< NV; v++) {
+		if( EscreveNaTelaResultados == 1){
+			cout << " Veiculo " << v << endl;
+		}
+		if( EscreveArquivoComRespostas == 1){
+			*logfile2 << " Veiculo " << v << endl;
+		}
+		for (int e1 = 0; e1 < NE; e1++) {
+			for( int i = 0; i < TCDE[e1]; i++){
+				for (int e2 = 0; e2 < NE; e2++) {
+					for( int j = 0; j < TCDE[e2]; j++){
+						if( e1 == e2 and i == j){
+
+						}else{
+							if( e1 == e2){
+								if( EscreveNaTelaResultados == 1){
+									cout << Beta[v][e1][i][e2][j].getName() << " [" << cplex.getValue(Beta[v][e1][i][e2][j]) << "]  ";
+								}
+								if( EscreveArquivoComRespostas == 1){
+									*logfile2 << Beta[v][e1][i][e2][j].getName() << " [" << cplex.getValue(Beta[v][e1][i][e2][j]) << "]  ";
+								}
+							}
+						}
+					}
+				}
+				if( EscreveNaTelaResultados == 1){
+					cout << endl;
+				}
+				if( EscreveArquivoComRespostas == 1){
+					*logfile2 << endl;
+				}
+			}
+		}
+	}
+
+	for (int v = 0; v < NV; v++) {
+		if( EscreveArquivoComRespostas == 1){
+			*logfile2 << " Veiculo " << v << endl;
+		}
+		if( EscreveNaTelaResultados == 1){
+			cout << " Veiculo " << v << endl;
+		}
+		for (int e = 0; e < NE; e++) {
+			for( int i = 0; i < TCDE[e]; i++){
+				if( EscreveNaTelaResultados == 1){
+					cout << Tvei[v][e][i].getName() << " [" << cplex.getValue(Tvei[v][e][i]) << "]  ";
+				}
+				if( EscreveArquivoComRespostas == 1){
+					*logfile2 << Tvei[v][e][i].getName() << " [" << cplex.getValue(Tvei[v][e][i]) << "]  ";
+				}
+			}
+			if( EscreveNaTelaResultados == 1){
+				cout << endl;
+			}
+			if( EscreveArquivoComRespostas == 1){
+				*logfile2 << endl;
+			}
+		}
+	}
+
+	vAux = 0;
+	for (int p = 0; p < NP; p++) {
+		for (int v = 0; v < TCVP[p]; v++) {
+			if( EscreveNaTelaResultados == 1){
+				cout << Tv[vAux].getName() << " [" << cplex.getValue(Tv[vAux]) << "]  ";
+			}
+			if( EscreveArquivoComRespostas == 1){
+				*logfile2 << Tv[vAux].getName() << " [" << cplex.getValue(Tv[vAux]) << "]  ";
+			}
+			vAux = vAux + 1;
+		}
+		if( EscreveNaTelaResultados == 1){
+			cout << endl;
+		}
+		if( EscreveArquivoComRespostas == 1){
+			*logfile2 << endl;
+		}
+	}
+}
+
+void No::EscreveItinerarioVeiculos( int EscreveNaTelaResultados,int EscreveArquivoComRespostas, ofstream* logfile2, IloCplex cplex, IloArray<IloArray<IloBoolVarArray> > Alfa, IloArray < IloArray < IloFloatVarArray > > Tvei,IloFloatVarArray Tv){
+	int vAux;
+
+	vAux = 0;
+	for (int p = 0; p < NP; p++) {
+		for (int v = 0; v < TCVP[p]; v++) {
+			if( EscreveNaTelaResultados == 1){
+				cout << " Veiculo " << vAux + 1 << " Sai as ";
+				cout <<  cplex.getValue(Tv[vAux]) << endl;
+			}
+			if( EscreveArquivoComRespostas == 1){
+				*logfile2 << " Veiculo " << vAux + 1 << " Sai as ";
+				*logfile2 <<  cplex.getValue(Tv[vAux]) << endl;
+			}
+			for (int e = 0; e < NE; e++) {
+				for( int i = 0; i < TCDE[e]; i++){
+					if( cplex.getValue(Alfa[vAux][e][i]) == 1){
+						if( EscreveNaTelaResultados == 1){
+							cout << '\t' << " Entrega[Construcao->" << e+1 << "][Job->" << i+1<< "] as ";
+							printf("%.2f", cplex.getValue(Tvei[vAux][e][i]) );
+							cout << endl;
+						}
+						if( EscreveArquivoComRespostas == 1){
+							*logfile2 << '\t' << " Entrega[Construcao->" << e+1 << "][Job->" << i+1<< "] as ";
+							*logfile2 << cplex.getValue(Tvei[vAux][e][i]);
+							*logfile2 << endl;
+						}
+					}
+				}
+			}
+			vAux = vAux + 1;
+		}
+	}
+}
+
+void No::EscreveEntregasNosClientes(int EscreveNaTelaResultados,int EscreveArquivoComRespostas, ofstream* logfile2){
+	int vAux;
+	if( EscreveNaTelaResultados == 1){
+		cout << endl << endl;
+		cout << "           Tempo de entrega em cada cliente         " << endl;
+	}
+
+	if( EscreveArquivoComRespostas == 1){
+		*logfile2 << endl << endl;
+		*logfile2 <<  "           Tempo de entrega em cada cliente         " << endl;
+	}
+	for (int e = 0; e < NE; e++) {
+		if( EscreveNaTelaResultados == 1){
+			cout << " Cliente " << e +1 << "\t[ ";
+			printf("%.2f", TminE[e]);
+			cout << "\t<=\t";
+		}
+		if( EscreveArquivoComRespostas == 1){
+			*logfile2 << " Cliente " << e +1 << "\t[ ";
+			*logfile2 << TminE[e];
+			*logfile2 << "\t<=\t";
+		}
+		for( int i = 0; i < TCDE[e]; i++){
+			vAux = 0;
+			for (int p = 0; p < NP; p++) {
+				for (int v = 0; v < TCVP[p]; v++) {
+					if( AlfaImprimir[vAux][e][i] == 1 ){
+						//cout << "   Tvei[" << vAux << "][" << e << "][" << i <<"] " << TveiImprime[vAux][e][i];
+						if( EscreveNaTelaResultados == 1){
+							cout << "\t";
+							printf("%.2f", TveiImprime[vAux][e][i]);
+							cout << "[v" << vAux + 1<< "]";
+						}
+						if( EscreveArquivoComRespostas == 1){
+							*logfile2 << "\t";
+							*logfile2 << TveiImprime[vAux][e][i];
+							*logfile2 << "[v" << vAux + 1<< "]";
+						}
+					}
+					vAux++;
+				}
+
+			}
+		}
+		if( EscreveNaTelaResultados == 1){
+			cout << "\t<=\t";
+			printf("%.2f", TmaxE[e]);
+			cout << "]" << endl;
+		}
+		if( EscreveArquivoComRespostas == 1){
+			*logfile2 << "\t<=\t";
+			*logfile2 << TmaxE[e];
+			*logfile2 << "]" << endl;
+		}
+	}
+}
+
+void No::EscreveUtilizacaoVeiculos(int EscreveNaTelaResultados,int EscreveArquivoComRespostas, ofstream* logfile2 ){
+	int vAux;
+	int UsouCaminhao;
+	int AtendeCliente;
+	int AtendendoCliente;
+
+
+	if( EscreveNaTelaResultados == 1){
+		cout << endl << endl;
+		cout << "           Veiculos usados         " << endl;
+	}
+	if( EscreveArquivoComRespostas == 1){
+		*logfile2 << endl << endl;
+		*logfile2 << "           Veiculos usados         " << endl;
+	}
+	vAux = 0;
+	for (int p = 0; p < NP; p++) {
+		if( EscreveNaTelaResultados == 1){
+			cout << "Planta " << p + 1 << endl;
+		}
+		if( EscreveArquivoComRespostas == 1){
+			*logfile2 << "Planta " << p + 1 << endl;
+		}
+		for (int v = 0; v < TCVP[p]; v++) {
+			UsouCaminhao = 0;
+			for (int e = 0; e < NE; e++) {
+				for( int i = 0; i < TCDE[e]; i++){
+					if( AlfaImprimir[vAux][e][i] == 1 ){
+						UsouCaminhao = 1;
+					}
+				}
+			}
+			if( UsouCaminhao == 1){
+				if( EscreveNaTelaResultados == 1){
+					cout << "  Veiculo " << vAux + 1 << " \t[clientes ->\t";
+				}
+				if( EscreveArquivoComRespostas == 1){
+					*logfile2  << "  Veiculo " << vAux + 1 << " \t[clientes ->\t";
+				}
+				for (int e = 0; e < NE; e++) {
+					AtendeCliente = 0;
+					AtendendoCliente = 0;
+					for( int i = 0; i < TCDE[e]; i++){
+						if( AlfaImprimir[vAux][e][i] == 1 ){
+							AtendeCliente = AtendeCliente + 1;
+							AtendendoCliente = 1;
+						}
+						if( AtendeCliente == 1 && AtendendoCliente == 1){
+							if( EscreveNaTelaResultados == 1){
+								cout << "   " << e + 1 ;
+							}
+							if( EscreveArquivoComRespostas == 1){
+								*logfile2 << "   " <<  e + 1 << " ";
+							}
+						}
+						if(AtendendoCliente == 1){
+							if( EscreveNaTelaResultados == 1){
+								cout << "(" << TveiImprime[vAux][e][i] << ") ";
+							}
+							if( EscreveArquivoComRespostas == 1){
+								*logfile2 << "(" << TveiImprime[vAux][e][i] << ") ";
+							}
+							AtendendoCliente = 0;
+						}
+
+					}
+				}
+				if( EscreveNaTelaResultados == 1){
+					cout << "]" << endl;
+				}
+				if( EscreveArquivoComRespostas == 1){
+					*logfile2  << "]" << endl;
+				}
+			}
+			vAux++;
+		}
+		if( EscreveNaTelaResultados == 1){
+			cout << endl;
+		}
+		if( EscreveArquivoComRespostas == 1){
+			*logfile2 << endl;
+		}
+	}
+}
+
+int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, double &tempo){
+
+	char varName[24];
+
+	int vAux;
+
+	int Escreve;				// Escreve variaveis criadas
+	int EscreveVariaveis;
+	int OutPut1;
+	int OutPut2;
+	int SaidaPastaSeparada;
+	int EscreveArquivoComRespostas;
+	int EscreveNaTelaResultados;
+
+	double BigMauternativo;
+
+	Escreve = 0;
+	EscreveVariaveis = 0;
+	OutPut1 = 1;
+	OutPut2 = 1;
+	SaidaPastaSeparada = 0;
+	EscreveArquivoComRespostas = 1;
+	EscreveNaTelaResultados = 0;
+
+
+// Começa a escrever modelo do Cplex
+
+	IloModel model(env);
+
+/* Declara variaveis */
+
+// Variavel ALFA
+
+	IloArray<IloArray<IloBoolVarArray> > Alfa(env, NV);
+	CriaAlfa(&Alfa,Escreve);
+
+// Variavel BETA
+
+	IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > Beta(env, NV);
+	CriaBeta(&Beta,Escreve);
+
+
+
+// Variavel Ze
+
+	IloFloatVarArray Ze(env,NE);
+	CriaZe(&Ze ,Escreve);
+
+// Variavel Zr
+
+	IloFloatVarArray Zr(env,NP);
+	CriaZr(&Zr ,Escreve);
 
 // Variavel Tvei
 
@@ -1163,31 +1603,9 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	IloCplex cplex(model);
 	//cplex.exportModel("model.lp");
 
+// Cria pasta OUT
+	VerificaOuCriaPastaOut(EscreveNaTelaResultados);
 
-	if(!opendir ("Out")){
-		cout <<  "\n\n Nao tem diretorio \"Out\" !!        FUDEU MUITO!! \n" << endl;
-
-		if(system("mkdir Out;") == 0){
-			cout << " Criou pasta Out" << endl;
-		}else{
-			cout << " Problema ao criar pasta Out" << endl;
-		}
-
-		/* Outra maneira de criar arquivos
-
-		SituacaoDiretorio = mkdir("./myfolder", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-		*/
-
-		if(!opendir ("Out")){
-			cout << "\n Nao tem diretorio  \"InstS\" !!        FUDEU MUITO!! \n" << endl;
-		}else{
-			cout << " Tem diretorio \"Out\" !!  " << endl;
-		}
-	}else{
-		if( EscreveNaTelaResultados == 1){
-			cout << " Tem diretorio \"Out\" !!  " << endl;
-		}
-	}
 
 	Nome1 = "./Out/";
 	c1 = new char[Nome1.size()+1];
@@ -1202,7 +1620,7 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	if(SaidaPastaSeparada == 1){
 		cplex.setOut(logfile1);
 	}
-	cplex.setParam(IloCplex::TiLim, 3600);
+	cplex.setParam(IloCplex::TiLim, 60);
 
 	Tempo1 = cplex.getCplexTime();
 
@@ -1211,436 +1629,107 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 // Resolve o modelo.
 	if (!cplex.solve()) {
 		cerr << "Failed to optimize LP." << endl;
-		throw(-1);
-	}
+		status = cplex.getStatus();
+		cout << " status = (" << status << ")" << endl; 
+		primal = -1;
+		dual = -1;
+		gap = -1;
+		tempo = cplex.getCplexTime() - Tempo1;
+		logfile1.close();
+		//throw(-1);                                                   // Olhar!!!!!!!!!!!!!!!!!!
+		return (0);
+	}else{
 
-	//cout << endl << " rodou " << endl << endl;
+		//cout << endl << " rodou " << endl << endl;
 
-	Tempo2 = cplex.getCplexTime();
-
-	if(!opendir ("Sol")){
-		cout <<  "\n\n Nao tem diretorio \"Sol\" !!        FUDEU MUITO!! \n" << endl;
-
-		if(system("mkdir Sol;") == 0){
-			cout << " Criou pasta Sol" << endl;
-		}else{
-			cout << " Problema ao criar pasta Sol" << endl;
-		}
-
-		/* Outra maneira de criar arquivos
-
-		SituacaoDiretorio = mkdir("./myfolder", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-		*/
+		Tempo2 = cplex.getCplexTime();
 
 		if(!opendir ("Sol")){
-			cout << "\n Nao tem diretorio  \"Sol\" !!        FUDEU MUITO!! \n" << endl;
+			cout <<  "\n\n Nao tem diretorio \"Sol\" !!        FUDEU MUITO!! \n" << endl;
+
+			if(system("mkdir Sol;") == 0){
+				cout << " Criou pasta Sol" << endl;
+			}else{
+				cout << " Problema ao criar pasta Sol" << endl;
+			}
+
+			/* Outra maneira de criar arquivos
+
+			SituacaoDiretorio = mkdir("./myfolder", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+			*/
+
+			if(!opendir ("Sol")){
+				cout << "\n Nao tem diretorio  \"Sol\" !!        FUDEU MUITO!! \n" << endl;
+			}else{
+				cout << " Tem diretorio \"Sol\" !!  " << endl;
+			}
 		}else{
-			cout << " Tem diretorio \"Sol\" !!  " << endl;
-		}
-	}else{
-		if( EscreveNaTelaResultados == 1){
-			cout << " Tem diretorio \"Sol\" !!  " << endl;
-		}
-	}
-
-	Nome2 = "./Sol/";
-	c2 = new char[Nome2.size()+1];
-	c2[Nome2.size()]=0;
-	memcpy(c2,Nome2.c_str(),Nome2.size());
-	strcat(c2,a);
-
-	//cout << endl << endl << " arquivo a gravar a ssolucao " << c2 << endl << endl;
-
-	ofstream logfile2(c2);
-
-	status = cplex.getStatus();
-	primal = cplex.getObjValue();
-	dual = cplex.getBestObjValue();
-	gap =  100 * ( cplex.getObjValue() - cplex.getBestObjValue() ) / cplex.getObjValue();
-	tempo = Tempo2 - Tempo1;
-
-	if( EscreveNaTelaResultados == 1){
-		cout << "Solution status = " << status << endl;
-		cout << "Solution primal cost = " << primal << endl;
-		cout << "Solution dual cost = " << dual << endl ;
-		cout << "Gap = " << gap << "%" << endl ;
-		cout << "Tempo = " << tempo << " segundos. " << endl<< endl;
-	}
-
-	if( EscreveArquivoComRespostas == 1){
-		logfile2 <<  "Solution status = " << status << endl;
-		logfile2 << "Solution primal cost = " << primal << endl;
-		logfile2 << "Solution dual cost = " << dual << endl ;
-		logfile2 << "Gap = " << gap  << "%" << endl ;
-		logfile2 << "Tempo = " << tempo << " segundos. " << endl << endl;
-	}
-
-// inicializa variaveis para imprimir
-
-	AlfaImprimir.resize(NV);
-	for (int v = 0; v < NV; v++) {
-		AlfaImprimir[v].resize(NE);
-		for (int e = 0; e < NE; e++) {
-			AlfaImprimir[v][e].resize(TCDE[e]);
-		}
-	}
-
-	BetaImprimir.resize(NV);
-	for (int v = 0; v < NV; v++) {
-		BetaImprimir[v].resize(NE);
-		for (int e1 = 0; e1 < NE; e1++) {
-			BetaImprimir[v][e1].resize(TCDE[e1]);
-			for (int i = 0; i < TCDE[e1]; i++) {
-				BetaImprimir[v][e1][i].resize(NE);
-				for (int e2 = 0; e2 < NE; e2++) {
-					BetaImprimir[v][e1][i][e2].resize(TCDE[e2]);
-				}
-			}
-		}
-	}
-
-	ZeImprimir.resize(NE);
-	ZrImprimir.resize(NP);
-
-	TveiImprime.resize(NV);
-	for (int v = 0; v < NV; v++) {
-		TveiImprime[v].resize(NE);
-		for (int e = 0; e < NE; e++) {
-			TveiImprime[v][e].resize(TCDE[e]);
-		}
-	}
-
-	TvImprime.resize(NV);
-
-// Coloca valor das variaveis do modelo na estrutura do programa
-
-	for (int v = 0; v< NV; v++) {
-		for (int e = 0; e < NE; e++) {
-			for( int i = 0; i < TCDE[e]; i++){
-				AlfaImprimir[v][e][i] = cplex.getValue(Alfa[v][e][i]) ;
-			}
-		}
-	}
-
-	for (int v = 0; v< NV; v++) {
-		for (int e1 = 0; e1 < NE; e1++) {
-			for( int i = 0; i < TCDE[e1]; i++){
-				for (int e2 = 0; e2 < NE; e2++) {
-					for( int j = 0; j < TCDE[e2]; j++){
-						if( e1 == e2 and i == j){
-
-						}else{
-							if( e1 == e2){
-								BetaImprimir[v][e1][i][e2][j] = cplex.getValue(Beta[v][e1][i][e2][j]) ;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	for (int e = 0; e < NE; e++) {
-		ZeImprimir[e] = cplex.getValue(Ze[e]);
-	}
-
-	for (int p = 0; p < NP; p++) {
-		ZrImprimir[p] = cplex.getValue(Zr[p]);
-	}
-
-	for (int v = 0; v < NV; v++) {
-		for (int e = 0; e < NE; e++) {
-			for( int i = 0; i < TCDE[e]; i++){
-				TveiImprime[v][e][i] = cplex.getValue(Tvei[v][e][i]);
-			}
-		}
-	}
-
-	for (int v = 0; v < NV; v++) {
-		TvImprime[v] = cplex.getValue(Tv[v]);
-	}
-
-// Imprimi Variaveis
-
-	if( EscreveVariaveis == 1){
-
-		for (int v = 0; v< NV; v++) {
-			if( EscreveArquivoComRespostas == 1){
-				logfile2 << " Veiculo " << v << endl;
-			}
 			if( EscreveNaTelaResultados == 1){
-				cout << " Veiculo " << v << endl;
-			}
-			for (int e = 0; e < NE; e++) {
-				for( int i = 0; i < TCDE[e]; i++){
-					if( EscreveNaTelaResultados == 1){
-						cout << Alfa[v][e][i].getName() << " [" << cplex.getValue(Alfa[v][e][i]) << "]  ";
-					}
-					if( EscreveArquivoComRespostas == 1){
-						logfile2 << Alfa[v][e][i].getName() << " [" << cplex.getValue(Alfa[v][e][i]) << "]  ";
-					}
-				}
-				if( EscreveNaTelaResultados == 1){
-					cout << endl;
-				}
-				if( EscreveArquivoComRespostas == 1){
-					logfile2 << endl;
-				}
+				cout << " Tem diretorio \"Sol\" !!  " << endl;
 			}
 		}
 
-		for (int v = 0; v< NV; v++) {
-			if( EscreveNaTelaResultados == 1){
-				cout << " Veiculo " << v << endl;
-			}
-			if( EscreveArquivoComRespostas == 1){
-				logfile2 << " Veiculo " << v << endl;
-			}
-			for (int e1 = 0; e1 < NE; e1++) {
-				for( int i = 0; i < TCDE[e1]; i++){
-					for (int e2 = 0; e2 < NE; e2++) {
-						for( int j = 0; j < TCDE[e2]; j++){
-							if( e1 == e2 and i == j){
+		Nome2 = "./Sol/";
+		c2 = new char[Nome2.size()+1];
+		c2[Nome2.size()]=0;
+		memcpy(c2,Nome2.c_str(),Nome2.size());
+		strcat(c2,a);
 
-							}else{
-								if( e1 == e2){
-									if( EscreveNaTelaResultados == 1){
-										cout << Beta[v][e1][i][e2][j].getName() << " [" << cplex.getValue(Beta[v][e1][i][e2][j]) << "]  ";
-									}
-									if( EscreveArquivoComRespostas == 1){
-										logfile2 << Beta[v][e1][i][e2][j].getName() << " [" << cplex.getValue(Beta[v][e1][i][e2][j]) << "]  ";
-									}
-								}
-							}
-						}
-					}
-					if( EscreveNaTelaResultados == 1){
-						cout << endl;
-					}
-					if( EscreveArquivoComRespostas == 1){
-						logfile2 << endl;
-					}
-				}
-			}
-		}
+		//cout << endl << endl << " arquivo a gravar a ssolucao " << c2 << endl << endl;
 
-		for (int v = 0; v < NV; v++) {
-			if( EscreveArquivoComRespostas == 1){
-				logfile2 << " Veiculo " << v << endl;
-			}
-			if( EscreveNaTelaResultados == 1){
-				cout << " Veiculo " << v << endl;
-			}
-			for (int e = 0; e < NE; e++) {
-				for( int i = 0; i < TCDE[e]; i++){
-					if( EscreveNaTelaResultados == 1){
-						cout << Tvei[v][e][i].getName() << " [" << cplex.getValue(Tvei[v][e][i]) << "]  ";
-					}
-					if( EscreveArquivoComRespostas == 1){
-						logfile2 << Tvei[v][e][i].getName() << " [" << cplex.getValue(Tvei[v][e][i]) << "]  ";
-					}
-				}
-				if( EscreveNaTelaResultados == 1){
-					cout << endl;
-				}
-				if( EscreveArquivoComRespostas == 1){
-					logfile2 << endl;
-				}
-			}
-		}
+		ofstream logfile2(c2);
 
-		vAux = 0;
-		for (int p = 0; p < NP; p++) {
-			for (int v = 0; v < TCVP[p]; v++) {
-				if( EscreveNaTelaResultados == 1){
-					cout << Tv[vAux].getName() << " [" << cplex.getValue(Tv[vAux]) << "]  ";
-				}
-				if( EscreveArquivoComRespostas == 1){
-					logfile2 << Tv[vAux].getName() << " [" << cplex.getValue(Tv[vAux]) << "]  ";
-				}
-				vAux = vAux + 1;
-			}
-			if( EscreveNaTelaResultados == 1){
-				cout << endl;
-			}
-			if( EscreveArquivoComRespostas == 1){
-				logfile2 << endl;
-			}
-		}
-
-	}
-
-
-
-
-	if( OutPut1 == 1){
-		vAux = 0;
-		for (int p = 0; p < NP; p++) {
-			for (int v = 0; v < TCVP[p]; v++) {
-				if( EscreveNaTelaResultados == 1){
-					cout << " Veiculo " << vAux + 1 << " Sai as ";
-					cout <<  cplex.getValue(Tv[vAux]) << endl;
-				}
-				if( EscreveArquivoComRespostas == 1){
-					logfile2 << " Veiculo " << vAux + 1 << " Sai as ";
-					logfile2 <<  cplex.getValue(Tv[vAux]) << endl;
-				}
-				for (int e = 0; e < NE; e++) {
-					for( int i = 0; i < TCDE[e]; i++){
-						if( cplex.getValue(Alfa[vAux][e][i]) == 1){
-							if( EscreveNaTelaResultados == 1){
-								cout << '\t' << " Entrega[Construcao->" << e+1 << "][Job->" << i+1<< "] as ";
-								printf("%.2f", cplex.getValue(Tvei[vAux][e][i]) );
-								cout << endl;
-							}
-							if( EscreveArquivoComRespostas == 1){
-								logfile2 << '\t' << " Entrega[Construcao->" << e+1 << "][Job->" << i+1<< "] as ";
-								logfile2 << cplex.getValue(Tvei[vAux][e][i]);
-								logfile2 << endl;
-							}
-						}
-					}
-				}
-				vAux = vAux + 1;
-			}
-		}
-	}
-
-	if( OutPut2 == 1){
-
-// Tempo de cada entrega em cada cliente
+		status = cplex.getStatus();
+		primal = cplex.getObjValue();
+		dual = cplex.getBestObjValue();
+		gap =  100 * ( cplex.getObjValue() - cplex.getBestObjValue() ) / cplex.getObjValue();
+		tempo = Tempo2 - Tempo1;
 
 		if( EscreveNaTelaResultados == 1){
-			cout << endl << endl;
-			cout << "           Tempo de entrega em cada cliente         " << endl;
+			cout << "Solution status = " << status << endl;
+			cout << "Solution primal cost = " << primal << endl;
+			cout << "Solution dual cost = " << dual << endl ;
+			cout << "Gap = " << gap << "%" << endl ;
+			cout << "Tempo = " << tempo << " segundos. " << endl<< endl;
 		}
 
 		if( EscreveArquivoComRespostas == 1){
-			logfile2 << endl << endl;
-			logfile2 <<  "           Tempo de entrega em cada cliente         " << endl;
-		}
-		for (int e = 0; e < NE; e++) {
-			if( EscreveNaTelaResultados == 1){
-				cout << " Cliente " << e +1 << "\t[ ";
-				printf("%.2f", TminE[e]);
-				cout << "\t<=\t";
-			}
-			if( EscreveArquivoComRespostas == 1){
-				logfile2 << " Cliente " << e +1 << "\t[ ";
-				logfile2 << TminE[e];
-				logfile2 << "\t<=\t";
-			}
-			for( int i = 0; i < TCDE[e]; i++){
-				vAux = 0;
-				for (int p = 0; p < NP; p++) {
-					for (int v = 0; v < TCVP[p]; v++) {
-						if( AlfaImprimir[vAux][e][i] == 1 ){
-							//cout << "   Tvei[" << vAux << "][" << e << "][" << i <<"] " << TveiImprime[vAux][e][i];
-							if( EscreveNaTelaResultados == 1){
-								cout << "\t";
-								printf("%.2f", TveiImprime[vAux][e][i]);
-								cout << "[v" << vAux + 1<< "]";
-							}
-							if( EscreveArquivoComRespostas == 1){
-								logfile2 << "\t";
-								logfile2 << TveiImprime[vAux][e][i];
-								logfile2 << "[v" << vAux + 1<< "]";
-							}
-						}
-						vAux++;
-					}
-
-				}
-			}
-			if( EscreveNaTelaResultados == 1){
-				cout << "\t<=\t";
-				printf("%.2f", TmaxE[e]);
-				cout << "]" << endl;
-			}
-			if( EscreveArquivoComRespostas == 1){
-				logfile2 << "\t<=\t";
-				logfile2 << TmaxE[e];
-				logfile2 << "]" << endl;
-			}
+			logfile2 <<  "Solution status = " << status << endl;
+			logfile2 << "Solution primal cost = " << primal << endl;
+			logfile2 << "Solution dual cost = " << dual << endl ;
+			logfile2 << "Gap = " << gap  << "%" << endl ;
+			logfile2 << "Tempo = " << tempo << " segundos. " << endl << endl;
 		}
 
-// Veiculos usados
+	// inicializa variaveis para imprimir
 
-		if( EscreveNaTelaResultados == 1){
-			cout << endl << endl;
-			cout << "           Veiculos usados         " << endl;
-		}
-		if( EscreveArquivoComRespostas == 1){
-			logfile2 << endl << endl;
-			logfile2 << "           Veiculos usados         " << endl;
-		}
-		vAux = 0;
-		for (int p = 0; p < NP; p++) {
-			if( EscreveNaTelaResultados == 1){
-				cout << "Planta " << p + 1 << endl;
-			}
-			if( EscreveArquivoComRespostas == 1){
-				logfile2 << "Planta " << p + 1 << endl;
-			}
-			for (int v = 0; v < TCVP[p]; v++) {
-				UsouCaminhao = 0;
-				for (int e = 0; e < NE; e++) {
-					for( int i = 0; i < TCDE[e]; i++){
-						if( AlfaImprimir[vAux][e][i] == 1 ){
-							UsouCaminhao = 1;
-						}
-					}
-				}
-				if( UsouCaminhao == 1){
-					if( EscreveNaTelaResultados == 1){
-						cout << "  Veiculo " << vAux + 1 << " \t[clientes ->\t";
-					}
-					if( EscreveArquivoComRespostas == 1){
-						logfile2  << "  Veiculo " << vAux + 1 << " \t[clientes ->\t";
-					}
-					for (int e = 0; e < NE; e++) {
-						AtendeCliente = 0;
-						for( int i = 0; i < TCDE[e]; i++){
-							if( AlfaImprimir[vAux][e][i] == 1 ){
-								AtendeCliente = 1;
-							}
-						}
-						if( AtendeCliente == 1){
-							if( EscreveNaTelaResultados == 1){
-								cout << e + 1 << "\t";
-							}
-							if( EscreveArquivoComRespostas == 1){
-								logfile2 << e + 1 << "\t";
-							}
-						}
-					}
-					if( EscreveNaTelaResultados == 1){
-						cout << "]" << endl;
-					}
-					if( EscreveArquivoComRespostas == 1){
-						logfile2  << "]" << endl;
-					}
-				}
-				vAux++;
-			}
-			if( EscreveNaTelaResultados == 1){
-				cout << endl;
-			}
-			if( EscreveArquivoComRespostas == 1){
-				logfile2 << endl;
-			}
+		InicializaVariaveisImprimir();
+
+	// Coloca valor das variaveis do modelo na estrutura do programa
+
+		PegaValoresDasVariaveis(  cplex,  Alfa,  Beta,Ze, Zr,  Tvei,  Tv  );
+
+		if( EscreveVariaveis == 1){
+	// Imprimi Variaveis
+			EscreveVariaveisDoModeloAposResolucao( EscreveArquivoComRespostas, EscreveNaTelaResultados, &logfile2,  cplex,  Alfa, Beta, Tvei, Tv );
 		}
 
+		if( OutPut1 == 1){
+	// Itinerario dos veiculos
+			EscreveItinerarioVeiculos( EscreveNaTelaResultados, EscreveArquivoComRespostas, &logfile2,cplex, Alfa,  Tvei, Tv);
+		}
 
+		if( OutPut2 == 1){
+	// Tempo de cada entrega em cada cliente
+			EscreveEntregasNosClientes(EscreveNaTelaResultados,EscreveArquivoComRespostas, &logfile2);
+	// Veiculos usados
+			EscreveUtilizacaoVeiculos( EscreveNaTelaResultados,EscreveArquivoComRespostas, &logfile2 );
+		}
 
+		logfile1.close();
+		logfile2.close();
+		return (1);
 	}
-
-	logfile1.close();
-
-	logfile2.close();
-
-	return (1);
-
 }
 
 No::~No(){

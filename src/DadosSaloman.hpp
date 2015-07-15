@@ -112,7 +112,7 @@ DadosSaloman::DadosSaloman(){
 
 void DadosSaloman::CarregarNumeroNosCoordenadas( char* a){
 
-	int EscreveDadosLidos = 1;
+	int EscreveDadosLidos = 0;
 
 	Instancia.open(a);
 
