@@ -542,7 +542,7 @@ int No::LeDados(char *a){
 
 		for( int i = 0; i < NP ; i++){
 			arq >> Aux1;
-			cout << Aux1;
+			//cout << Aux1;
 			TCVP[i] = Aux1;
 			if( comentarios == 1){
 				cout << '\t' << "Planta " << i + 1 <<  " ( " << TCVP[i] << " ) -> ";
@@ -561,6 +561,7 @@ int No::LeDados(char *a){
 		if( comentarios == 1){
 			cout << endl;
 		}
+
 
 	// le número de demandas por entrega
 		if( comentarios == 1){
