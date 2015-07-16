@@ -1,2 +1,2 @@
-p-Rxxxx-V3.txt
+p-Rxxxx-V*.txt
 EOF

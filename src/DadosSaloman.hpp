@@ -530,9 +530,9 @@ void DadosSaloman::CriaPastaDat(){
 void DadosSaloman::CriarInstanciaSaloman(char* a){
 
 
-	//NumeroVERSAO = 49;
+	NumeroVERSAO = 49;
 	//NumeroVERSAO = 50;
-	NumeroVERSAO = 51;
+	//NumeroVERSAO = 51;
 
 	TempoDeDescarga = 0.1666667; // equivaelente a 10 minutos
 	TemproEntreEntregas = 0.1666667; // equivaelente a 10 minutos
@@ -639,17 +639,17 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 		if( NomeInstancia[0] == 'R' ){
 			//Inicializa Parametros
 
-			NumeroPlantas 	= 3;
+			//NumeroPlantas 	= 3;
 
 			NoPlanta.resize(NumeroPlantas + 1);
 			HoraInicioPlanta.resize(NumeroPlantas + 1);
 			HoraFinalPlanta.resize(NumeroPlantas + 1);
 
-			NoPlanta[1] = 1;	HoraInicioPlanta[1] = 7; 	HoraFinalPlanta[1] = 18;
-			NoPlanta[2] = 5;	HoraInicioPlanta[2] = 7; 	HoraFinalPlanta[2] = 18;
-			NoPlanta[3] = 4;	HoraInicioPlanta[3] = 7; 	HoraFinalPlanta[3] = 18;
+			//NoPlanta[1] = 1;	HoraInicioPlanta[1] = 7; 	HoraFinalPlanta[1] = 18;
+			//NoPlanta[2] = 5;	HoraInicioPlanta[2] = 7; 	HoraFinalPlanta[2] = 18;
+			//NoPlanta[3] = 4;	HoraInicioPlanta[3] = 7; 	HoraFinalPlanta[3] = 18;
 
-			NumeroClientes 	= 22;
+			//NumeroClientes 	= 22;
 			NoCliente.resize(	NumeroClientes	+	1);
 			HoraInicioCliente.resize(	NumeroClientes	+	1);
 			HoraFinalCliente.resize( 	NumeroClientes	+	1);
@@ -702,15 +702,15 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 			NoCliente[15] = 16;		HoraInicioCliente[15] = 11;	 HoraFinalCliente[15] = 13.5;		//5
 			NoCliente[16] = 17;		HoraInicioCliente[16] = 11.5;	 HoraFinalCliente[16] = 14;		//4					resolvido em 31 segundos
 
-			NoCliente[17] = 12;		HoraInicioCliente[17] = 8;	 HoraFinalCliente[17] = 9;		    //4
-			NoCliente[18] = 21;		HoraInicioCliente[18] = 8.5;	 HoraFinalCliente[18] = 10;	//5
-			NoCliente[19] = 22;		HoraInicioCliente[19] = 9.5; 	HoraFinalCliente[19] = 12;		    //3
-			NoCliente[20] = 23;		HoraInicioCliente[20] = 11;	 HoraFinalCliente[20] = 12.5;			//2
-			NoCliente[21] = 24;		HoraInicioCliente[21] = 12;	 HoraFinalCliente[21] = 13.5;       //2
-			NoCliente[22] = 25;		HoraInicioCliente[22] = 12.5;	 HoraFinalCliente[22] = 14;		//2				resolvido na vanhalen1, levou 180 segundos para achar, na lotus levou 830 segundos, pois teve que usar a swap.
+			//NoCliente[17] = 12;		HoraInicioCliente[17] = 8;	 HoraFinalCliente[17] = 9;		    //4
+			//NoCliente[18] = 21;		HoraInicioCliente[18] = 8.5;	 HoraFinalCliente[18] = 10;	//5
+			//NoCliente[19] = 22;		HoraInicioCliente[19] = 9.5; 	HoraFinalCliente[19] = 12;		    //3
+			//NoCliente[20] = 23;		HoraInicioCliente[20] = 11;	 HoraFinalCliente[20] = 12.5;			//2
+			//NoCliente[21] = 24;		HoraInicioCliente[21] = 12;	 HoraFinalCliente[21] = 13.5;       //2
+			//NoCliente[22] = 25;		HoraInicioCliente[22] = 12.5;	 HoraFinalCliente[22] = 14;		//2				resolvido na vanhalen1, levou 180 segundos para achar, na lotus levou 830 segundos, pois teve que usar a swap.
 */
-			//dados com o gerador => NumeroVERSAO = 51;
-			NoCliente[1] = 3;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 9;		     //4
+		//dados com o gerador => NumeroVERSAO = 51;		************************************ Realizado ***********************************************************
+	/*		NoCliente[1] = 3;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 9;		     //4
 			NoCliente[2] = 7;		HoraInicioCliente[2] = 8.5;	 HoraFinalCliente[2] = 9.5;		     //3
 			NoCliente[3] = 8;		HoraInicioCliente[3] = 8;	 HoraFinalCliente[3] = 9.5;		     //3
 			NoCliente[4] = 9;		HoraInicioCliente[4] = 9;	 HoraFinalCliente[4] = 10.5;		     //4
@@ -733,14 +733,14 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 			NoCliente[19] = 22;		HoraInicioCliente[19] = 8.5; 	HoraFinalCliente[19] = 10.5;	 //4
 			NoCliente[20] = 23;		HoraInicioCliente[20] = 9.5;	 HoraFinalCliente[20] = 12.5;	 //2
 			NoCliente[21] = 24;		HoraInicioCliente[21] = 11;	 HoraFinalCliente[21] = 13;    //3
-			NoCliente[22] = 25;		HoraInicioCliente[22] = 11.5;	 HoraFinalCliente[22] = 13.5;	 //	4			resolvido na
+			NoCliente[22] = 25;		HoraInicioCliente[22] = 11.5;	 HoraFinalCliente[22] = 13.5;	 //	4			resolvido na 243 segundos
+*/
+			//NumeroCaminhoes = 30;
 
-			NumeroCaminhoes = 30;
-
-			CaminhoesPlanta.resize(NumeroPlantas + 1);
-			CaminhoesPlanta[1] = 10;
-			CaminhoesPlanta[2] = 10;
-			CaminhoesPlanta[3] = 10;
+			//CaminhoesPlanta.resize(NumeroPlantas + 1);
+			//CaminhoesPlanta[1] = 10;
+			//CaminhoesPlanta[2] = 10;
+			//CaminhoesPlanta[3] = 10;
 
 			Velocidade 		= 30;
 
