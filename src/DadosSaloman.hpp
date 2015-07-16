@@ -391,7 +391,7 @@ void DadosSaloman::EscreverComandosR(char* a, char TipoArquivoSaida){
         ComandosR << "+ scale_shape(solid = FALSE)+  geom_text(aes(label=nomes),";
         ComandosR << " hjust= " << PosicaoTextoX << ",vjust=" << PosicaoTextoY  ;
         ComandosR << " ,size = " << TamanhoLetraLegenda << ")";
-        ComandosR << "+ xlim(0," << LimiteplotarX << ") + ylim(0," << LimiteplotarY << ")" << endl;
+        ComandosR << "+ xlim( min(x)- 10, max(x)+10 ) + ylim( min(y)-10,max(y)+10 )" << endl; //ComandosR << "+ xlim(0," << LimiteplotarX << ") + ylim(0," << LimiteplotarY << ")" << endl;
 		ComandosR << "dev.off() ;" << endl;
 
 		ComandosR.close();
@@ -639,17 +639,17 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 		if( NomeInstancia[0] == 'R' ){
 			//Inicializa Parametros
 
-			NumeroPlantas 	= 2;
+			NumeroPlantas 	= 3;
 
 			NoPlanta.resize(NumeroPlantas + 1);
 			HoraInicioPlanta.resize(NumeroPlantas + 1);
 			HoraFinalPlanta.resize(NumeroPlantas + 1);
 
 			NoPlanta[1] = 1;	HoraInicioPlanta[1] = 7; 	HoraFinalPlanta[1] = 18;
-			NoPlanta[2] = 13;	HoraInicioPlanta[2] = 7; 	HoraFinalPlanta[2] = 18;
-			//NoPlanta[3] = 4;	HoraInicioPlanta[3] = 7; 	HoraFinalPlanta[3] = 18;
+			NoPlanta[2] = 5;	HoraInicioPlanta[2] = 7; 	HoraFinalPlanta[2] = 18;
+			NoPlanta[3] = 4;	HoraInicioPlanta[3] = 7; 	HoraFinalPlanta[3] = 18;
 
-			NumeroClientes 	= 16;
+			NumeroClientes 	= 22;
 			NoCliente.resize(	NumeroClientes	+	1);
 			HoraInicioCliente.resize(	NumeroClientes	+	1);
 			HoraFinalCliente.resize( 	NumeroClientes	+	1);
@@ -657,30 +657,30 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 
 
 	 //dados com o gerador => NumeroVERSAO = 49;
-			NoCliente[1] = 3;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3
-			NoCliente[2] = 7;		HoraInicioCliente[2] = 8.5;	 HoraFinalCliente[2] = 9.5;		//5
-			NoCliente[3] = 8;		HoraInicioCliente[3] = 8.5;	 HoraFinalCliente[3] = 10;		//4
-			NoCliente[4] = 9;		HoraInicioCliente[4] = 9;	 HoraFinalCliente[4] = 10.5;		//2
-			NoCliente[5] = 10;		HoraInicioCliente[5] = 9.5;	 HoraFinalCliente[5] = 11;		//4
-			NoCliente[6] = 11;		HoraInicioCliente[6] = 10;	 HoraFinalCliente[6] = 11.5;		//1
-			NoCliente[7] = 18;		HoraInicioCliente[7] = 10;	 HoraFinalCliente[7] = 12;		//1
-			NoCliente[8] = 19;		HoraInicioCliente[8] = 10.5;	 HoraFinalCliente[8] = 12.5;		//2
-			NoCliente[9] = 20;		HoraInicioCliente[9] = 11; 	 HoraFinalCliente[9] = 12.5;			//5					Resolve em 5 segundos uma viavel
+			NoCliente[1] = 3;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		    //3
+			NoCliente[2] = 7;		HoraInicioCliente[2] = 8.5;	 HoraFinalCliente[2] = 9.5;		    //5
+			NoCliente[3] = 8;		HoraInicioCliente[3] = 8.5;	 HoraFinalCliente[3] = 10;		    //4
+			NoCliente[4] = 9;		HoraInicioCliente[4] = 9;	 HoraFinalCliente[4] = 10.5;	    //2
+			NoCliente[5] = 10;		HoraInicioCliente[5] = 9.5;	 HoraFinalCliente[5] = 11;		    //4
+			NoCliente[6] = 11;		HoraInicioCliente[6] = 10;	 HoraFinalCliente[6] = 11.5;	    //1
+			NoCliente[7] = 18;		HoraInicioCliente[7] = 10;	 HoraFinalCliente[7] = 12;		    //1
+			NoCliente[8] = 19;		HoraInicioCliente[8] = 10.5; HoraFinalCliente[8] = 12.5;    //2
+			NoCliente[9] = 20;		HoraInicioCliente[9] = 11; 	 HoraFinalCliente[9] = 12.5;		//5					Resolve em 5 segundos uma viavel
 
-			NoCliente[10] = 2;		HoraInicioCliente[10] = 8;	 HoraFinalCliente[10] = 9;		//4
-			NoCliente[11] = 5;		HoraInicioCliente[11] = 8.5;	 HoraFinalCliente[11] = 9;		//3
+			NoCliente[10] = 2;		HoraInicioCliente[10] = 8;	 HoraFinalCliente[10] = 9;		    //4
+			NoCliente[11] = 13; 	HoraInicioCliente[11] = 8.5;	 HoraFinalCliente[11] = 9;	//3
 			NoCliente[12] = 6;		HoraInicioCliente[12] = 8.5; 	HoraFinalCliente[12] = 10;		//2
-			NoCliente[13] = 14;		HoraInicioCliente[13] = 9;	 HoraFinalCliente[13] = 12;		//5
+			NoCliente[13] = 14;		HoraInicioCliente[13] = 9;	 HoraFinalCliente[13] = 12;		    //5
 			NoCliente[14] = 15;		HoraInicioCliente[14] = 9.5;	 HoraFinalCliente[14] = 10;		//1
 			NoCliente[15] = 16;		HoraInicioCliente[15] = 10.5;	 HoraFinalCliente[15] = 11;		//1
 			NoCliente[16] = 17;		HoraInicioCliente[16] = 10.5;	 HoraFinalCliente[16] = 12;		//4						Resolve em 115
 
-			//NoCliente[17] = 12;		HoraInicioCliente[17] = 8;	 HoraFinalCliente[17] = 9;		//3
-			//NoCliente[18] = 21;		HoraInicioCliente[18] = 8;	 HoraFinalCliente[18] = 8.5;		//1
-			//NoCliente[19] = 22;		HoraInicioCliente[19] = 8.5; 	HoraFinalCliente[19] = 9.5;		//4
-			//NoCliente[20] = 23;		HoraInicioCliente[20] = 9.5;	 HoraFinalCliente[20] = 11;		//3
-			//NoCliente[21] = 24;		HoraInicioCliente[21] = 10;	 HoraFinalCliente[21] = 12;		//4
-			//NoCliente[22] = 25;		HoraInicioCliente[22] = 10.5;	 HoraFinalCliente[22] = 12.5;		//4
+			NoCliente[17] = 12;		HoraInicioCliente[17] = 8;	 HoraFinalCliente[17] = 9;		    //3
+			NoCliente[18] = 21;		HoraInicioCliente[18] = 8;	 HoraFinalCliente[18] = 8.5;		//1
+			NoCliente[19] = 22;		HoraInicioCliente[19] = 8.5; 	HoraFinalCliente[19] = 9.5;		//4
+			NoCliente[20] = 23;		HoraInicioCliente[20] = 9.5;	 HoraFinalCliente[20] = 11;		//3
+			NoCliente[21] = 24;		HoraInicioCliente[21] = 10;	 HoraFinalCliente[21] = 12;		    //4
+			NoCliente[22] = 25;		HoraInicioCliente[22] = 10.5;	 HoraFinalCliente[22] = 12.5;	//4
 /*
 
 	//dados com o gerador => NumeroVERSAO = 50;
@@ -711,12 +711,12 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 			NoCliente[22] = 25;		HoraInicioCliente[22] = 10.5;	 HoraFinalCliente[22] = 12.5;		//2
 			*/
 
-			NumeroCaminhoes = 20;
+			NumeroCaminhoes = 30;
 
 			CaminhoesPlanta.resize(NumeroPlantas + 1);
 			CaminhoesPlanta[1] = 10;
 			CaminhoesPlanta[2] = 10;
-			//CaminhoesPlanta[3] = 10;
+			CaminhoesPlanta[3] = 10;
 
 			Velocidade 		= 30;
 
