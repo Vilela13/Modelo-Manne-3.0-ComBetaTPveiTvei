@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
 		double SolucaoDual;
 		double Gap;
 		double Tempo;
-
+/*
 	// -------------------------- Le arquivo com as instancias de Solomon e as guarda em uma lista ----------------------- //
 
 		ifstream ArquivoInstanciaSaloman( "ArquivosSaloman.txt" );
@@ -72,6 +72,8 @@ int main(int argc, char **argv) {
 			cout << " entrei 3 - escreve comandos excel" << endl;
 		}
 		free(InstanciaSaloman);
+
+		*/
 
 	// Resolve o problema
 		No PreInstancia;
