@@ -1,0 +1,4 @@
+ Instância	 Status	 Solução Primal	 Solução Dual	 Gap	 Tempo
+p-R1P9-V3.txt	Feasible	 112.542	 110.041	 2.22229	 3600.3
+p-R2P16-V3.txt	Feasible	 207.188	 184.294	 11.05	 3600.15
+p-R3P22-V3.txt	Feasible	 284.632	 242.328	 14.8628	 3600.55

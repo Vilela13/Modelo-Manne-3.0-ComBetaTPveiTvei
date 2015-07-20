@@ -1,0 +1,166 @@
+Solution status = 1
+Solution primal cost = 262.527
+Solution dual cost = 221.834
+Gap = 15.5006%
+Tempo = 3600.45 segundos. 
+
+ Veiculo 1 Sai as 7
+	 Entrega[Construcao->7][Job->1] as 10
+	 Entrega[Construcao->9][Job->3] as 11.5613
+	 Entrega[Construcao->17][Job->2] as 8.16667
+ Veiculo 2 Sai as 7
+	 Entrega[Construcao->2][Job->5] as 9.16667
+	 Entrega[Construcao->21][Job->3] as 11.0436
+ Veiculo 3 Sai as 7
+	 Entrega[Construcao->12][Job->2] as 8.66667
+	 Entrega[Construcao->21][Job->1] as 10.6708
+ Veiculo 4 Sai as 7
+	 Entrega[Construcao->3][Job->3] as 8.83333
+	 Entrega[Construcao->5][Job->4] as 10.6544
+ Veiculo 5 Sai as 7
+	 Entrega[Construcao->1][Job->1] as 8
+	 Entrega[Construcao->5][Job->1] as 9.5
+	 Entrega[Construcao->9][Job->1] as 11
+ Veiculo 6 Sai as 7
+	 Entrega[Construcao->4][Job->2] as 9.73159
+	 Entrega[Construcao->9][Job->5] as 12.2866
+	 Entrega[Construcao->17][Job->3] as 8.33333
+ Veiculo 7 Sai as 7
+	 Entrega[Construcao->10][Job->1] as 8.08525
+	 Entrega[Construcao->13][Job->1] as 10.9829
+ Veiculo 8 Sai as 7
+	 Entrega[Construcao->5][Job->3] as 10.2724
+	 Entrega[Construcao->10][Job->3] as 8.41858
+ Veiculo 9 Sai as 7
+	 Entrega[Construcao->3][Job->1] as 8.5
+	 Entrega[Construcao->13][Job->4] as 11.6505
+ Veiculo 10 Sai as 7
+	 Entrega[Construcao->5][Job->2] as 9.66667
+	 Entrega[Construcao->17][Job->1] as 8
+	 Entrega[Construcao->22][Job->3] as 11.69
+ Veiculo 11 Sai as 7
+	 Entrega[Construcao->3][Job->4] as 9
+	 Entrega[Construcao->9][Job->2] as 11.2509
+ Veiculo 12 Sai as 7
+	 Entrega[Construcao->19][Job->1] as 8.5
+ Veiculo 13 Sai as 7
+	 Entrega[Construcao->2][Job->1] as 8.5
+	 Entrega[Construcao->6][Job->1] as 10.6157
+ Veiculo 14 Sai as 7
+	 Entrega[Construcao->2][Job->3] as 8.83333
+	 Entrega[Construcao->15][Job->1] as 10.5
+ Veiculo 15 Sai as 7
+	 Entrega[Construcao->3][Job->2] as 8.66667
+	 Entrega[Construcao->13][Job->3] as 11.4838
+ Veiculo 16 Sai as 7
+	 Entrega[Construcao->11][Job->1] as 8.5
+	 Entrega[Construcao->13][Job->5] as 11.8172
+	 Entrega[Construcao->16][Job->1] as 10.5
+ Veiculo 17 Sai as 7
+	 Entrega[Construcao->8][Job->1] as 10.5
+	 Entrega[Construcao->12][Job->1] as 8.5
+ Veiculo 18 Sai as 7
+	 Entrega[Construcao->2][Job->4] as 9
+	 Entrega[Construcao->16][Job->2] as 10.6667
+ Veiculo 19 Sai as 7
+	 Entrega[Construcao->2][Job->2] as 8.66667
+	 Entrega[Construcao->8][Job->2] as 10.6667
+ Veiculo 20 Sai as 7
+	 Entrega[Construcao->10][Job->2] as 8.25192
+	 Entrega[Construcao->16][Job->3] as 10.8333
+ Veiculo 21 Sai as 7
+	 Entrega[Construcao->1][Job->3] as 8.33333
+	 Entrega[Construcao->16][Job->4] as 11.1163
+ Veiculo 22 Sai as 7
+	 Entrega[Construcao->4][Job->1] as 9
+	 Entrega[Construcao->9][Job->4] as 12.1199
+ Veiculo 23 Sai as 7
+	 Entrega[Construcao->11][Job->2] as 8.66667
+	 Entrega[Construcao->20][Job->3] as 10.4428
+ Veiculo 24 Sai as 7
+	 Entrega[Construcao->11][Job->3] as 8.83333
+	 Entrega[Construcao->21][Job->4] as 11.2103
+ Veiculo 25 Sai as 7
+	 Entrega[Construcao->13][Job->2] as 11.3172
+	 Entrega[Construcao->19][Job->4] as 9.22141
+ Veiculo 26 Sai as 7
+	 Entrega[Construcao->10][Job->4] as 8.58525
+	 Entrega[Construcao->20][Job->1] as 10.0094
+ Veiculo 27 Sai as 7
+	 Entrega[Construcao->19][Job->2] as 8.66667
+	 Entrega[Construcao->22][Job->2] as 11.2218
+ Veiculo 28 Sai as 7
+	 Entrega[Construcao->18][Job->1] as 8
+	 Entrega[Construcao->19][Job->3] as 9.05474
+	 Entrega[Construcao->20][Job->2] as 10.2761
+ Veiculo 29 Sai as 7
+	 Entrega[Construcao->14][Job->1] as 9.5
+	 Entrega[Construcao->22][Job->1] as 11.0552
+ Veiculo 30 Sai as 7
+	 Entrega[Construcao->1][Job->2] as 8.16667
+	 Entrega[Construcao->21][Job->2] as 10.8375
+	 Entrega[Construcao->22][Job->4] as 12.0217
+
+
+           Tempo de entrega em cada cliente         
+ Cliente 1	[ 8	<=		8[v5]	8.16667[v30]	8.33333[v21]	<=	8.5]
+ Cliente 2	[ 8.5	<=		8.5[v13]	8.66667[v19]	8.83333[v14]	9[v18]	9.16667[v2]	<=	9.5]
+ Cliente 3	[ 8.5	<=		8.5[v9]	8.66667[v15]	8.83333[v4]	9[v11]	<=	10]
+ Cliente 4	[ 9	<=		9[v22]	9.73159[v6]	<=	10.5]
+ Cliente 5	[ 9.5	<=		9.5[v5]	9.66667[v10]	10.2724[v8]	10.6544[v4]	<=	11]
+ Cliente 6	[ 10	<=		10.6157[v13]	<=	11.5]
+ Cliente 7	[ 10	<=		10[v1]	<=	12]
+ Cliente 8	[ 10.5	<=		10.5[v17]	10.6667[v19]	<=	12.5]
+ Cliente 9	[ 11	<=		11[v5]	11.2509[v11]	11.5613[v1]	12.1199[v22]	12.2866[v6]	<=	12.5]
+ Cliente 10	[ 8	<=		8.08525[v7]	8.25192[v20]	8.41858[v8]	8.58525[v26]	<=	9]
+ Cliente 11	[ 8.5	<=		8.5[v16]	8.66667[v23]	8.83333[v24]	<=	9]
+ Cliente 12	[ 8.5	<=		8.5[v17]	8.66667[v3]	<=	10]
+ Cliente 13	[ 9.5	<=		10.9829[v7]	11.3172[v25]	11.4838[v15]	11.6505[v9]	11.8172[v16]	<=	12]
+ Cliente 14	[ 9.5	<=		9.5[v29]	<=	10]
+ Cliente 15	[ 10.5	<=		10.5[v14]	<=	11]
+ Cliente 16	[ 10.5	<=		10.5[v16]	10.6667[v18]	10.8333[v20]	11.1163[v21]	<=	12]
+ Cliente 17	[ 8	<=		8[v10]	8.16667[v1]	8.33333[v6]	<=	9]
+ Cliente 18	[ 8	<=		8[v28]	<=	8.5]
+ Cliente 19	[ 8.5	<=		8.5[v12]	8.66667[v27]	9.05474[v28]	9.22141[v25]	<=	9.5]
+ Cliente 20	[ 10	<=		10.0094[v26]	10.2761[v28]	10.4428[v23]	<=	13]
+ Cliente 21	[ 10.5	<=		10.6708[v3]	10.8375[v30]	11.0436[v2]	11.2103[v24]	<=	13.5]
+ Cliente 22	[ 11	<=		11.0552[v29]	11.2218[v27]	11.69[v10]	12.0217[v30]	<=	14]
+
+
+           Veiculos usados         
+Planta 1
+  Veiculo 1 	[clientes ->	   7 (10)    9 (11.5613)    17 (8.16667) ]
+  Veiculo 2 	[clientes ->	   2 (9.16667)    21 (11.0436) ]
+  Veiculo 3 	[clientes ->	   12 (8.66667)    21 (10.6708) ]
+  Veiculo 4 	[clientes ->	   3 (8.83333)    5 (10.6544) ]
+  Veiculo 5 	[clientes ->	   1 (8)    5 (9.5)    9 (11) ]
+  Veiculo 6 	[clientes ->	   4 (9.73159)    9 (12.2866)    17 (8.33333) ]
+  Veiculo 7 	[clientes ->	   10 (8.08525)    13 (10.9829) ]
+  Veiculo 8 	[clientes ->	   5 (10.2724)    10 (8.41858) ]
+  Veiculo 9 	[clientes ->	   3 (8.5)    13 (11.6505) ]
+  Veiculo 10 	[clientes ->	   5 (9.66667)    17 (8)    22 (11.69) ]
+
+Planta 2
+  Veiculo 11 	[clientes ->	   3 (9)    9 (11.2509) ]
+  Veiculo 12 	[clientes ->	   19 (8.5) ]
+  Veiculo 13 	[clientes ->	   2 (8.5)    6 (10.6157) ]
+  Veiculo 14 	[clientes ->	   2 (8.83333)    15 (10.5) ]
+  Veiculo 15 	[clientes ->	   3 (8.66667)    13 (11.4838) ]
+  Veiculo 16 	[clientes ->	   11 (8.5)    13 (11.8172)    16 (10.5) ]
+  Veiculo 17 	[clientes ->	   8 (10.5)    12 (8.5) ]
+  Veiculo 18 	[clientes ->	   2 (9)    16 (10.6667) ]
+  Veiculo 19 	[clientes ->	   2 (8.66667)    8 (10.6667) ]
+  Veiculo 20 	[clientes ->	   10 (8.25192)    16 (10.8333) ]
+
+Planta 3
+  Veiculo 21 	[clientes ->	   1 (8.33333)    16 (11.1163) ]
+  Veiculo 22 	[clientes ->	   4 (9)    9 (12.1199) ]
+  Veiculo 23 	[clientes ->	   11 (8.66667)    20 (10.4428) ]
+  Veiculo 24 	[clientes ->	   11 (8.83333)    21 (11.2103) ]
+  Veiculo 25 	[clientes ->	   13 (11.3172)    19 (9.22141) ]
+  Veiculo 26 	[clientes ->	   10 (8.58525)    20 (10.0094) ]
+  Veiculo 27 	[clientes ->	   19 (8.66667)    22 (11.2218) ]
+  Veiculo 28 	[clientes ->	   18 (8)    19 (9.05474)    20 (10.2761) ]
+  Veiculo 29 	[clientes ->	   14 (9.5)    22 (11.0552) ]
+  Veiculo 30 	[clientes ->	   1 (8.16667)    21 (10.8375)    22 (12.0217) ]
+
