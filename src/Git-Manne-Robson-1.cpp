@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
 		double SolucaoDual;
 		double Gap;
 		double Tempo;
-/*
+
 	// -------------------------- Le arquivo com as instancias de Solomon e as guarda em uma lista ----------------------- //
 
 		ifstream ArquivoInstanciaSaloman( "ArquivosSaloman.txt" );
@@ -75,12 +75,12 @@ int main(int argc, char **argv) {
 
 
 	// Resolve o problema
-		No PreInstancia;
+		//No PreInstancia;
 
 //Cria instância que criei na mão
 		//PreInstancia.PreencheEstrutura();
 		//PreInstancia.CriaTXT();
-*/
+
 
 		char* Instancias;
 		Instancias = argv[1];
@@ -98,9 +98,6 @@ int main(int argc, char **argv) {
 				ArquivoInstancia >> Nome;
 			}
 			ArquivoInstancia.close();
-		 // ----------- Cria uma Instancia para testes -------------------------- //
-			//PreInstancia.PreencheEstrutura();
-			//PreInstancia.CriaTXT();
 
 		// ----------- Le um arquivo com as instancias a serem resolvidas pelo modelo, abre o arquivo com a instancia e o resolve -------------------------- //
 
@@ -164,6 +161,7 @@ int main(int argc, char **argv) {
 			cout << "\n \n Arquivo inexistente! \n \n";
 			return 0;
 		}
+
 
 	}else{
 		cout << "\n \n Passagem de parametros errada \n \n";

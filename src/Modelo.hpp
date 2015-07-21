@@ -35,6 +35,7 @@ public:
     vector < vector < double > > DistanciaEntregaPlanta;
 
     vector < vector < vector < double > > > TempoParaDescarregamento;
+    vector < double >  TempoNaPlanta;
 
     vector <  double  > TempoEntreChegadas;
 
@@ -70,6 +71,7 @@ public:
 	vector < vector < double > > Dep;
 
 	vector < vector < vector < double > > > Pvi;
+	vector < double > TPp;
 
 	vector <  double  >Omega;
 
@@ -260,6 +262,13 @@ void No::PreencheEstrutura(){
 		}
 	}
 
+/* Tempo na planta para carregamento */
+	TempoNaPlanta.resize( NumPlantas);
+	for( int p = 0; p < NumPlantas; p++){
+		TempoNaPlanta[p] = 0.083333333; // equivalente a 5 minutos(4 min = 0.066667 ; 3min = 0.05 e 2min = 0.0333333)
+	}
+
+
 /* Tempo entre chegadas */
 
 	TempoEntreChegadas.resize(NumEntregas);
@@ -409,6 +418,14 @@ cout << "Tempo Para Descarregamento " << endl;
 			Instancia << endl;
 		}
 	}
+
+cout << "Tempo Para Carregamento " << endl;
+	for( int p = 0; p < NumPlantas; p++){
+		Instancia <<  TempoNaPlanta[p] << '\t';
+		cout  << TempoNaPlanta[p] << '\t';
+	}
+	cout << endl;
+	Instancia << endl;
 
 cout << " Tempo entre chagadas " << endl;
 
@@ -682,6 +699,21 @@ int No::LeDados(char *a){
 					cout << endl;
 				}
 			}
+		}
+
+	// le tempos de carregamento em cada planta
+		TPp.resize(NP );
+		if( comentarios == 1){
+			cout << "Tempo Para Carregamento nas Plantas " << endl;
+		}
+		for( int p = 0; p < NP; p++){
+			arq >> TPp[p];
+			if( comentarios == 1){
+				cout << TPp[p] << '\t';
+			}
+		}
+		if( comentarios == 1){
+			cout << endl;
 		}
 
 	// le tempos entre chegadas
@@ -1574,7 +1606,7 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	EscreveVariaveis = 0;
 	OutPut1 = 1;
 	OutPut2 = 1;
-	SaidaPastaSeparada = 1;
+	SaidaPastaSeparada = 0;
 	EscreveArquivoComRespostas = 1;
 	EscreveNaTelaResultados = 0;
 
