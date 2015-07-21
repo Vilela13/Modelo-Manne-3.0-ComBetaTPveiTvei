@@ -572,7 +572,17 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 					}
 				}
 			}
-		}
+        }else{
+            if( NomeInstancia[0] == 'r' && NomeInstancia[1] == '-' && NomeInstancia[2] == 'C'){
+                Versao = "-V";
+            }else{
+                if( NomeInstancia[0] == 'r' && NomeInstancia[1] == '-' && NomeInstancia[2] == 'R'){
+                    Versao = "-V";
+                }else{
+                cout << endl << endl << "  Tipo de instancia nao reconhecida " << endl << endl;
+                }
+            }
+        }
 		Versao += NumeroVERSAO;
 		Nome.insert(Nome.size(),Versao);
 		NomeAux = Nome;
@@ -603,7 +613,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 
 // Cria arquivo para guardar os dados da instancia criada
 
-	if( NomeInstancia[0] == 'R' || NomeInstancia[0] == 'C'){
+	if( NomeInstancia[0] == 'R' || NomeInstancia[0] == 'C' || NomeInstancia[0] == 'r'){
         InstanciaSaloman.open(b);
 
         CriaPastaDat();
@@ -778,6 +788,8 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                 if(NomeInstancia[0] == 'C' ){
                     //Inicializa Parametros
 
+                    cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia C" << endl << endl << endl;
+
                     NumeroPlantas 	= 3;
 
                     NoPlanta.resize(NumeroPlantas + 1);
@@ -883,6 +895,116 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                     CaminhoesPlanta[3] = 10;
 
                     Velocidade 		= 30;
+                }else{
+                    if(NomeInstancia[0] == 'r' && NomeInstancia[1] == '-' && NomeInstancia[2] == 'C'){
+                        NumeroPlantas 	= 2;
+
+                        cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia r-C" << endl << endl << endl;
+
+                        NoPlanta.resize(NumeroPlantas + 1);
+                        HoraInicioPlanta.resize(NumeroPlantas + 1);
+                        HoraFinalPlanta.resize(NumeroPlantas + 1);
+
+                        NoPlanta[1] = 4 ;/*15; 22;*/	HoraInicioPlanta[1] = 7; 	HoraFinalPlanta[1] = 18;
+                        NoPlanta[2] = 15;	HoraInicioPlanta[2] = 7; 	HoraFinalPlanta[2] = 18;
+                        //NoPlanta[3] = 22;	HoraInicioPlanta[3] = 7; 	HoraFinalPlanta[3] = 18;
+
+                        NumeroClientes 	= 5;
+                        NoCliente.resize(	NumeroClientes	+	1);
+                        HoraInicioCliente.resize(	NumeroClientes	+	1);
+                        HoraFinalCliente.resize( 	NumeroClientes	+	1);
+
+                        cout << " +++++++++++   Plantas (" << NumeroPlantas << ")    Construcoes (" << NumeroClientes << ") ++++++++++++++++++" << endl;
+
+                    //dados com o gerador => NumeroVERSAO = 49;			************************************ Realizado *******************************************************
+                  /*    NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
+                        NoCliente[2] = 2;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 9;		//5 (2)
+                        NoCliente[3] = 5;		HoraInicioCliente[3] = 8.5;	 HoraFinalCliente[3] = 10;		//4	(3)
+
+                        NoCliente[4] = 14;		HoraInicioCliente[4] =8;	 HoraFinalCliente[4] = 8.5;	//2
+                        NoCliente[5] = 16;		HoraInicioCliente[5] = 8;	 HoraFinalCliente[5] = 9;		//4	(6)
+*/
+                    //dados com o gerador => NumeroVERSAO = 50;         ************************************ Realizado *******************************************************
+  /*                     NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
+                        NoCliente[2] = 2;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 8.5;		//1 (2)
+                        NoCliente[3] = 5;		HoraInicioCliente[3] = 8;	 HoraFinalCliente[3] = 9;		//4	(3)
+
+                        NoCliente[4] = 14;		HoraInicioCliente[4] = 8;	 HoraFinalCliente[4] = 8.5;		//1	(5)
+                        NoCliente[5] = 16;		HoraInicioCliente[5] = 8;	 HoraFinalCliente[5] = 9;		//4	(6)
+*/
+                    //dados com o gerador => NumeroVERSAO = 51;			************************************ Realizado *******************************************************
+
+  /*                    NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 9;		//4 	(1)
+                        NoCliente[2] = 2;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 8.5;		//3 	(2)
+                        NoCliente[3] = 5;		HoraInicioCliente[3] = 8;	 HoraFinalCliente[3] = 8.5;		//3	(3)
+
+                        NoCliente[4] = 14;		HoraInicioCliente[4] = 8;	 HoraFinalCliente[4] = 9;		//4	(5)
+                        NoCliente[5] = 16;		HoraInicioCliente[5] = 8;	 HoraFinalCliente[5] = 9;		//4	(6)
+*/
+                        NumeroCaminhoes = 20;
+
+                        CaminhoesPlanta.resize(NumeroPlantas + 1);
+                        CaminhoesPlanta[1] = 10;
+                        CaminhoesPlanta[2] = 10;
+                        //CaminhoesPlanta[3] = 10;
+
+                        Velocidade 		= 30;
+                    }else{
+                         if(NomeInstancia[0] == 'r' && NomeInstancia[1] == '-' && NomeInstancia[2] == 'R'){
+                            NumeroPlantas 	= 2;
+
+                            cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia r-R" << endl << endl << endl;
+
+                            NoPlanta.resize(NumeroPlantas + 1);
+                            HoraInicioPlanta.resize(NumeroPlantas + 1);
+                            HoraFinalPlanta.resize(NumeroPlantas + 1);
+
+                            NoPlanta[1] = 1 ;/*15; 22;*/	HoraInicioPlanta[1] = 7; 	HoraFinalPlanta[1] = 18;
+                            NoPlanta[2] = 5;	HoraInicioPlanta[2] = 7; 	HoraFinalPlanta[2] = 18;
+                            //NoPlanta[3] = 22;	HoraInicioPlanta[3] = 7; 	HoraFinalPlanta[3] = 18;
+
+                            NumeroClientes 	= 5;
+                            NoCliente.resize(	NumeroClientes	+	1);
+                            HoraInicioCliente.resize(	NumeroClientes	+	1);
+                            HoraFinalCliente.resize( 	NumeroClientes	+	1);
+
+                            cout << " +++++++++++   Plantas (" << NumeroPlantas << ")    Construcoes (" << NumeroClientes << ") ++++++++++++++++++" << endl;
+
+                        //dados com o gerador => NumeroVERSAO = 49;			************************************ Realizado *******************************************************
+                /*          NoCliente[1] = 9;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
+                            NoCliente[2] = 10;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 9;		//5 (2)
+                            NoCliente[3] = 20;		HoraInicioCliente[3] = 8.5;	 HoraFinalCliente[3] = 10;		//4	(3)
+
+                            NoCliente[4] = 14;		HoraInicioCliente[4] =8;	 HoraFinalCliente[4] = 8.5;	//2
+                            NoCliente[5] = 16;		HoraInicioCliente[5] = 8;	 HoraFinalCliente[5] = 9;		//4	(6)
+*/
+                        //dados com o gerador => NumeroVERSAO = 50;         ************************************ Realizado *******************************************************
+                /*           NoCliente[1] = 9;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
+                            NoCliente[2] = 10;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 8.5;		//1 (2)
+                            NoCliente[3] = 20;		HoraInicioCliente[3] = 8;	 HoraFinalCliente[3] = 9;		//4	(3)
+
+                            NoCliente[4] = 14;		HoraInicioCliente[4] = 8;	 HoraFinalCliente[4] = 8.5;		//1	(5)
+                            NoCliente[5] = 16;		HoraInicioCliente[5] = 8;	 HoraFinalCliente[5] = 9;		//4	(6)
+*/
+                        //dados com o gerador => NumeroVERSAO = 51;			************************************ Realizado *******************************************************
+
+                         /* NoCliente[1] = 9;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 9;		//4 	(1)
+                            NoCliente[2] = 10;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 8.5;		//3 	(2)
+                            NoCliente[3] = 20;		HoraInicioCliente[3] = 8;	 HoraFinalCliente[3] = 8.5;		//3	(3)
+
+                            NoCliente[4] = 14;		HoraInicioCliente[4] = 8;	 HoraFinalCliente[4] = 9;		//4	(5)
+                            NoCliente[5] = 16;		HoraInicioCliente[5] = 8;	 HoraFinalCliente[5] = 9;		//4	(6)
+*/
+                            NumeroCaminhoes = 20;
+
+                            CaminhoesPlanta.resize(NumeroPlantas + 1);
+                            CaminhoesPlanta[1] = 10;
+                            CaminhoesPlanta[2] = 10;
+                            //CaminhoesPlanta[3] = 10;
+
+                            Velocidade 		= 30;
+                        }
+                    }
                 }
             }
         }
@@ -1031,6 +1153,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
             }
         }
 	}else{
+
 		InstanciaSaloman << " Nao se enquadra! " << endl;
 	}
 

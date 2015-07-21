@@ -1255,7 +1255,6 @@ void No::PegaValoresDasVariaveis( IloCplex cplex, IloArray<IloArray<IloBoolVarAr
 	}
 }
 
-
 void No::EscreveVariaveisDoModeloAposResolucao(int EscreveArquivoComRespostas, int EscreveNaTelaResultados,ofstream* logfile2, IloCplex cplex, IloArray<IloArray<IloBoolVarArray> > Alfa, IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > Beta, IloArray < IloArray < IloFloatVarArray > > Tvei,IloFloatVarArray Tv ){
 	int vAux;
 
@@ -1575,7 +1574,7 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	EscreveVariaveis = 0;
 	OutPut1 = 1;
 	OutPut2 = 1;
-	SaidaPastaSeparada = 1;
+	SaidaPastaSeparada = 0;
 	EscreveArquivoComRespostas = 1;
 	EscreveNaTelaResultados = 0;
 
@@ -1701,7 +1700,7 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	if (!cplex.solve()) {
 		cerr << "Failed to optimize LP." << endl;
 		status = cplex.getStatus();
-		cout << " status = (" << status << ")" << endl; 
+		cout << " status = (" << status << ")" << endl;
 		primal = -1;
 		dual = -1;
 		gap = -1;
