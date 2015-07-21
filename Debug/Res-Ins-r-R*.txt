@@ -1,0 +1,4 @@
+ Instância	 Status	 Solução Primal	 Solução Dual	 Gap	 Tempo
+r-R2P5-V1.txt	Optimal	 62.8345	 62.8345	 0	 6.76202
+r-R2P5-V2.txt	Optimal	 60.4224	 60.4224	 -1.17596e-14	 0.717667
+r-R2P5-V3.txt	Optimal	 61.5935	 61.5935	 0	 8.91215

@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
 		double SolucaoDual;
 		double Gap;
 		double Tempo;
-
+/*
 	// -------------------------- Le arquivo com as instancias de Solomon e as guarda em uma lista ----------------------- //
 
 		ifstream ArquivoInstanciaSaloman( "ArquivosSaloman.txt" );
@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
 //Cria instância que criei na mão
 		//PreInstancia.PreencheEstrutura();
 		//PreInstancia.CriaTXT();
-
+*/
 
 		char* Instancias;
 		Instancias = argv[1];
