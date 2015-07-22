@@ -530,7 +530,7 @@ void DadosSaloman::CriaPastaDat(){
 void DadosSaloman::CriarInstanciaSaloman(char* a){
 
 
-	NumeroVERSAO = 49;
+	//NumeroVERSAO = 49;
 	//NumeroVERSAO = 50;
 	//NumeroVERSAO = 51;
 
@@ -748,8 +748,9 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                 NoCliente[21] = 24;		HoraInicioCliente[21] = 12;	 HoraFinalCliente[21] = 13.5;       //2
                 NoCliente[22] = 25;		HoraInicioCliente[22] = 12.5;	 HoraFinalCliente[22] = 14;		//2				resolvido na vanhalen1, levou 180 segundos para achar, na lotus levou 830 segundos, pois teve que usar a swap.
 */
-            //dados com o gerador => NumeroVERSAO = 51;		************************************ Realizado ***********************************************************
-     /*   		NoCliente[1] = 3;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 9;		     //4
+
+        //dados com o gerador => NumeroVERSAO = 51;		************************************ Realizado ***********************************************************
+        /*		NoCliente[1] = 3;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 9;		     //4
                 NoCliente[2] = 7;		HoraInicioCliente[2] = 8.5;	 HoraFinalCliente[2] = 9.5;		     //3
                 NoCliente[3] = 8;		HoraInicioCliente[3] = 8;	 HoraFinalCliente[3] = 9.5;		     //3
                 NoCliente[4] = 9;		HoraInicioCliente[4] = 9;	 HoraFinalCliente[4] = 10.5;		     //4
@@ -774,6 +775,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                 NoCliente[21] = 24;		HoraInicioCliente[21] = 11;	 HoraFinalCliente[21] = 13;    //3
                 NoCliente[22] = 25;		HoraInicioCliente[22] = 11.5;	 HoraFinalCliente[22] = 13.5;	 //	4			resolvido na 243 segundos
 */
+
                 //NumeroCaminhoes = 30;
 
                 CaminhoesPlanta.resize(NumeroPlantas + 1);
@@ -788,19 +790,19 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                 if(NomeInstancia[0] == 'C' ){
                     //Inicializa Parametros
 
-                    //cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia C" << endl << endl << endl;
+                    cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia C" << endl << endl << endl;
 
-                    NumeroPlantas 	= 1;
+                    //NumeroPlantas 	= 3;
 
                     NoPlanta.resize(NumeroPlantas + 1);
                     HoraInicioPlanta.resize(NumeroPlantas + 1);
                     HoraFinalPlanta.resize(NumeroPlantas + 1);
 
-                    NoPlanta[1] = 4 ;/*15; 22;*/	HoraInicioPlanta[1] = 7; 	HoraFinalPlanta[1] = 18;
+                    //NoPlanta[1] = 4 ;/*15; 22;*/	HoraInicioPlanta[1] = 7; 	HoraFinalPlanta[1] = 18;
                     //NoPlanta[2] = 15;	HoraInicioPlanta[2] = 7; 	HoraFinalPlanta[2] = 18;
                     //NoPlanta[3] = 22;	HoraInicioPlanta[3] = 7; 	HoraFinalPlanta[3] = 18;
 
-                    NumeroClientes 	= 10;
+                    //NumeroClientes 	= 22;
                     NoCliente.resize(	NumeroClientes	+	1);
                     HoraInicioCliente.resize(	NumeroClientes	+	1);
                     HoraFinalCliente.resize( 	NumeroClientes	+	1);
@@ -808,7 +810,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                     cout << " +++++++++++   Plantas (" << NumeroPlantas << ")    Construcoes (" << NumeroClientes << ") ++++++++++++++++++" << endl;
 
                 //dados com o gerador => NumeroVERSAO = 49;			************************************ Realizado *******************************************************
-              	NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
+         /*        	NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
                     NoCliente[2] = 2;		HoraInicioCliente[2] = 8.5;	 HoraFinalCliente[2] = 10;		//5 (2)
                     NoCliente[3] = 3;		HoraInicioCliente[3] = 8;	 HoraFinalCliente[3] = 9;		//4	(3)
                     NoCliente[4] = 5;		HoraInicioCliente[4] = 10;	 HoraFinalCliente[4] = 10.5;	//2	(5)
@@ -818,7 +820,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                     NoCliente[8] = 9;		HoraInicioCliente[8] = 11;	 HoraFinalCliente[8] = 12;		//2	(9)
                     NoCliente[9] = 10;		HoraInicioCliente[9] = 10.5; HoraFinalCliente[9] = 11.5;	//5	(10)
                     NoCliente[10] = 11;		HoraInicioCliente[10] = 8;	 HoraFinalCliente[10] = 10;		//4	(11)		// Menos de 1 segundo
-                    /*
+
                     NoCliente[11] = 12;		HoraInicioCliente[11] = 8;	 HoraFinalCliente[11] = 8.5;	//3	(12)
                     NoCliente[12] = 13;		HoraInicioCliente[12] = 8.5; HoraFinalCliente[12] = 9;		//2	(13)
                     NoCliente[13] = 14;		HoraInicioCliente[13] = 9;	 HoraFinalCliente[13] = 10;		//5	(14)
@@ -832,9 +834,9 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                     NoCliente[20] = 23;		HoraInicioCliente[20] = 8;	 HoraFinalCliente[20] = 9;		//3	(23)
                     NoCliente[21] = 24;		HoraInicioCliente[21] = 9;	 HoraFinalCliente[21] = 10.5;	//4	(24)
                     NoCliente[22] = 25;		HoraInicioCliente[22] = 10;	 HoraFinalCliente[22] = 11;		//4	(25)		// com 14 segundos
-*/
+                     */
                 //dados com o gerador => NumeroVERSAO = 50;         ************************************ Realizado *******************************************************
-        /*          NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
+         /*         NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
                     NoCliente[2] = 2;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 9;		//1 (2)
                     NoCliente[3] = 3;		HoraInicioCliente[3] = 8;	 HoraFinalCliente[3] = 9;		//4	(3)
                     NoCliente[4] = 5;		HoraInicioCliente[4] = 8;	 HoraFinalCliente[4] = 9.5;		//1	(5)
@@ -858,10 +860,9 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                     NoCliente[20] = 23;		HoraInicioCliente[20] = 8;	 HoraFinalCliente[20] = 10;		//2	(23)
                     NoCliente[21] = 24;		HoraInicioCliente[21] = 9;	 HoraFinalCliente[21] = 11;		//2	(24)
                     NoCliente[22] = 25;		HoraInicioCliente[22] = 9;	 HoraFinalCliente[22] = 11.5;	        //2	(25)		// Resolvido com 160 segundos
-*/
+                    */
                 //dados com o gerador => NumeroVERSAO = 51;			************************************ Realizado *******************************************************
-               /*
-                    NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 9;		//4 	(1)
+         /*         NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 9;		//4 	(1)
                     NoCliente[2] = 2;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 9;		//3 	(2)
                     NoCliente[3] = 3;		HoraInicioCliente[3] = 8.5;	 HoraFinalCliente[3] = 9.5;		//3	(3)
                     NoCliente[4] = 5;		HoraInicioCliente[4] = 9;	 HoraFinalCliente[4] = 10;		//4	(5)
@@ -885,12 +886,12 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                     NoCliente[20] = 23;		HoraInicioCliente[20] = 8.5;	 HoraFinalCliente[20] = 9;		//2	(23)
                     NoCliente[21] = 24;		HoraInicioCliente[21] = 9;	 HoraFinalCliente[21] = 10;		//3	(24)
                     NoCliente[22] = 25;		HoraInicioCliente[22] = 9;	 HoraFinalCliente[22] = 10.5;	        //4	(25)			// com 210 segundos
-*/
+                     */
 
-                    NumeroCaminhoes = 10;
+                    //NumeroCaminhoes = 30;
 
                     CaminhoesPlanta.resize(NumeroPlantas + 1);
-                    CaminhoesPlanta[1] = 10;
+                    //CaminhoesPlanta[1] = 10;
                     //CaminhoesPlanta[2] = 10;
                     //CaminhoesPlanta[3] = 10;
 
@@ -914,10 +915,10 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                         HoraInicioCliente.resize(	NumeroClientes	+	1);
                         HoraFinalCliente.resize( 	NumeroClientes	+	1);
 
-                        cout << " +++++++++++   Plantas (" << NumeroPlantas << ")    Construcoes (" << NumeroClientes << ") ++++++++++++++++++" << endl;
+                        //cout << " +++++++++++ [ r-C ]   Plantas (" << NumeroPlantas << ")    Construcoes (" << NumeroClientes << ") ++++++++++++++++++" << endl;
 
                     //dados com o gerador => NumeroVERSAO = 49;			************************************ Realizado *******************************************************
-                  /*    NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
+       /*                 NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
                         NoCliente[2] = 2;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 9;		//5 (2)
                         NoCliente[3] = 5;		HoraInicioCliente[3] = 8.5;	 HoraFinalCliente[3] = 10;		//4	(3)
 
@@ -933,8 +934,8 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                         NoCliente[5] = 16;		HoraInicioCliente[5] = 8;	 HoraFinalCliente[5] = 9;		//4	(6)
 */
                     //dados com o gerador => NumeroVERSAO = 51;			************************************ Realizado *******************************************************
-
-  /*                    NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 9;		//4 	(1)
+/*
+                      NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 9;		//4 	(1)
                         NoCliente[2] = 2;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 8.5;		//3 	(2)
                         NoCliente[3] = 5;		HoraInicioCliente[3] = 8;	 HoraFinalCliente[3] = 8.5;		//3	(3)
 
@@ -953,7 +954,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                          if(NomeInstancia[0] == 'r' && NomeInstancia[1] == '-' && NomeInstancia[2] == 'R'){
                             NumeroPlantas 	= 2;
 
-                            cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia r-R" << endl << endl << endl;
+                            //cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia r-R" << endl << endl << endl;
 
                             NoPlanta.resize(NumeroPlantas + 1);
                             HoraInicioPlanta.resize(NumeroPlantas + 1);
@@ -968,10 +969,10 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                             HoraInicioCliente.resize(	NumeroClientes	+	1);
                             HoraFinalCliente.resize( 	NumeroClientes	+	1);
 
-                            cout << " +++++++++++   Plantas (" << NumeroPlantas << ")    Construcoes (" << NumeroClientes << ") ++++++++++++++++++" << endl;
+                            cout << " +++++++++++   [ r-R ]  Plantas (" << NumeroPlantas << ")    Construcoes (" << NumeroClientes << ") ++++++++++++++++++" << endl;
 
                         //dados com o gerador => NumeroVERSAO = 49;			************************************ Realizado *******************************************************
-                /*          NoCliente[1] = 9;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
+                            /*          NoCliente[1] = 9;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
                             NoCliente[2] = 10;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 9;		//5 (2)
                             NoCliente[3] = 20;		HoraInicioCliente[3] = 8.5;	 HoraFinalCliente[3] = 10;		//4	(3)
 
@@ -979,7 +980,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                             NoCliente[5] = 16;		HoraInicioCliente[5] = 8;	 HoraFinalCliente[5] = 9;		//4	(6)
 */
                         //dados com o gerador => NumeroVERSAO = 50;         ************************************ Realizado *******************************************************
-                /*           NoCliente[1] = 9;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
+              /*            NoCliente[1] = 9;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
                             NoCliente[2] = 10;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 8.5;		//1 (2)
                             NoCliente[3] = 20;		HoraInicioCliente[3] = 8;	 HoraFinalCliente[3] = 9;		//4	(3)
 
@@ -987,8 +988,8 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                             NoCliente[5] = 16;		HoraInicioCliente[5] = 8;	 HoraFinalCliente[5] = 9;		//4	(6)
 */
                         //dados com o gerador => NumeroVERSAO = 51;			************************************ Realizado *******************************************************
-
-                         /* NoCliente[1] = 9;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 9;		//4 	(1)
+/*
+                          NoCliente[1] = 9;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 9;		//4 	(1)
                             NoCliente[2] = 10;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 8.5;		//3 	(2)
                             NoCliente[3] = 20;		HoraInicioCliente[3] = 8;	 HoraFinalCliente[3] = 8.5;		//3	(3)
 
