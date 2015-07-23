@@ -76,13 +76,15 @@ int main(int argc, char **argv) {
 		free(InstanciaSaloman);
 
 
-	// Resolve o problema
-		No PreInstancia;
+	//Cria instancia manual
+	/*	No PreInstancia;
 
 //Cria instância que criei na mão
 		PreInstancia.PreencheEstrutura();
 		PreInstancia.CriaTXT();
+	*/
 
+	// Resolve o problema
 
 		char* Instancias;
 		Instancias = argv[1];
