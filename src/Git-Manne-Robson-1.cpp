@@ -3,6 +3,7 @@
 
 int main(int argc, char **argv) {
 
+
 	if( argc == 2){
 
 		char *a;
@@ -20,6 +21,7 @@ int main(int argc, char **argv) {
 		double SolucaoDual;
 		double Gap;
 		double Tempo;
+
 
 	// -------------------------- Le arquivo com as instancias de Solomon e as guarda em uma lista ----------------------- //
 
@@ -75,11 +77,11 @@ int main(int argc, char **argv) {
 
 
 	// Resolve o problema
-		//No PreInstancia;
+		No PreInstancia;
 
 //Cria instância que criei na mão
-		//PreInstancia.PreencheEstrutura();
-		//PreInstancia.CriaTXT();
+		PreInstancia.PreencheEstrutura();
+		PreInstancia.CriaTXT();
 
 
 		char* Instancias;

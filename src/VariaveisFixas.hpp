@@ -16,6 +16,7 @@
 #define NumeroDeVeiculosVariaveisFixas 5
 #define VelocidadeVariaveisFixas 20
 #define CapacidadeCaminhao 10
+#define TempoDeVidaConcretoVariaveisFixas 1.5
 
 
 #endif /* VARIAVEISFIXAS_HPP_ */

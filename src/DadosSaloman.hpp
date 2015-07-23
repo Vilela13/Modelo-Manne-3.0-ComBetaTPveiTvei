@@ -66,6 +66,7 @@ public:
 	double TempoDeDescarga;
 	double TemproEntreEntregas;
 	double TempoPlanta;
+	double TempoDeVidaConcreto;
 	double TempoEntreEntregas;
 
 	vector < double > HoraInicioPlanta;
@@ -479,27 +480,27 @@ void DadosSaloman::EscreverComandosExcel(char* a){
 
 void DadosSaloman::CriaPastaInstS(){
 	if(!opendir ("InstS")){
-			cout <<  "\n\n Nao tem diretorio \"InstS\" !!        FUDEU MUITO!! \n" << endl;
+		cout <<  "\n\n Nao tem diretorio \"InstS\" !!        FUDEU MUITO!! \n" << endl;
 
-			if(system("mkdir InstS;") == 0){
-				cout << " Criou pasta InstS" << endl;
-			}else{
-				cout << " Problema ao criar pasta InstS" << endl;
-			}
+		if(system("mkdir InstS;") == 0){
+			cout << " Criou pasta InstS" << endl;
+		}else{
+			cout << " Problema ao criar pasta InstS" << endl;
+		}
 
-			/* Outra maneira de criar arquivos
+		/* Outra maneira de criar arquivos
 
-			SituacaoDiretorio = mkdir("./myfolder", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-			*/
+		SituacaoDiretorio = mkdir("./myfolder", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+		*/
 
-			if(!opendir ("InstS")){
-				cout << "\n Nao tem diretorio  \"InstS\" !!        FUDEU MUITO!! \n" << endl;
-			}else{
-				cout << " Tem diretorio \"InstS\" !!  " << endl;
-			}
+		if(!opendir ("InstS")){
+			cout << "\n Nao tem diretorio  \"InstS\" !!        FUDEU MUITO!! \n" << endl;
 		}else{
 			cout << " Tem diretorio \"InstS\" !!  " << endl;
 		}
+	}else{
+		cout << " Tem diretorio \"InstS\" !!  " << endl;
+	}
 }
 
 void DadosSaloman::CriaPastaDat(){
@@ -530,13 +531,14 @@ void DadosSaloman::CriaPastaDat(){
 void DadosSaloman::CriarInstanciaSaloman(char* a){
 
 
-	//NumeroVERSAO = 49;
+	NumeroVERSAO = 49;
 	//NumeroVERSAO = 50;
 	//NumeroVERSAO = 51;
 
 	TempoDeDescarga = 0.1666667; // equivaelente a 10 minutos
 	TemproEntreEntregas = 0.1666667; // equivaelente a 10 minutos
 	TempoPlanta = 0.083333333; // equivalente a 5 minutos(4 min = 0.066667 ; 3min = 0.05 e 2min = 0.0333333)
+	TempoDeVidaConcreto = 1.5;
 
 	//binomial_distribution<int> distribution(5,0.5); 		// gera numeros segundo a distribuição binomial
 
@@ -676,19 +678,19 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
             if( NomeInstancia[0] == 'R' ){
                 //Inicializa Parametros
 
-                cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia R" << endl << endl << endl;
+                //cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia R ####################################################################################################" << endl << endl << endl;
 
-                //NumeroPlantas 	= 3;
+                NumeroPlantas 	= 1;
 
                 NoPlanta.resize(NumeroPlantas + 1);
                 HoraInicioPlanta.resize(NumeroPlantas + 1);
                 HoraFinalPlanta.resize(NumeroPlantas + 1);
 
-                //NoPlanta[1] = 1;	HoraInicioPlanta[1] = 7; 	HoraFinalPlanta[1] = 18;
+                NoPlanta[1] = 1;	HoraInicioPlanta[1] = 7; 	HoraFinalPlanta[1] = 18;
                 //NoPlanta[2] = 5;	HoraInicioPlanta[2] = 7; 	HoraFinalPlanta[2] = 18;
                 //NoPlanta[3] = 4;	HoraInicioPlanta[3] = 7; 	HoraFinalPlanta[3] = 18;
 
-                //NumeroClientes 	= 22;
+                NumeroClientes 	= 9;
                 NoCliente.resize(	NumeroClientes	+	1);
                 HoraInicioCliente.resize(	NumeroClientes	+	1);
                 HoraFinalCliente.resize( 	NumeroClientes	+	1);
@@ -696,7 +698,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 
 
          //dados com o gerador => NumeroVERSAO = 49;			************************************ Realizado *******************************************************
-        /*   	NoCliente[1] = 3;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		    //3
+           	NoCliente[1] = 3;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		    //3
                 NoCliente[2] = 7;		HoraInicioCliente[2] = 8.5;	 HoraFinalCliente[2] = 9.5;		    //5
                 NoCliente[3] = 8;		HoraInicioCliente[3] = 8.5;	 HoraFinalCliente[3] = 10;		    //4
                 NoCliente[4] = 9;		HoraInicioCliente[4] = 9;	 HoraFinalCliente[4] = 10.5;	    //2
@@ -705,7 +707,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                 NoCliente[7] = 18;		HoraInicioCliente[7] = 10;	 HoraFinalCliente[7] = 12;		    //1
                 NoCliente[8] = 19;		HoraInicioCliente[8] = 10.5; HoraFinalCliente[8] = 12.5;        //2
                 NoCliente[9] = 20;		HoraInicioCliente[9] = 11; 	 HoraFinalCliente[9] = 12.5;		//5					Resolve em 5 segundos uma viavel
-
+                /*
                 NoCliente[10] = 2;		HoraInicioCliente[10] = 8;	 HoraFinalCliente[10] = 9;		    //4
                 NoCliente[11] = 13; 	HoraInicioCliente[11] = 8.5;	 HoraFinalCliente[11] = 9;	//3
                 NoCliente[12] = 6;		HoraInicioCliente[12] = 8.5; 	HoraFinalCliente[12] = 10;		//2
@@ -776,21 +778,21 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                 NoCliente[22] = 25;		HoraInicioCliente[22] = 11.5;	 HoraFinalCliente[22] = 13.5;	 //	4			resolvido na 243 segundos
 */
 
-                //NumeroCaminhoes = 30;
+                NumeroCaminhoes = 10;
 
                 CaminhoesPlanta.resize(NumeroPlantas + 1);
-                //CaminhoesPlanta[1] = 10;
+                CaminhoesPlanta[1] = 10;
                 //CaminhoesPlanta[2] = 10;
                 //CaminhoesPlanta[3] = 10;
 
-                //Velocidade 		= 30;
+                Velocidade 		= 30;
 
 
             }else{
                 if(NomeInstancia[0] == 'C' ){
                     //Inicializa Parametros
 
-                    cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia C" << endl << endl << endl;
+                    cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia C ####################################################################################################" << endl << endl << endl;
 
                     //NumeroPlantas 	= 3;
 
@@ -900,7 +902,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                     if(NomeInstancia[0] == 'r' && NomeInstancia[1] == '-' && NomeInstancia[2] == 'C'){
                         NumeroPlantas 	= 2;
 
-                        cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia r-C" << endl << endl << endl;
+                        cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia r-C ####################################################################################################" << endl << endl << endl;
 
                         NoPlanta.resize(NumeroPlantas + 1);
                         HoraInicioPlanta.resize(NumeroPlantas + 1);
@@ -954,7 +956,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                          if(NomeInstancia[0] == 'r' && NomeInstancia[1] == '-' && NomeInstancia[2] == 'R'){
                             NumeroPlantas 	= 2;
 
-                            //cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia r-R" << endl << endl << endl;
+                            cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia r-R ####################################################################################################" << endl << endl << endl;
 
                             NoPlanta.resize(NumeroPlantas + 1);
                             HoraInicioPlanta.resize(NumeroPlantas + 1);
@@ -1009,10 +1011,11 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                 }
             }
         }
-        InstanciaSaloman << NumeroPlantas 	<< endl; 	// NUmero de plantas que serão nos Nós N4 ,N15 e o N22
-        InstanciaSaloman << NumeroClientes 	<< endl;	// Numero de construções (clientes) , tirei o no N0 e dos 25 restantes eu tirei os 3 das plantas
-        InstanciaSaloman << NumeroCaminhoes << endl;	// Coloquei 20 caminhões paracada planta (pode mudar depois.
-        InstanciaSaloman << Velocidade 		<< endl;	// Velocidade dos caminhões
+        InstanciaSaloman << NumeroPlantas 		<< endl; 	// NUmero de plantas que serão nos Nós N4 ,N15 e o N22
+        InstanciaSaloman << NumeroClientes 		<< endl;	// Numero de construções (clientes) , tirei o no N0 e dos 25 restantes eu tirei os 3 das plantas
+        InstanciaSaloman << NumeroCaminhoes 	<< endl;	// Coloquei 20 caminhões paracada planta (pode mudar depois.
+        InstanciaSaloman << Velocidade 			<< endl;	// Velocidade dos caminhões
+        InstanciaSaloman << TempoDeVidaConcreto << endl;	// Tempo de vida do concreto
 
         // Preenche o numero veiculos por planta
 
@@ -1097,24 +1100,6 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
         }
         InstanciaSaloman << endl;
 
-        // Tempo de ir de uma entrada a outra
-        CaminhaoAux = 1;
-        for( int p = 1; p <= NumeroPlantas; p++){
-            for( int v = 1; v <= CaminhoesPlanta[p]; v++){
-                InstanciaSaloman << CaminhaoAux << endl;
-                for(int i =1; i <= NumeroClientes; i++){
-                    for(int j =1; j <= NumeroClientes; j++){
-                        TempoEntreEntregas = 0;
-                        TempoEntreEntregas = sqrt( pow( Coordenadas[ NoCliente[i] ][0] - Coordenadas[ NoPlanta[p] ][0],2) + pow( Coordenadas[ NoCliente[i] ][1] - Coordenadas[ NoPlanta[p] ][1],2) ) / Velocidade;
-                        TempoEntreEntregas = TempoEntreEntregas + TempoPlanta ;
-                        TempoEntreEntregas = TempoEntreEntregas + sqrt( pow( Coordenadas[ NoCliente[j] ][0] - Coordenadas[ NoPlanta[p] ][0],2) + pow( Coordenadas[ NoCliente[j] ][1] - Coordenadas[ NoPlanta[p] ][1],2) ) / Velocidade;
-                        InstanciaSaloman << TempoEntreEntregas << " ";
-                    }
-                    InstanciaSaloman << endl;
-                }
-                CaminhaoAux++;
-            }
-        }
         // Declara o intervalo estipulado pelos clientes
         for( int c = 1; c <= NumeroClientes; c++){
             InstanciaSaloman << HoraInicioCliente[c] << " ";

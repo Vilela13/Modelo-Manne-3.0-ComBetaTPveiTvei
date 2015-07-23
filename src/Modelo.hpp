@@ -23,6 +23,7 @@ public:
     int NumVeiculos;					// Número de veículos
 
     double Velocidade;
+    double TempoDeVidaConcreto;
 
     vector < int > TamanhoConjuntoVeiculoPlanta;
     vector < vector < int > > ConjuntoVeiculoPlanta;
@@ -38,8 +39,6 @@ public:
     vector < double >  TempoNaPlanta;
 
     vector <  double  > TempoEntreChegadas;
-
-    vector < vector < vector < double > > > TempoParaIrEmUmaEntradaEOutra;
 
     vector <  double  > TempoInicioEntrada;
     vector <  double  > TempoFinalEntrada;
@@ -59,6 +58,7 @@ public:
 	int NV;					// Número de veículos
 
 	double V;
+	double TVC;
 
 	vector < int > TCVP;
 	vector < vector < int > > CVP;
@@ -66,7 +66,7 @@ public:
 	vector < int > TCDE;
 	vector < vector < int > > CDE;
 
-	vector < vector < double > > L;
+	vector < vector < double > > L;			// coordenada dos pontos
 	vector < vector < double > > Dpe;
 	vector < vector < double > > Dep;
 
@@ -156,6 +156,7 @@ No::No(){
 	NV  = 131313;
 	V = 131313;
 	Velocidade  = 131313;
+	TempoDeVidaConcreto = 13131313;
 }
 
 void No::PreencheEstrutura(){
@@ -166,6 +167,7 @@ void No::PreencheEstrutura(){
 	NumEntregas = NumeroDeEntregasVariaveisFixas;
 	NumVeiculos = NumeroDeVeiculosVariaveisFixas;
 	Velocidade = VelocidadeVariaveisFixas;
+	TempoDeVidaConcreto = TempoDeVidaConcretoVariaveisFixas;
 
 /* Preenche o numero veiculos por planta  */
 
@@ -275,28 +277,7 @@ void No::PreencheEstrutura(){
 	for( int j = 0; j <  NumEntregas; j++){
 		TempoEntreChegadas[j] = 0.3;
 	}
-/*  Tempo para ir em uma entrada e outra */
 
-	 TempoParaIrEmUmaEntradaEOutra.resize(NumVeiculos);
-	 for( int i = 0; i <  NumVeiculos; i++){
-		 TempoParaIrEmUmaEntradaEOutra[i].resize(NumEntregas);
-		for( int j = 0; j <  NumEntregas; j++){
-			TempoParaIrEmUmaEntradaEOutra[i][j].resize(NumEntregas);
-		}
-	 }
-
-
-	 aux1 = 0;
-	 for( int i = 0; i < NumPlantas; i++){
-		 for( int j = 0; j <  TamanhoConjuntoVeiculoPlanta[i]; j++){
-			 for( int z = 0; z <  NumEntregas ; z++){
-				 for( int k = 0; k <  NumEntregas ; k++){
-					 TempoParaIrEmUmaEntradaEOutra[aux1][z][k] =  DistanciaEntregaPlanta[z][i] + 	DistanciaPlantaEntrega[i][k]  ;
-				 	}
-			 }
-			 aux1 = aux1 + 1;
-		 }
-	 }
 
 /*  Tempo inicio e termino Entrada */
 	 TempoInicioEntrada.resize(NumEntregas);
@@ -324,10 +305,10 @@ void No::PreencheEstrutura(){
 void No::CriaTXT(){
 
 	ofstream Instancia;
-	Instancia.open("T-M-V1.txt");
+	Instancia.open("./InstS/T-M-V1.txt");
 
 cout << "T-M-V1" << endl;
-	Instancia <<"T-M-V1-2P-4E-5C" << endl;
+	Instancia <<"T-M-V1" << endl;
 
 cout << " Numero de Plantas " << endl << '\t';
     cout << NumPlantas << endl;
@@ -344,6 +325,10 @@ cout << " Numero de Veículos " << endl << '\t';
 cout << " Velocidade " << endl << '\t';
 	cout << Velocidade <<  endl;
     Instancia << Velocidade  << endl;
+
+cout << " Tempo de Vida do Concreto " << endl << '\t';
+	cout << TempoDeVidaConcreto <<  endl;
+	Instancia << TempoDeVidaConcreto  << endl;
 
 cout << "Conjunto de Veiculos por Planta " << endl;
     for( int i = 0; i <  NumPlantas; i++){
@@ -436,25 +421,6 @@ cout << " Tempo entre chagadas " << endl;
 	cout << endl;
 	Instancia << endl;
 
-cout << " Tempo para ir de uma entrada a outra " << endl;
-	for( int i = 0; i <  NumVeiculos; i++){
-		cout << '\t' << '\t' << "Veiculo " << i+1 << endl ;
-		Instancia << i+1 << endl;
-		for( int j = 0; j <  NumEntregas; j++){
-			cout  <<'\t' << j+1 ;
-		}
-		cout << endl;
-		for( int j = 0; j <  NumEntregas; j++){
-			cout << j+1 << '\t';
-			for( int z = 0; z <  NumEntregas; z++){
-				cout << TempoParaIrEmUmaEntradaEOutra[i][j][z] << '\t';
-				Instancia << TempoParaIrEmUmaEntradaEOutra[i][j][z] << '\t';
-			}
-			cout << endl;
-			Instancia << endl;
-		 }
-	}
-
 cout << " Tempo Inicio Entrada " << endl;
 	 for( int i = 0; i <  NumEntregas; i++){
 		cout << i << ' ' << TempoInicioEntrada[i]<< endl;
@@ -498,9 +464,7 @@ int No::LeDados(char *a){
 	string Instancia;
 	string CaminhoArquivo1;
 
-	comentarios = 0;
-
-	double AuxSvii;
+	comentarios = 1;
 
 
 
@@ -548,6 +512,12 @@ int No::LeDados(char *a){
 		arq >> V;
 		if( comentarios == 1){
 			cout << " V "<< V << endl;
+		}
+
+	// le TVC
+		arq >> TVC;
+		if( comentarios == 1){
+			cout << " TVC "<< TVC << endl;
 		}
 
 	// le número de veículos por planta
@@ -757,34 +727,36 @@ int No::LeDados(char *a){
 		if( comentarios == 1){
 			cout << " Tempo para ir de uma entrada a outra " << endl;
 		}
-		for( int v = 0; v <  NV; v++){
-			arq >> Aux1;
-			if( comentarios == 1){
-				cout << '\t' << '\t' << "Veiculo " << Aux1 << endl ;
-				for( int e = 0; e <  NE; e++){
-					cout  <<'\t' << e+1 ;
-				}
-				cout << endl;
-			}
-			for( int e1 = 0; e1 <  NE; e1++){
+		for( int p = 0; p <  NP; p++){
+			Aux1 = 0;
+			for( int v = 0; v < TCVP[p]; v++ ){
 				if( comentarios == 1){
-					cout << e1+1 << '\t';
+					cout << '\t' << '\t' << "Veiculo " << Aux1 + 1 << endl ;
+					for( int e = 0; e <  NE; e++){
+						cout  <<'\t' << e+1 ;
+					}
+					cout << endl;
 				}
-				for( int e2 = 0; e2 <  NE; e2++){
-					arq >>  AuxSvii;
-					for( int i = 0; i < TCDE[e1]; i++){
-						for( int j = 0; j < TCDE[e2]; j++){
-							Svii[v][e1][i][e2][j] = AuxSvii;
+				for( int e1 = 0; e1 <  NE; e1++){
+					if( comentarios == 1){
+						cout << e1+1 << '\t';
+					}
+					for( int e2 = 0; e2 <  NE; e2++){
+						for( int i = 0; i < TCDE[e1]; i++){
+							for( int j = 0; j < TCDE[e2]; j++){
+								Svii[Aux1][e1][i][e2][j] = Dep[e1][p] + TPp[p] + Dpe[p][e2];
+							}
+						}
+						if( comentarios == 1){
+							cout << Svii[Aux1][e1][0][e2][0] << '\t';
 						}
 					}
 					if( comentarios == 1){
-						cout << AuxSvii << '\t';
+						cout << endl;
 					}
-				}
-				if( comentarios == 1){
-					cout << endl;
-				}
-			 }
+				 }
+				Aux1++;
+			}
 		}
 
 
