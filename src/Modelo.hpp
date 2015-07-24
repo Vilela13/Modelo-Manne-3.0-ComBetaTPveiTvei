@@ -107,15 +107,18 @@ public:
 
 	void FuncaoObjetivo(IloFloatVarArray, IloFloatVarArray, IloModel*);
 
-	void Restricao1(IloArray<IloArray<IloBoolVarArray> >, IloModel* );
-	void Restricao2(IloFloatVarArray, IloArray < IloArray < IloFloatVarArray > >, IloArray<IloArray<IloBoolVarArray> >, IloModel*);
-	void Restricao3(IloArray < IloArray < IloFloatVarArray > >, IloFloatVarArray,IloArray<IloArray<IloBoolVarArray> >, IloModel*, int);
-	void Restricao4( IloFloatVarArray,IloArray < IloArray < IloFloatVarArray > >, IloArray<IloArray<IloBoolVarArray> >, IloModel*, int );
-	void Restricao5e6( IloArray<IloArray<IloBoolVarArray> > ,IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > ,IloArray < IloArray < IloFloatVarArray > > , IloModel* , int , int );
-	void Restricao7( IloArray<IloArray<IloBoolVarArray> > ,IloArray < IloArray < IloFloatVarArray > > , IloModel*, int );
-	void Restricao8( IloArray < IloArray < IloFloatVarArray > >, IloModel*, int  );
-	void Restricao9( IloFloatVarArray, IloModel*, int);
-	void Restricao10(IloFloatVarArray, IloFloatVarArray, IloModel*);
+	void Restricao1_AtendimentoDasDemandas(IloArray<IloArray<IloBoolVarArray> >, IloModel* );
+	void Restricao2_LowerBoundZe(IloFloatVarArray, IloArray < IloArray < IloFloatVarArray > >, IloArray<IloArray<IloBoolVarArray> >, IloModel*);
+	void Restricao3_LowerBoundTveiPorTvp(IloArray < IloArray < IloFloatVarArray > >, IloFloatVarArray,IloArray<IloArray<IloBoolVarArray> >, IloModel*, int);
+	void Restricao4_LowerBoundZr( IloFloatVarArray,IloArray < IloArray < IloFloatVarArray > >, IloArray<IloArray<IloBoolVarArray> >, IloModel*, int );
+	void Restricao5e6_PrecedenciaTvei( IloArray<IloArray<IloBoolVarArray> > ,IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > ,IloArray < IloArray < IloFloatVarArray > > , IloModel* , int , int );
+	void Restricao7_TempoMaximoEntreDescarregamentosSeguidosNaMesmaEntrega( IloArray<IloArray<IloBoolVarArray> > ,IloArray < IloArray < IloFloatVarArray > > , IloModel*, int );
+	void Restricao8_LimiteDeTempoNaEntrega( IloArray < IloArray < IloFloatVarArray > >, IloModel*, int  );
+	void Restricao9_LimiteDeTempoNaPlanta( IloFloatVarArray, IloModel*, int);
+	void Restricao10_NaoNegatividade(IloFloatVarArray, IloFloatVarArray, IloModel*);
+
+	void Restricao11_LowerBoundTveiPorTvei( IloArray < IloArray < IloFloatVarArray > > , IloModel* , int );
+	void Restricao12_TempoMinimoEntreDescarregamentosSeguidosNaMesmaEntrega(IloArray<IloArray<IloBoolVarArray> >, IloArray < IloArray < IloFloatVarArray > > , IloModel* , int );
 
 	void VerificaOuCriaPastaOut(int);
 	void VerificaOuCriaPastaSol(int);
@@ -737,6 +740,7 @@ void No::CalculaTempoMinimoDeAtendimentoEntreDuasEntregas(int comentarios){
 		}
 	}
 }
+
 int No::LeDados(char *a){
 
 	int comentarios;
@@ -962,7 +966,7 @@ void No::FuncaoObjetivo(IloFloatVarArray Ze, IloFloatVarArray Zr, IloModel* mode
 	funcao_objetivo.end();
 }
 
-void No::Restricao1(IloArray<IloArray<IloBoolVarArray> > Alfa, IloModel* model){
+void No::Restricao1_AtendimentoDasDemandas(IloArray<IloArray<IloBoolVarArray> > Alfa, IloModel* model){
 	for (int e = 0; e < NE; e++) {
 		for (int i = 0; i < TCDE[e]; i++) {
 			IloExpr expr(env);
@@ -975,7 +979,7 @@ void No::Restricao1(IloArray<IloArray<IloBoolVarArray> > Alfa, IloModel* model){
 	}
 }
 
-void No::Restricao2(IloFloatVarArray Ze, IloArray < IloArray < IloFloatVarArray > > Tvei, IloArray<IloArray<IloBoolVarArray> > Alfa, IloModel* model){
+void No::Restricao2_LowerBoundZe(IloFloatVarArray Ze, IloArray < IloArray < IloFloatVarArray > > Tvei, IloArray<IloArray<IloBoolVarArray> > Alfa, IloModel* model){
 	double BigMauternativo;
 	for (int e = 0; e < NE; e++) {
 		for (int i = 0; i < TCDE[e]; i++) {
@@ -987,7 +991,7 @@ void No::Restricao2(IloFloatVarArray Ze, IloArray < IloArray < IloFloatVarArray 
 	}
 }
 
-void No::Restricao3(IloArray < IloArray < IloFloatVarArray > > Tvei, IloFloatVarArray Tv,IloArray<IloArray<IloBoolVarArray> > Alfa, IloModel* model, int EscreveRestricao3){
+void No::Restricao3_LowerBoundTveiPorTvp(IloArray < IloArray < IloFloatVarArray > > Tvei, IloFloatVarArray Tv,IloArray<IloArray<IloBoolVarArray> > Alfa, IloModel* model, int EscreveRestricao3){
 	int vAux;
 	double BigMauternativo;
 	for (int e = 0; e < NE; e++) {
@@ -1007,7 +1011,7 @@ void No::Restricao3(IloArray < IloArray < IloFloatVarArray > > Tvei, IloFloatVar
 	}
 }
 
-void No::Restricao4( IloFloatVarArray Zr,IloArray < IloArray < IloFloatVarArray > > Tvei, IloArray<IloArray<IloBoolVarArray> > Alfa, IloModel* model, int EscreveRestricao4){
+void No::Restricao4_LowerBoundZr( IloFloatVarArray Zr,IloArray < IloArray < IloFloatVarArray > > Tvei, IloArray<IloArray<IloBoolVarArray> > Alfa, IloModel* model, int EscreveRestricao4){
 	int vAux;
 	double BigMauternativo;
 	for (int e = 0; e < NE; e++) {
@@ -1027,7 +1031,7 @@ void No::Restricao4( IloFloatVarArray Zr,IloArray < IloArray < IloFloatVarArray 
 	}
 }
 
-void No::Restricao5e6( IloArray<IloArray<IloBoolVarArray> > Alfa,IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > Beta,IloArray < IloArray < IloFloatVarArray > > Tvei, IloModel* model, int EscrveRestricao5, int EscreveRestricao6){
+void No::Restricao5e6_PrecedenciaTvei( IloArray<IloArray<IloBoolVarArray> > Alfa,IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > Beta,IloArray < IloArray < IloFloatVarArray > > Tvei, IloModel* model, int EscrveRestricao5, int EscreveRestricao6){
 	double BigMauternativo;
 	for (int e1 = 0; e1 < NE; e1++) {
 		for (int i = 0; i < TCDE[e1]; i++) {
@@ -1057,7 +1061,7 @@ void No::Restricao5e6( IloArray<IloArray<IloBoolVarArray> > Alfa,IloArray< IloAr
 	}
 }
 
-void No::Restricao7( IloArray<IloArray<IloBoolVarArray> > Alfa,IloArray < IloArray < IloFloatVarArray > > Tvei, IloModel* model, int EscreveRestricao7 ){
+void No::Restricao7_TempoMaximoEntreDescarregamentosSeguidosNaMesmaEntrega( IloArray<IloArray<IloBoolVarArray> > Alfa,IloArray < IloArray < IloFloatVarArray > > Tvei, IloModel* model, int EscreveRestricao7 ){
 	double BigMauternativo;
 	/*
 		for (int v1 = 0; v1 < NV; v1++) {
@@ -1096,7 +1100,7 @@ void No::Restricao7( IloArray<IloArray<IloBoolVarArray> > Alfa,IloArray < IloArr
 	}
 }
 
-void No::Restricao8( IloArray < IloArray < IloFloatVarArray > > Tvei, IloModel* model, int EscreveRestricao8 ){
+void No::Restricao8_LimiteDeTempoNaEntrega( IloArray < IloArray < IloFloatVarArray > > Tvei, IloModel* model, int EscreveRestricao8 ){
 	for (int v = 0; v < NV; v++) {
 		for (int e1 = 0; e1 < NE; e1++) {
 			for (int i = 0; i < TCDE[e1]; i++) {
@@ -1113,7 +1117,7 @@ void No::Restricao8( IloArray < IloArray < IloFloatVarArray > > Tvei, IloModel* 
 	}
 }
 
-void No::Restricao9( IloFloatVarArray Tv, IloModel* model, int EscreveRestricao9 ){
+void No::Restricao9_LimiteDeTempoNaPlanta( IloFloatVarArray Tv, IloModel* model, int EscreveRestricao9 ){
 	int vAux;
 	vAux = 0;
 	for (int p = 0; p < NP; p++) {
@@ -1131,7 +1135,7 @@ void No::Restricao9( IloFloatVarArray Tv, IloModel* model, int EscreveRestricao9
 	}
 }
 
-void No::Restricao10(IloFloatVarArray Ze, IloFloatVarArray Zr, IloModel* model){
+void No::Restricao10_NaoNegatividade(IloFloatVarArray Ze, IloFloatVarArray Zr, IloModel* model){
 	for (int e = 0; e < NE; e++) {
 		IloExpr expr(env);
 		expr += Ze[e];
@@ -1145,6 +1149,50 @@ void No::Restricao10(IloFloatVarArray Ze, IloFloatVarArray Zr, IloModel* model){
 		model->add(expr >= 0);
 		expr.end();
 	}
+}
+
+// Restrição 11
+void No::Restricao11_LowerBoundTveiPorTvei( IloArray < IloArray < IloFloatVarArray > > Tvei, IloModel* model, int EscreveRestricao11 ){
+    for (int v1 = 0; v1 < NV; v1++) {
+        for (int v2 = 0; v2 < NV; v2++) {
+            for (int e1 = 0; e1 < NE; e1++) {
+                for (int i = 0; i < (TCDE[e1] - 1); i++) {
+                    if ( EscreveRestricao11 == 1){
+                        cout <<"   Tvei[" <<v1<< "][" <<e1<< "][" <<i + 1<< "] <= Tvei[" <<v2<< "][" <<e1<< "][" <<i<< "] " << endl;
+                    }
+
+                    model->add(   Tvei[v1][e1][i] <=   Tvei[v2][e1][i+1] );
+                    if( v1 == 2 && e1 == 2 && (i + 1) == 2 && v2 == 2 && e1 == 2 && i == 1){
+                        cout << " $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ "<< endl;
+                        cout << "   Tvei[" <<v1 + 1<< "][" <<e1 + 1<< "][" <<i + 1<< "] <=  Tvei[" <<v2 + 1<< "][" <<e1 + 1 << "][" <<i + 2<< "] " << endl;
+                        cout << " $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ "<< endl;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void No::Restricao12_TempoMinimoEntreDescarregamentosSeguidosNaMesmaEntrega(IloArray<IloArray<IloBoolVarArray> > Alfa, IloArray < IloArray < IloFloatVarArray > > Tvei, IloModel* model, int EscreveRestricao12 ){
+    double BigMauternativo;
+    for (int v1 = 0; v1 < NV; v1++) {
+        for (int v2 = 0; v2 < NV; v2++) {
+            for (int e1 = 0; e1 < NE; e1++) {
+                for (int i = 0; i < (TCDE[e1] - 1); i++) {
+                    if ( EscreveRestricao12 == 1){
+                        cout <<"BigM * ( 1 - Alfa[" <<v1<< "][" <<e1<< "][" <<i +1 << "]) + Tvei[" <<v1<< "][" <<e1<< "][" <<i + 1<< "] >= Tvei[" <<v2<< "][" <<e1<< "][" <<i<< "] +  Pvi[" <<v2<< "][" <<e1<< "][" <<i<< "] - BigM * ( 1 - Alfa[" <<v2<< "][" <<e1<< "][" <<i << "])" << endl;
+                    }
+                    BigMauternativo = TmaxE[e1] + Pvi[v2][e1][i];
+                    model->add( BigMauternativo  * ( 1 - Alfa[v1][e1][i+1]) + Tvei[v1][e1][i+1] >=   Tvei[v2][e1][i] +   Pvi[v2][e1][i] - BigMauternativo  * ( 1 - Alfa[v2][e1][i]) );
+                    if( v1 == 2 && e1 == 2 && (i + 1) == 2 && v2 == 2 && e1 == 2 && i == 1){
+                        cout << " ################################################################ "<< endl;
+                        cout << " BigM * ( 1 - Alfa[" << v1 + 1 << "][" <<e1 + 1 << "][" << i + 2 << "]) +  Tvei[" << v1 + 1 << "][" << e1 + 1 << "][" << i + 2 << "] >=  Tvei[" << v2 + 1 << "][" << e1 + 1 << "][" << i + 1 << "] +  Pvi[" << v2 + 1 << "][" << e1 + 1 << "][" << i + 1 << "]  - BigM * ( 1 - Alfa[" <<v2 + 1 << "][" <<e1 + 1 << "][" << i + 1 << "])" << endl;
+                        cout << " ################################################################ "<< endl;
+                    }
+                }
+            }
+        }
+    }
 }
 
 void No::VerificaOuCriaPastaOut(int EscreveNaTelaResultados){
@@ -1584,6 +1632,8 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	int EscreveRestricao7;
 	int EscreveRestricao8;
 	int EscreveRestricao9;
+	int EscreveRestricao11;
+	int EscreveRestricao12;
 
 
 	int EscreveVariaveis;
@@ -1601,6 +1651,9 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	EscreveRestricao7 = 0;
 	EscreveRestricao8 = 0;
 	EscreveRestricao9 = 0;
+
+	EscreveRestricao11 = 0;
+	EscreveRestricao12 = 0;
 
 	EscreveVariaveis = 0;
 	OutPut1 = 1;
@@ -1683,23 +1736,28 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	FuncaoObjetivo(Ze, Zr, &model);
 
 // Restrição 1 : de que os caminhões tem que suprir as demandas
-	Restricao1(Alfa, &model);
+	Restricao1_AtendimentoDasDemandas(Alfa, &model);
 // Restrição  2 : de lower bound Ze
-	Restricao2(Ze, Tvei, Alfa, &model);
+	Restricao2_LowerBoundZe(Ze, Tvei, Alfa, &model);
 // Restrição  3 : de lower bound Tvi
-	Restricao3( Tvei, Tv, Alfa, &model,EscreveRestricao3);
+	Restricao3_LowerBoundTveiPorTvp( Tvei, Tv, Alfa, &model,EscreveRestricao3);
 // Restrição  4 : de lower bound Zr
-	Restricao4( Zr, Tvei, Alfa, &model, EscreveRestricao4);
+	Restricao4_LowerBoundZr( Zr, Tvei, Alfa, &model, EscreveRestricao4);
 // Restrição  5 e 6: de precedencia
-	Restricao5e6(  Alfa, Beta, Tvei, &model,  EscrveRestricao5, EscreveRestricao6);
+	Restricao5e6_PrecedenciaTvei(  Alfa, Beta, Tvei, &model,  EscrveRestricao5, EscreveRestricao6);
 // Restrição  7:
-	Restricao7(  Alfa, Tvei, &model, EscreveRestricao7 );
+	Restricao7_TempoMaximoEntreDescarregamentosSeguidosNaMesmaEntrega(  Alfa, Tvei, &model, EscreveRestricao7 );
 // Restrição  8:
-	Restricao8( Tvei, &model, EscreveRestricao8 );
+	Restricao8_LimiteDeTempoNaEntrega( Tvei, &model, EscreveRestricao8 );
 // Restrição  9:
-	Restricao9(  Tv, &model, EscreveRestricao9 );
+	Restricao9_LimiteDeTempoNaPlanta(  Tv, &model, EscreveRestricao9 );
 // Restrição 10
-	Restricao10(Ze, Zr, &model);
+	Restricao10_NaoNegatividade(Ze, Zr, &model);
+
+// Restrição 11
+    Restricao11_LowerBoundTveiPorTvei( Tvei, &model, EscreveRestricao11 );
+// Restrição 12
+    Restricao12_TempoMinimoEntreDescarregamentosSeguidosNaMesmaEntrega(Alfa, Tvei, &model, EscreveRestricao12 );
 
 // Modelo
 	IloCplex cplex(model);
