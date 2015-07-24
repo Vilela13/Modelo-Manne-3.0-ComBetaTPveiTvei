@@ -109,12 +109,12 @@ public:
 
 	void Restricao1_AtendimentoDasDemandas(IloArray<IloArray<IloBoolVarArray> >, IloModel* );
 	void Restricao2_LowerBoundZe(IloFloatVarArray, IloArray < IloArray < IloFloatVarArray > >, IloArray<IloArray<IloBoolVarArray> >, IloModel*);
-	void Restricao3_LowerBoundTveiPorTvp(IloArray < IloArray < IloFloatVarArray > >, IloFloatVarArray,IloArray<IloArray<IloBoolVarArray> >, IloModel*, int);
+	void Restricao3_LowerBoundTveiPorTvp(IloArray < IloArray < IloFloatVarArray > >, IloArray < IloArray < IloFloatVarArray > >,IloArray<IloArray<IloBoolVarArray> >, IloModel*, int);
 	void Restricao4_LowerBoundZr( IloFloatVarArray,IloArray < IloArray < IloFloatVarArray > >, IloArray<IloArray<IloBoolVarArray> >, IloModel*, int );
 	void Restricao5e6_PrecedenciaTvei( IloArray<IloArray<IloBoolVarArray> > ,IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > ,IloArray < IloArray < IloFloatVarArray > > , IloModel* , int , int );
 	void Restricao7_TempoMaximoEntreDescarregamentosSeguidosNaMesmaEntrega( IloArray<IloArray<IloBoolVarArray> > ,IloArray < IloArray < IloFloatVarArray > > , IloModel*, int );
 	void Restricao8_LimiteDeTempoNaEntrega( IloArray < IloArray < IloFloatVarArray > >, IloModel*, int  );
-	void Restricao9_LimiteDeTempoNaPlanta( IloFloatVarArray, IloModel*, int);
+	void Restricao9_LimiteDeTempoNaPlanta( IloArray < IloArray < IloFloatVarArray > >, IloModel*, int);
 	void Restricao10_NaoNegatividade(IloFloatVarArray, IloFloatVarArray, IloModel*);
 
 	void Restricao11_LowerBoundTveiPorTvei( IloArray < IloArray < IloFloatVarArray > > , IloModel* , int );
@@ -123,10 +123,10 @@ public:
 	void VerificaOuCriaPastaOut(int);
 	void VerificaOuCriaPastaSol(int);
 	void InicializaVariaveisImprimir();
-	void PegaValoresDasVariaveis( IloCplex, IloArray<IloArray<IloBoolVarArray> > , IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > , IloFloatVarArray, IloFloatVarArray, IloArray < IloArray < IloFloatVarArray > > , IloFloatVarArray);
+	void PegaValoresDasVariaveis( IloCplex, IloArray<IloArray<IloBoolVarArray> > , IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > , IloFloatVarArray, IloFloatVarArray, IloArray < IloArray < IloFloatVarArray > > , IloArray < IloArray < IloFloatVarArray > >);
 
-	void EscreveVariaveisDoModeloAposResolucao(int, int,ofstream* , IloCplex, IloArray<IloArray<IloBoolVarArray> > , IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > , IloArray < IloArray < IloFloatVarArray > >,IloFloatVarArray );
-	void EscreveItinerarioVeiculos( int,int, ofstream*, IloCplex, IloArray<IloArray<IloBoolVarArray> >, IloArray < IloArray < IloFloatVarArray > >,IloFloatVarArray );
+	void EscreveVariaveisDoModeloAposResolucao(int, int,ofstream* , IloCplex, IloArray<IloArray<IloBoolVarArray> > , IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > , IloArray < IloArray < IloFloatVarArray > >, IloArray < IloArray < IloFloatVarArray > > );
+	void EscreveItinerarioVeiculos( int,int, ofstream*, IloCplex, IloArray<IloArray<IloBoolVarArray> >, IloArray < IloArray < IloFloatVarArray > >,IloArray < IloArray < IloFloatVarArray > > );
 	void EscreveEntregasNosClientes(int,int, ofstream*);
 	void EscreveUtilizacaoVeiculos(int ,int, ofstream* );
 
@@ -138,7 +138,7 @@ public:
 	vector < double > ZeImprimir;
 	vector < double > ZrImprimir;
 	vector < vector < vector < double > > > TveiImprime;
-	vector < double > TvImprime;
+	vector < vector < vector < double > > > TPveiImprime;
 
 
 
@@ -991,7 +991,7 @@ void No::Restricao2_LowerBoundZe(IloFloatVarArray Ze, IloArray < IloArray < IloF
 	}
 }
 
-void No::Restricao3_LowerBoundTveiPorTvp(IloArray < IloArray < IloFloatVarArray > > Tvei, IloFloatVarArray Tv,IloArray<IloArray<IloBoolVarArray> > Alfa, IloModel* model, int EscreveRestricao3){
+void No::Restricao3_LowerBoundTveiPorTvp(IloArray < IloArray < IloFloatVarArray > > Tvei, IloArray < IloArray < IloFloatVarArray > > TPvei,IloArray<IloArray<IloBoolVarArray> > Alfa, IloModel* model, int EscreveRestricao3){
 	int vAux;
 	double BigMauternativo;
 	for (int e = 0; e < NE; e++) {
@@ -1000,10 +1000,10 @@ void No::Restricao3_LowerBoundTveiPorTvp(IloArray < IloArray < IloFloatVarArray 
 			for (int p = 0; p < NP; p++) {
 				for (int v = 0; v < TCVP[p]; v++) {
 					if ( EscreveRestricao3 == 1){
-						cout << " Tvei[ " << vAux << "][" << e<< "][ " << i << "] >=  Tv[" << vAux << "] + Dpe[" << p << "][" << e << "] - BigM * ( 1 - Alfa[" << vAux << "][" << e << "][" << i << "])" << endl;
+						cout << " Tvei[ " << vAux << "][" << e<< "][ " << i << "] >=  TPvei[" << vAux << "][" << e<< "][ " << i << "] + Dpe[" << p << "][" << e << "] - BigM * ( 1 - Alfa[" << vAux << "][" << e << "][" << i << "])" << endl;
 					}
 					BigMauternativo = TmaxP[p] + Dpe[p][e];
-					model->add(   Tvei[vAux][e][i] >=  Tv[vAux] + Dpe[p][e] - BigMauternativo * ( 1 - Alfa[vAux][e][i]) );
+					model->add(   Tvei[vAux][e][i] >=  TPvei[vAux][e][i] + Dpe[p][e] - BigMauternativo * ( 1 - Alfa[vAux][e][i]) );
 					vAux = vAux + 1;
 				}
 			}
@@ -1117,19 +1117,23 @@ void No::Restricao8_LimiteDeTempoNaEntrega( IloArray < IloArray < IloFloatVarArr
 	}
 }
 
-void No::Restricao9_LimiteDeTempoNaPlanta( IloFloatVarArray Tv, IloModel* model, int EscreveRestricao9 ){
+void No::Restricao9_LimiteDeTempoNaPlanta( IloArray < IloArray < IloFloatVarArray > > TPvei, IloModel* model, int EscreveRestricao9 ){
 	int vAux;
 	vAux = 0;
 	for (int p = 0; p < NP; p++) {
 		for (int v = 0; v < TCVP[p]; v++) {
-			if ( EscreveRestricao9 == 1){
-				cout << "  Tv[" <<vAux<< "] >= TminP[" << p <<"]" << endl;
+			for (int e1 = 0; e1 < NE; e1++) {
+				for (int i = 0; i < TCDE[e1]; i++) {
+					if ( EscreveRestricao9 == 1){
+						cout << "  TPvei[" <<vAux<< "][" <<e1<< "][" <<i<< "] >= TminP[" << p <<"]" << endl;
+					}
+					model->add(  TPvei[vAux][e1][i] >= TminP[p] );
+					if ( EscreveRestricao9 == 1){
+						cout << "  TPvei[" <<vAux<< "][" <<e1<< "][" <<i<< "] <= TmaxP[" << p <<"]" << endl;
+					}
+					model->add(  TPvei[vAux][e1][i] <= TmaxP[p] );
+				}
 			}
-			model->add(  Tv[vAux] >= TminP[p] );
-			if ( EscreveRestricao9 == 1){
-				cout << "  Tv[" <<vAux<< "] <= TmaxP[" << p <<"]" << endl;
-			}
-			model->add(  Tv[vAux] <= TmaxP[p] );
 			vAux = vAux + 1;
 		}
 	}
@@ -1283,10 +1287,16 @@ void No::InicializaVariaveisImprimir(){
 		}
 	}
 
-	TvImprime.resize(NV);
+	TPveiImprime.resize(NV);
+	for (int v = 0; v < NV; v++) {
+		TPveiImprime[v].resize(NE);
+		for (int e = 0; e < NE; e++) {
+			TPveiImprime[v][e].resize(TCDE[e]);
+		}
+	}
 }
 
-void No::PegaValoresDasVariaveis( IloCplex cplex, IloArray<IloArray<IloBoolVarArray> > Alfa, IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > Beta, IloFloatVarArray Ze, IloFloatVarArray Zr, IloArray < IloArray < IloFloatVarArray > > Tvei, IloFloatVarArray Tv  ){
+void No::PegaValoresDasVariaveis( IloCplex cplex, IloArray<IloArray<IloBoolVarArray> > Alfa, IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > Beta, IloFloatVarArray Ze, IloFloatVarArray Zr, IloArray < IloArray < IloFloatVarArray > > Tvei, IloArray < IloArray < IloFloatVarArray > > TPvei  ){
 	for (int v = 0; v< NV; v++) {
 		for (int e = 0; e < NE; e++) {
 			for( int i = 0; i < TCDE[e]; i++){
@@ -1330,11 +1340,15 @@ void No::PegaValoresDasVariaveis( IloCplex cplex, IloArray<IloArray<IloBoolVarAr
 	}
 
 	for (int v = 0; v < NV; v++) {
-		TvImprime[v] = cplex.getValue(Tv[v]);
+		for (int e = 0; e < NE; e++) {
+			for( int i = 0; i < TCDE[e]; i++){
+				TPveiImprime[v][e][i] = cplex.getValue(TPvei[v][e][i]);
+			}
+		}	
 	}
 }
 
-void No::EscreveVariaveisDoModeloAposResolucao(int EscreveArquivoComRespostas, int EscreveNaTelaResultados,ofstream* logfile2, IloCplex cplex, IloArray<IloArray<IloBoolVarArray> > Alfa, IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > Beta, IloArray < IloArray < IloFloatVarArray > > Tvei,IloFloatVarArray Tv ){
+void No::EscreveVariaveisDoModeloAposResolucao(int EscreveArquivoComRespostas, int EscreveNaTelaResultados,ofstream* logfile2, IloCplex cplex, IloArray<IloArray<IloBoolVarArray> > Alfa, IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > Beta, IloArray < IloArray < IloFloatVarArray > > Tvei,IloArray < IloArray < IloFloatVarArray > > TPvei ){
 	int vAux;
 
 	for (int v = 0; v< NV; v++) {
@@ -1425,13 +1439,17 @@ void No::EscreveVariaveisDoModeloAposResolucao(int EscreveArquivoComRespostas, i
 	vAux = 0;
 	for (int p = 0; p < NP; p++) {
 		for (int v = 0; v < TCVP[p]; v++) {
-			if( EscreveNaTelaResultados == 1){
-				cout << Tv[vAux].getName() << " [" << cplex.getValue(Tv[vAux]) << "]  ";
+			for (int e = 0; e < NE; e++) {
+				for( int i = 0; i < TCDE[e]; i++){
+					if( EscreveNaTelaResultados == 1){
+						cout << TPvei[vAux][e][i].getName() << " [" << cplex.getValue(TPvei[vAux][e][i]) << "]  ";
+					}
+					if( EscreveArquivoComRespostas == 1){
+						*logfile2 << TPvei[vAux][e][i].getName() << " [" << cplex.getValue(TPvei[vAux][e][i]) << "]  ";
+					}
+					vAux = vAux + 1;
+				}
 			}
-			if( EscreveArquivoComRespostas == 1){
-				*logfile2 << Tv[vAux].getName() << " [" << cplex.getValue(Tv[vAux]) << "]  ";
-			}
-			vAux = vAux + 1;
 		}
 		if( EscreveNaTelaResultados == 1){
 			cout << endl;
@@ -1442,30 +1460,32 @@ void No::EscreveVariaveisDoModeloAposResolucao(int EscreveArquivoComRespostas, i
 	}
 }
 
-void No::EscreveItinerarioVeiculos( int EscreveNaTelaResultados,int EscreveArquivoComRespostas, ofstream* logfile2, IloCplex cplex, IloArray<IloArray<IloBoolVarArray> > Alfa, IloArray < IloArray < IloFloatVarArray > > Tvei,IloFloatVarArray Tv){
+void No::EscreveItinerarioVeiculos( int EscreveNaTelaResultados,int EscreveArquivoComRespostas, ofstream* logfile2, IloCplex cplex, IloArray<IloArray<IloBoolVarArray> > Alfa, IloArray < IloArray < IloFloatVarArray > > Tvei, IloArray < IloArray < IloFloatVarArray > > TPvei){
 	int vAux;
 
 	vAux = 0;
 	for (int p = 0; p < NP; p++) {
 		for (int v = 0; v < TCVP[p]; v++) {
 			if( EscreveNaTelaResultados == 1){
-				cout << " Veiculo " << vAux + 1 << " Sai as ";
-				cout <<  cplex.getValue(Tv[vAux]) << endl;
+				cout << " Veiculo " << vAux + 1 << endl;
 			}
 			if( EscreveArquivoComRespostas == 1){
-				*logfile2 << " Veiculo " << vAux + 1 << " Sai as ";
-				*logfile2 <<  cplex.getValue(Tv[vAux]) << endl;
+				*logfile2 << " Veiculo " << vAux + 1 << " Sai as "<< endl;
 			}
 			for (int e = 0; e < NE; e++) {
 				for( int i = 0; i < TCDE[e]; i++){
 					if( cplex.getValue(Alfa[vAux][e][i]) == 1){
 						if( EscreveNaTelaResultados == 1){
-							cout << '\t' << " Entrega[Construcao->" << e+1 << "][Job->" << i+1<< "] as ";
+							cout << '\t' << " Entrega[Construcao->" << e+1 << "][Job->" << i+1<< "] sai as ";
+							printf("%.2f", cplex.getValue(TPvei[vAux][e][i]) );
+							cout << " e entrega as " ;
 							printf("%.2f", cplex.getValue(Tvei[vAux][e][i]) );
 							cout << endl;
 						}
 						if( EscreveArquivoComRespostas == 1){
-							*logfile2 << '\t' << " Entrega[Construcao->" << e+1 << "][Job->" << i+1<< "] as ";
+							*logfile2 << '\t' << " Entrega[Construcao->" << e+1 << "][Job->" << i+1<< "] sai as ";
+							*logfile2 << cplex.getValue(TPvei[vAux][e][i]);
+							*logfile2 << " e entrega as " ;
 							*logfile2 << cplex.getValue(Tvei[vAux][e][i]);
 							*logfile2 << endl;
 						}
@@ -1714,18 +1734,24 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 		cout << endl;
 	}
 
-// Variavel Tvp
+// Variavel TPvei
 
-	IloFloatVarArray Tv(env,NV);
+	IloArray < IloArray < IloFloatVarArray > > TPvei(env,NV);
 	for (int v = 0; v < NV; v++) {
-		sprintf(varName, "Tv_%d", v);
-		Tv[v] = IloFloatVar(env,varName);
-		if ( Escreve == 1){
-			cout << " Tv["<< v << "] "<< endl;
-			cout << endl;
+		TPvei[v] = IloArray < IloFloatVarArray > (env,NV);
+		for (int e = 0; e < NE; e++) {
+			TPvei[v][e] = IloFloatVarArray(env,TCDE[e]);
+			for (int i = 0; i < TCDE[e]; i++) {
+				sprintf(varName, "TPvei_%d_%d_%d", v, e, i);
+				TPvei[v][e][i] = IloFloatVar(env,varName);
+				cout << " TPvei["<< v << "]["<< e << "]["<< i << "] "<< endl;
+				if ( Escreve == 1){
+					cout << " TPvei["<< v << "]["<< e << "]["<< i << "] "<< endl;
+					cout << endl;
+				}
+			}
 		}
 	}
-
 	if ( Escreve == 1){
 		cout << endl;
 	}
@@ -1740,7 +1766,7 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 // Restrição  2 : de lower bound Ze
 	Restricao2_LowerBoundZe(Ze, Tvei, Alfa, &model);
 // Restrição  3 : de lower bound Tvi
-	Restricao3_LowerBoundTveiPorTvp( Tvei, Tv, Alfa, &model,EscreveRestricao3);
+	Restricao3_LowerBoundTveiPorTvp( Tvei, TPvei, Alfa, &model,EscreveRestricao3);
 // Restrição  4 : de lower bound Zr
 	Restricao4_LowerBoundZr( Zr, Tvei, Alfa, &model, EscreveRestricao4);
 // Restrição  5 e 6: de precedencia
@@ -1750,7 +1776,7 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 // Restrição  8:
 	Restricao8_LimiteDeTempoNaEntrega( Tvei, &model, EscreveRestricao8 );
 // Restrição  9:
-	Restricao9_LimiteDeTempoNaPlanta(  Tv, &model, EscreveRestricao9 );
+	Restricao9_LimiteDeTempoNaPlanta(  TPvei, &model, EscreveRestricao9 );
 // Restrição 10
 	Restricao10_NaoNegatividade(Ze, Zr, &model);
 
@@ -1761,7 +1787,7 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 
 // Modelo
 	IloCplex cplex(model);
-	//cplex.exportModel("model.lp");
+	cplex.exportModel("model.lp");
 
 // Cria pasta OUT
 	VerificaOuCriaPastaOut(EscreveNaTelaResultados);
@@ -1843,16 +1869,16 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 
 	// Coloca valor das variaveis do modelo na estrutura do programa
 
-		PegaValoresDasVariaveis(  cplex,  Alfa,  Beta,Ze, Zr,  Tvei,  Tv  );
+		PegaValoresDasVariaveis(  cplex,  Alfa,  Beta,Ze, Zr,  Tvei,  TPvei  );
 
 		if( EscreveVariaveis == 1){
 	// Imprimi Variaveis
-			EscreveVariaveisDoModeloAposResolucao( EscreveArquivoComRespostas, EscreveNaTelaResultados, &logfile2,  cplex,  Alfa, Beta, Tvei, Tv );
+			EscreveVariaveisDoModeloAposResolucao( EscreveArquivoComRespostas, EscreveNaTelaResultados, &logfile2,  cplex,  Alfa, Beta, Tvei, TPvei );
 		}
 
 		if( OutPut1 == 1){
 	// Itinerario dos veiculos
-			EscreveItinerarioVeiculos( EscreveNaTelaResultados, EscreveArquivoComRespostas, &logfile2,cplex, Alfa,  Tvei, Tv);
+			EscreveItinerarioVeiculos( EscreveNaTelaResultados, EscreveArquivoComRespostas, &logfile2,cplex, Alfa,  Tvei, TPvei);
 		}
 
 		if( OutPut2 == 1){
