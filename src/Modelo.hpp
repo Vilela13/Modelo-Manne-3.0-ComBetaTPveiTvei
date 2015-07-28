@@ -127,6 +127,8 @@ public:
 	void Restricao14_LimiteDeTempoNaEntrega( IloArray < IloArray < IloFloatVarArray > >, IloModel*, int  );
 	void Restricao15_LimiteDeTempoNaPlanta( IloArray < IloArray < IloFloatVarArray > >, IloModel*, int);
 
+	void Restricao16_TPveiLimitadoPorTvei(IloArray < IloArray < IloFloatVarArray > > , IloArray < IloArray < IloFloatVarArray > > ,IloModel*, int );
+
 	void VerificaOuCriaPastaOut(int);
 	void VerificaOuCriaPastaSol(int);
 	void InicializaVariaveisImprimir();
@@ -1300,7 +1302,29 @@ void No::Restricao15_LimiteDeTempoNaPlanta( IloArray < IloArray < IloFloatVarArr
 	}
 }
 
-
+void No::Restricao16_TPveiLimitadoPorTvei(IloArray < IloArray < IloFloatVarArray > > TPvei, IloArray < IloArray < IloFloatVarArray > > Tvei,IloModel* model, int EscreveRestricao ){
+	int vAux;
+	for (int e = 0; e < NE; e++) {
+		for (int i = 0; i < TCDE[e]; i++) {
+			vAux = 0;
+			for (int p = 0; p < NP; p++) {
+				for (int v = 0; v < TCVP[p]; v++) {
+					if ( EscreveRestricao == 1){
+						cout << " TPvi[" << vAux << "][" << e << "][" << i << "] + TPp[" << p << "] + Dpe[" << p << "][" << e << "] = ";
+						cout << " Tvi[" << vAux << "][" << e << "][" << i << "] " << endl;
+					}
+					if ( vAux == 0 && e == 2 && i == 2){
+						cout << " &&&&&&&&&&&&&&&&&&&&&& " << endl;
+						cout << " TPvi[" << vAux << "][" << e << "][" << i << "] + TPp[" << p << "] (" << TPp[p] << ") + Dpe[" << p << "][" << e << "] (" << Dpe[p][e] << ") = ";
+						cout << " Tvi[" << vAux << "][" << e << "][" << i << "] " << endl << endl;
+					}
+					model->add( TPvei[vAux][e][i] + TPp[p] + Dpe[p][e] == Tvei[vAux][e][i] );
+					vAux = vAux + 1;
+				}
+			}
+		}
+	}
+}
 
 void No::VerificaOuCriaPastaOut(int EscreveNaTelaResultados){
 	if(!opendir ("Out")){
@@ -1573,7 +1597,7 @@ void No::EscreveItinerarioVeiculos( int EscreveNaTelaResultados,int EscreveArqui
 				cout << " Veiculo " << vAux + 1 << endl;
 			}
 			if( EscreveArquivoComRespostas == 1){
-				*logfile2 << " Veiculo " << vAux + 1 << " Sai as "<< endl;
+				*logfile2 << " Veiculo " << vAux + 1 << " : "<< endl;
 			}
 			for (int e = 0; e < NE; e++) {
 				for( int i = 0; i < TCDE[e]; i++){
@@ -1762,6 +1786,8 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	int EscreveRestricao14;
 	int EscreveRestricao15;
 
+	int  EscreveRestricao16;
+
 
 	int EscreveVariaveis;
 	int OutPut1;
@@ -1784,6 +1810,8 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	EscreveRestricao13 = 0;
 	EscreveRestricao14 = 0;
 	EscreveRestricao15 = 0;
+
+	 EscreveRestricao16 = 1;
 
 	EscreveVariaveis = 0;
 	OutPut1 = 1;
@@ -1904,6 +1932,9 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	Restricao14_LimiteDeTempoNaEntrega( Tvei, &model, EscreveRestricao14 );
 // Restrição  15:
 	Restricao15_LimiteDeTempoNaPlanta(  TPvei, &model, EscreveRestricao15 );
+
+// Restrição 16
+	Restricao16_TPveiLimitadoPorTvei( TPvei, Tvei,&model, EscreveRestricao16 );
 
 // Modelo
 	IloCplex cplex(model);
