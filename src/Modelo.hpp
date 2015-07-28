@@ -117,7 +117,7 @@ public:
 
 	void Restricao8_NaoNegatividade(IloFloatVarArray, IloFloatVarArray, IloModel*);
 
-	void Restricao9_LowerBoundTveiPorTvei( IloArray < IloArray < IloFloatVarArray > > , IloModel* , int );
+	void Restricao9_LowerBoundTveiPorTvei( IloArray<IloArray<IloBoolVarArray> >, IloArray < IloArray < IloFloatVarArray > > , IloModel* , int );
 	void Restricao10_TempoMinimoEntreDescarregamentosSeguidosNaMesmaEntrega(IloArray<IloArray<IloBoolVarArray> >, IloArray < IloArray < IloFloatVarArray > > , IloModel* , int );
 
 	void Restricao11e12_PrecedenciaTPvei( IloArray<IloArray<IloBoolVarArray> > ,IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > ,IloArray < IloArray < IloFloatVarArray > > , IloModel*, int, int);
@@ -1047,10 +1047,11 @@ void No::Restricao3_LowerBoundTveiPorTvp(IloArray < IloArray < IloFloatVarArray 
 			for (int p = 0; p < NP; p++) {
 				for (int v = 0; v < TCVP[p]; v++) {
 					if ( EscreveRestricao == 1){
-						cout << " Tvei[ " << vAux << "][" << e<< "][ " << i << "] >=  TPvei[" << vAux << "][" << e<< "][ " << i << "] + Dpe[" << p << "][" << e << "] - BigM * ( 1 - Alfa[" << vAux << "][" << e << "][" << i << "])" << endl;
+						cout << " Tvei[ " << vAux << "][" << e << "][ " << i << "] >=  TPvei[" << vAux << "][" << e << "][ " << i << "] +";
+						cout << " TPp[" << p << "] + Dpe[" << p << "][" << e << "] - BigM * ( 1 - Alfa[" << vAux << "][" << e << "][" << i << "] )" << endl;
 					}
-					BigMauternativo = TmaxP[p] + Dpe[p][e];
-					model->add(   Tvei[vAux][e][i] >=  TPvei[vAux][e][i] + Dpe[p][e] - BigMauternativo * ( 1 - Alfa[vAux][e][i]) );
+					BigMauternativo = TmaxP[p] + TPp[p] + Dpe[p][e];
+					model->add( Tvei[vAux][e][i] >=  TPvei[vAux][e][i] + TPp[p] +  Dpe[p][e] - BigMauternativo * ( 1 - Alfa[vAux][e][i] ) );
 					vAux = vAux + 1;
 				}
 			}
@@ -1067,7 +1068,9 @@ void No::Restricao4_LowerBoundZr( IloFloatVarArray Zr,IloArray < IloArray < IloF
 			for (int p = 0; p < NP; p++) {
 				for (int v = 0; v < TCVP[p]; v++) {
 					if ( EscreveRestricao == 1){
-						cout << " Zr[ " << p << "] >=  Tvei[" << vAux << "][" << e << "][" << i << "]+ Dep[" << vAux << "][" << e << "][" << i << "] + Dep[" << e << "][" << p << "] - BigM * ( 1 - Alfa[" << vAux << "][" << e << "][" << i << "])" << endl;
+						cout << " Zr[ " << p << "] >=  Tvei[" << vAux << "][" << e << "][" << i << "] +";
+						cout << " Dep[" << vAux << "][" << e << "][" << i << "] + Dep[" << e << "][" << p << "]";
+						cout << " - BigM * ( 1 - Alfa[" << vAux << "][" << e << "][" << i << "])" << endl;
 					}
 					BigMauternativo = TmaxE[e] + Pvi[vAux][e][i] + Dep[e][p];
 					model->add( Zr[p] >=  Tvei[vAux][e][i] + Pvi[vAux][e][i] + Dep[e][p] - BigMauternativo * ( 1 - Alfa[vAux][e][i]) );
@@ -1090,15 +1093,25 @@ void No::Restricao5e6_PrecedenciaTvei( IloArray<IloArray<IloBoolVarArray> > Alfa
 						}else{
 							//if( e1 == e2){
 								if ( EscrveRestricao1 == 1){
-									cout << " BigM * ( 1 - Alfa[" <<v<< "][" <<e1<< "][" <<i<< "]) + BigM * ( 1 - Alfa[" <<v<< "][" <<e2<< "][" <<j<< "]) + BigM *(1- Beta[" <<v<< "][" <<e1<< "][" <<i<< "][" <<e2<< "][" <<j<< "])  + Tvei[" <<v<< "][" <<e2<< "][" <<j<< "] >= Tvei[" <<v<< "][" <<e1<< "][" <<i<< "] +  Pvi[" <<v<< "][" <<e1<< "][" <<i<< "] + Svii[" <<v<< "][" <<e1<< "][" <<i<< "][" <<e2<< "][" <<j<< "])" << endl;
+									cout << " BigM * ( 1 - ALFAvei[" << v << "][" << e1 << "][" << i << "]) +";
+									cout << " BigM * ( 1 - ALFAve'i'[" << v << "][" << e2 << "][" << j << "]) +";
+									cout << " BigM * ( 1 - BETAveie'i'[" << v << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "])";
+									cout << " + Tve'i'[" << v << "][" << e2 << "][" << j << "] >= Tvei[" << v << "][" << e1 << "][" << i << "]";
+									cout << " + Pvei[" << v << "][" << e1 << "][" << i << "]";
+									cout << " + Sveie'i'[" << v << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "]" << endl;
 								}
 								BigMauternativo = TmaxE[e1] + Pvi[v][e1][i] + Svii[v][e1][i][e2][j];
-								model->add(BigMauternativo  * ( 1 - Alfa[v][e1][i]) + BigMauternativo  * ( 1 - Alfa[v][e2][j]) + BigMauternativo  *(1- Beta[v][e1][i][e2][j])  + Tvei[v][e2][j] >= Tvei[v][e1][i] +  Pvi[v][e1][i] + Svii[v][e1][i][e2][j]);
+								model->add( BigMauternativo * ( 1 - Alfa[v][e1][i] ) + BigMauternativo * ( 1 - Alfa[v][e2][j] ) + BigMauternativo * ( 1 - Beta[v][e1][i][e2][j] ) + Tvei[v][e2][j] >= Tvei[v][e1][i] + Pvi[v][e1][i] + Svii[v][e1][i][e2][j] );
 								if ( EscreveRestricao2 == 1){
-									cout << " BigM * ( 1 - Alfa[" <<v<< "][" <<e1<< "][" <<i<< "]) + BigM * ( 1 - Alfa[" <<v<< "][" <<e2<< "][" <<j<< "]) + BigM * Beta[" <<v<< "][" <<e1<< "][" <<i<< "][" <<e2<< "][" <<j<< "]  + Tvei[" <<v<< "][" <<e2<< "][" <<j<< "] >= Tvei[" <<v<< "][" <<e1<< "][" <<i<< "] +  Pvi[" <<v<< "][" <<e1<< "][" <<i<< "] + Svii[" <<v<< "][" <<e1<< "][" <<i<< "][" <<e2<< "][" <<j<< "])" << endl;
+									cout << " BigM * ( 1 - ALFAvei[" << v << "][" << e1 << "][" << i << "]) +";
+									cout << " BigM * ( 1 - ALFAve'i'[" << v << "][" << e2 << "][" << j << "]) +";
+									cout << " BigM * BETAveie'i'[" << v << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "]";
+									cout << " + Tvei[" << v << "][" << e1 << "][" << i << "] >= Tvei'[" << v << "][" << e2 << "][" << j << "]";
+									cout << " + Pvi'[" << v << "][" << e2 << "][" << j << "]";
+									cout << " + Svi'i[" << v << "][" << e2 << "][" << j << "][" << e1 << "][" << i << "]" << endl;
 								}
 								BigMauternativo = TmaxE[e2] + Pvi[v][e2][j] + Svii[v][e2][j][e1][i];
-								model->add( BigMauternativo  * ( 1 - Alfa[v][e1][i]) + BigMauternativo  * ( 1 - Alfa[v][e2][j]) + BigMauternativo  * Beta[v][e1][i][e2][j]  + Tvei[v][e1][i] >= Tvei[v][e2][j] +  Pvi[v][e2][j] + Svii[v][e2][j][e1][i]);
+								model->add( BigMauternativo * ( 1 - Alfa[v][e1][i] ) + BigMauternativo * ( 1 - Alfa[v][e2][j] ) + BigMauternativo * Beta[v][e1][i][e2][j] + Tvei[v][e1][i] >= Tvei[v][e2][j] + Pvi[v][e2][j] + Svii[v][e2][j][e1][i] );
 							}
 						//}
 					}
@@ -1130,12 +1143,15 @@ void No::Restricao7_TempoMaximoEntreDescarregamentosSeguidosNaMesmaEntrega( IloA
 	for (int v1 = 0; v1 < NV; v1++) {
 		for (int v2 = 0; v2 < NV; v2++) {
 			for (int e1 = 0; e1 < NE; e1++) {
-				for (int i = 0; i < (TCDE[e1] - 1); i++) {
+				for (int i = 0; i < ( TCDE[e1] - 1 ); i++) {
 					if ( EscreveRestricao == 1){
-						cout <<" - BigM * ( 1 - Alfa[" <<v1<< "][" <<e1<< "][" <<i + 1<< "]) +  Tvei[" <<v1<< "][" <<e1<< "][" <<i + 1<< "] <=  BigM * ( 1 - Alfa[" <<v2<< "][" <<e1<< "][" <<i<< "]) + Tvei[" <<v2<< "][" <<e1<< "][" <<i<< "] + Omega["<<e1<<"]" << endl;
+						cout << " - BigM * ( 1 - ALFAvei+1[" << v1 << "][" << e1 << "][" << i + 1 << "] )";
+						cout << " + Tvei+1[" << v1 << "][" << e1 << "][" << i + 1 << "] <=";
+						cout << " BigM * ( 1 - ALFAv'ei[" <<v2<< "][" <<e1<< "][" <<i<< "] )";
+						cout << " + Tv'ei[" << v2 << "][" << e1 << "][" << i << "] + Omega[" << e1 << "]" << endl;
 					}
 					BigMauternativo = TmaxE[e1] + Omega[e1];
-					model->add( - BigMauternativo * ( 1 - Alfa[v1][e1][i+1]) +  Tvei[v1][e1][i+1] <=  BigMauternativo * ( 1 - Alfa[v2][e1][i]) + Tvei[v2][e1][i] + Omega[e1]);
+					model->add( - BigMauternativo * ( 1 - Alfa[v1][e1][i+1] ) +  Tvei[v1][e1][i+1] <=  BigMauternativo * ( 1 - Alfa[v2][e1][i] ) + Tvei[v2][e1][i] + Omega[e1]);
 					/* if( v1 == 2 && e1 == 2 && (i + 1) == 2 && v2 == 2 && e1 == 2 && i == 1){
 						cout << " $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ "<< endl;
 						cout << " - BigM * ( 1 - Alfa[" <<v1<< "][" <<e1<< "][" <<i + 1<< "]) +  Tvei[" <<v1<< "][" <<e1<< "][" <<i + 1<< "] <=  BigM * ( 1 - Alfa[" <<v2<< "][" <<e1<< "][" <<i<< "]) Tvei[" <<v2<< "][" <<e1<< "][" <<i<< "] + Omega["<<e1<<"]" << endl;
@@ -1147,7 +1163,7 @@ void No::Restricao7_TempoMaximoEntreDescarregamentosSeguidosNaMesmaEntrega( IloA
 	}
 }
 
-
+// Restrição redundante
 void No::Restricao8_NaoNegatividade(IloFloatVarArray Ze, IloFloatVarArray Zr, IloModel* model){
 	for (int e = 0; e < NE; e++) {
 		IloExpr expr(env);
@@ -1164,20 +1180,25 @@ void No::Restricao8_NaoNegatividade(IloFloatVarArray Ze, IloFloatVarArray Zr, Il
 	}
 }
 
-// Restrição 11
-void No::Restricao9_LowerBoundTveiPorTvei( IloArray < IloArray < IloFloatVarArray > > Tvei, IloModel* model, int EscreveRestricao ){
-    for (int v1 = 0; v1 < NV; v1++) {
+
+void No::Restricao9_LowerBoundTveiPorTvei( IloArray<IloArray<IloBoolVarArray> > Alfa, IloArray < IloArray < IloFloatVarArray > > Tvei, IloModel* model, int EscreveRestricao ){
+	double BigMauternativo;
+	for (int v1 = 0; v1 < NV; v1++) {
         for (int v2 = 0; v2 < NV; v2++) {
             for (int e1 = 0; e1 < NE; e1++) {
                 for (int i = 0; i < (TCDE[e1] - 1); i++) {
                     if ( EscreveRestricao == 1){
-                        cout <<"   Tvei[" <<v1<< "][" <<e1<< "][" <<i + 1<< "] <= Tvei[" <<v2<< "][" <<e1<< "][" <<i<< "] " << endl;
+                    	cout << " - BigM * ( 1 - ALFAvei[" << v1 << "][" << e1 << "][" << i << "] +";
+                    	cout << " Tvei[" << v1 << "][" << e1 << "][" << i << "] <=";
+                        cout << " Tv'ei+1[" << v2 << "][" << e1 << "][" << i + 1 << "] +";
+                        cout << " BigM * ( 1 - ALFAv'ei+1[" << v2 << "][" << e1 << "][" << i + 1 << "]" << endl;
                     }
-
-                    model->add(   Tvei[v1][e1][i] <=   Tvei[v2][e1][i+1] );
+                    BigMauternativo = TmaxE[e1];
+                    model->add(  - BigMauternativo * ( 1 - Alfa[v1][e1][i]) + Tvei[v1][e1][i] <=   Tvei[v2][e1][i+1] + BigMauternativo * ( 1 - Alfa[v2][e1][i+1] ) );
                     /*if( v1 == 2 && e1 == 2 && (i + 1) == 2 && v2 == 2 && e1 == 2 && i == 1){
                         cout << " $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ "<< endl;
-                        cout << "   Tvei[" <<v1 + 1<< "][" <<e1 + 1<< "][" <<i + 1<< "] <=  Tvei[" <<v2 + 1<< "][" <<e1 + 1 << "][" <<i + 2<< "] " << endl;
+                        cout << "  - BigM * ( 1 - ALFAvei[" << v1 << "][" << e1 << "][" << i << "] +  Tvei[" <<v1 + 1<< "][" <<e1 + 1<< "][" <<i + 1<< "] <=";
+                        cout << "  Tvei[" <<v2 + 1<< "][" <<e1 + 1 << "][" <<i + 2<< "] + BigM * ( 1 - ALFAv'ei+1[" << v2 << "][" << e1 << "][" << i + 1 << "]" << endl;
                         cout << " $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ "<< endl;
                     }*/
                 }
@@ -1193,7 +1214,10 @@ void No::Restricao10_TempoMinimoEntreDescarregamentosSeguidosNaMesmaEntrega(IloA
             for (int e1 = 0; e1 < NE; e1++) {
                 for (int i = 0; i < (TCDE[e1] - 1); i++) {
                     if ( EscreveRestricao == 1){
-                        cout <<"BigM * ( 1 - Alfa[" <<v1<< "][" <<e1<< "][" <<i +1 << "]) + Tvei[" <<v1<< "][" <<e1<< "][" <<i + 1<< "] >= Tvei[" <<v2<< "][" <<e1<< "][" <<i<< "] +  Pvi[" <<v2<< "][" <<e1<< "][" <<i<< "] - BigM * ( 1 - Alfa[" <<v2<< "][" <<e1<< "][" <<i << "])" << endl;
+                        cout << " BigM * ( 1 - ALFAvei+1[" << v1 << "][" << e1 << "][" << i +1 << "]) +";
+                        cout << " Tvei[" << v1 << "][" << e1 << "][" << i + 1 << "] >= ";
+                        cout << " Tvei[" << v2 << "][" << e1 << "][" << i << "] +  Pvi[" << v2 << "][" << e1 << "][" << i << "] ";
+                        cout << "- BigM * ( 1 - ALFAv'ei[" << v2 << "][" << e1 << "][" << i << "] )" << endl;
                     }
                     BigMauternativo = TmaxE[e1] + Pvi[v2][e1][i];
                     model->add( BigMauternativo  * ( 1 - Alfa[v1][e1][i+1]) + Tvei[v1][e1][i+1] >=   Tvei[v2][e1][i] +   Pvi[v2][e1][i] - BigMauternativo  * ( 1 - Alfa[v2][e1][i]) );
@@ -1223,16 +1247,20 @@ void No::Restricao11e12_PrecedenciaTPvei( IloArray<IloArray<IloBoolVarArray> > A
 
 							}else{
 									if ( EscreveRestricao1 == 1){
-										cout << " BigM * ( 1 - Alfa[" << vAux << "][" << e1 << "][" << i << "]) + BigM * ( 1 - Alfa[" << vAux << "][" << e2 << "][" << j << "])";
-										cout << " + BigM * ( 1- BetaProducao[" << vAux << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "])  + TPvei[" << vAux << "][" << e2 << "][" << j << "]";
-										cout << " >= TPvei[" << vAux << "][" << e1 << "][" << i << "] +  TPp[" << p << "] " << endl;
+										cout << " BigM * ( 1 - ALFAvei[" << vAux << "][" << e1 << "][" << i << "] ) ";
+										cout << " + BigM * ( 1 - ALFAve'i'[" << vAux << "][" << e2 << "][" << j << "] ) ";
+										cout << " + BigM * ( 1- BETAProd-veii'[" << vAux << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "] )";
+										cout << " + TPvei'[" << vAux << "][" << e2 << "][" << j << "] >=";
+										cout << " TPvei[" << vAux << "][" << e1 << "][" << i << "] +  TPp[" << p << "] " << endl;
 									}
 									BigMauternativo = TmaxP[p] + TPp[p];
 									model->add( BigMauternativo  * ( 1 - Alfa[vAux][e1][i] ) + BigMauternativo  * ( 1 - Alfa[vAux][e2][j] ) + BigMauternativo * ( 1 - BetaProducao[vAux][e1][i][e2][j] )  + TPvei[vAux][e2][j] >= TPvei[vAux][e1][i] +  TPp[p] );
 									if ( EscreveRestricao2 == 1){
-										cout << " BigM * ( 1 - Alfa[" << vAux << "][" << e1 << "][" << i << "]) + BigM * ( 1 - Alfa[" << vAux << "][" << e2 << "][" << j << "])";
-										cout << " + BigM * BetaProducao[" << vAux << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "]  + TPvei[" << vAux << "][" << e2 << "][" << j << "]";
-										cout << " >= TPvei[" << vAux << "][" << e1 << "][" << i << "] + TPp[" << p << "]" << endl;
+										cout << " BigM * ( 1 - ALFAvei[" << vAux << "][" << e1 << "][" << i << "] )";
+										cout << " + BigM * ( 1 - ALFAve'i'[" << vAux << "][" << e2 << "][" << j << "])";
+										cout << " + BigM * BETAProd-veii'[" << vAux << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "]";
+										cout << " + TPvei[" << vAux << "][" << e2 << "][" << i << "] >=";
+										cout << " TPvei'[" << vAux << "][" << e1 << "][" << j << "] + TPp[" << p << "]" << endl;
 									}
 									BigMauternativo = TmaxP[p] + TPp[p];
 									model->add( BigMauternativo  * ( 1 - Alfa[vAux][e1][i]) + BigMauternativo  * ( 1 - Alfa[vAux][e2][j]) + BigMauternativo  * BetaProducao[vAux][e1][i][e2][j]  + TPvei[vAux][e1][i] >= TPvei[vAux][e2][j] +  TPp[p]);
@@ -1253,7 +1281,7 @@ void No::Restricao13_TempoDeVidaDoConcreto( IloArray<IloArray<IloBoolVarArray> >
 			for (int i = 0; i < TCDE[e]; i++) {
 				if ( EscreveRestricao == 1){
 					cout << " Tvi[" << v << "][" << e << "][" << i << "] - TPvi[" << v << "][" << e << "][" << i << "] ";
-					cout << " -  BigM * ( 1 - Alfa[" << v << "][" << e << "][" << i << "] ) < = " << TVC << endl;
+					cout << " -  BigM * ( 1 - ALFAvei[" << v << "][" << e << "][" << i << "] ) <= " << TVC << endl;
 				}
 				BigMauternativo = TmaxE[e];
 				model->add( Tvei[v][e][i] - TPvei[v][e][i] - BigMauternativo  * ( 1 - Alfa[v][e][i]) <= TVC );
@@ -1268,11 +1296,11 @@ void No::Restricao14_LimiteDeTempoNaEntrega( IloArray < IloArray < IloFloatVarAr
 		for (int e1 = 0; e1 < NE; e1++) {
 			for (int i = 0; i < TCDE[e1]; i++) {
 				if ( EscreveRestricao == 1){
-					cout << "  Tvei[" <<v<< "][" <<e1<< "][" <<i<< "] >= TminE[" << e1 <<"]" << endl;
+					cout << "  Tvei[" << v << "][" << e1 << "][" << i << "] >= TminE[" << e1 <<"]" << endl;
 				}
 				model->add(  Tvei[v][e1][i] >= TminE[e1] );
 				if ( EscreveRestricao == 1){
-					cout << "  Tvei[" <<v<< "][" <<e1<< "][" <<i<< "] <= TmaxE[" << e1 <<"]" << endl;
+					cout << "  Tvei[" << v << "][" << e1 << "][" << i << "] <= TmaxE[" << e1 <<"]" << endl;
 				}
 				model->add(  Tvei[v][e1][i] <= TmaxE[e1] );
 			}
@@ -1288,11 +1316,11 @@ void No::Restricao15_LimiteDeTempoNaPlanta( IloArray < IloArray < IloFloatVarArr
 			for (int e1 = 0; e1 < NE; e1++) {
 				for (int i = 0; i < TCDE[e1]; i++) {
 					if ( EscreveRestricao == 1){
-						cout << "  TPvei[" <<vAux<< "][" <<e1<< "][" <<i<< "] >= TminP[" << p <<"]" << endl;
+						cout << "  TPvei[" << vAux << "][" << e1 << "][" << i << "] >= TminP[" << p <<"]" << endl;
 					}
 					model->add(  TPvei[vAux][e1][i] >= TminP[p] );
 					if ( EscreveRestricao == 1){
-						cout << "  TPvei[" <<vAux<< "][" <<e1<< "][" <<i<< "] <= TmaxP[" << p <<"]" << endl;
+						cout << "  TPvei[" << vAux << "][" << e1 << "][" << i << "] <= TmaxP[" << p <<"]" << endl;
 					}
 					model->add(  TPvei[vAux][e1][i] <= TmaxP[p] );
 				}
@@ -1908,7 +1936,7 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 // Restrição  2 : de lower bound Ze
 	Restricao2_LowerBoundZe(Ze, Tvei, Alfa, &model);
 // Restrição  3 : de lower bound Tvi
-	Restricao3_LowerBoundTveiPorTvp( Tvei, TPvei, Alfa, &model,EscreveRestricao3);
+	//Restricao3_LowerBoundTveiPorTvp( Tvei, TPvei, Alfa, &model,EscreveRestricao3);
 // Restrição  4 : de lower bound Zr
 	Restricao4_LowerBoundZr( Zr, Tvei, Alfa, &model, EscreveRestricao4);
 // Restrição  5 e 6: de precedencia
@@ -1917,10 +1945,12 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	Restricao7_TempoMaximoEntreDescarregamentosSeguidosNaMesmaEntrega(  Alfa, Tvei, &model, EscreveRestricao7 );
 
 // Restrição 8
-	Restricao8_NaoNegatividade(Ze, Zr, &model);
+	//Restricao8_NaoNegatividade(Ze, Zr, &model);
+
+	/* %%%%%%%%%%%%%%%%%%%%%% está restrição pode ser redundante %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 // Restrição 9
-    Restricao9_LowerBoundTveiPorTvei( Tvei, &model, EscreveRestricao9 );
+    Restricao9_LowerBoundTveiPorTvei( Alfa, Tvei, &model, EscreveRestricao9 );
 // Restrição 10
     Restricao10_TempoMinimoEntreDescarregamentosSeguidosNaMesmaEntrega(Alfa, Tvei, &model, EscreveRestricao10 );
 // Restrição 11 e 12
