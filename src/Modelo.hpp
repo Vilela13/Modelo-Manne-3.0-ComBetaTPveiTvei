@@ -103,6 +103,7 @@ public:
 	void CriaAlfa(IloArray<IloArray<IloBoolVarArray> >* , int);
 	void CriaBeta(IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > >*, int);
 	void CriaBetaProducao(IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > >*, int);
+	void CriaBetaTPviTvi(IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > >* , int );
 	void CriaZe(IloFloatVarArray*, int);
 	void CriaZr(IloFloatVarArray*, int);
 
@@ -968,6 +969,44 @@ void No::CriaBetaProducao(IloArray< IloArray< IloArray< IloArray< IloBoolVarArra
 	*BetaProducao = Beta2;
 }
 
+void No::CriaBetaTPviTvi(IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > >* BetaTPviTvi, int Escreve ){
+	char varName[24];
+	IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > Beta2(env, NV);
+	for (int p = 0; p < NP; p++) {
+		Beta2[p] = IloArray< IloArray< IloArray< IloBoolVarArray> > >(env, NE);
+		for (int e1 = 0; e1 < NE; e1++) {
+			Beta2[p][e1] =  IloArray< IloArray< IloBoolVarArray > > (env, TCDE[e1]);
+			for (int i = 0; i < TCDE[e1]; i++) {
+				Beta2[p][e1][i] =   IloArray< IloBoolVarArray >  (env, NE);
+				for (int e2 = 0; e2 < NE; e2++) {
+					Beta2[p][e1][i][e2] =  IloBoolVarArray (env, TCDE[e2]);
+					for (int j = 0; j < TCDE[e2]; j++) {
+						if( e1 == e2 and i == j){
+
+						}else{
+							if( e1 == e2){
+								sprintf(varName, "BetaProd_%d_%d_%d_%d_%d", p, e1, i, e2,  j);
+								Beta2[p][e1][i][e2][j] = IloBoolVar(env,varName);
+								if ( Escreve == 1){
+									cout << " BetaProducao["<< p << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "] "<< endl;
+								}
+							}
+						}
+					}
+					if ( Escreve == 1){
+						cout << endl;
+					}
+				}
+			}
+		}
+		if ( Escreve == 1){
+			cout << endl;
+			cout << endl;
+		}
+	}
+	*BetaTPviTvi = Beta2;
+}
+
 void No::CriaZe(IloFloatVarArray* Ze , int Escreve){
 	char varName[24];
 	IloFloatVarArray Ze2(env,NE);
@@ -1259,8 +1298,8 @@ void No::Restricao11e12_PrecedenciaTPvei( IloArray<IloArray<IloBoolVarArray> > A
 										cout << " BigM * ( 1 - ALFAvei[" << vAux << "][" << e1 << "][" << i << "] )";
 										cout << " + BigM * ( 1 - ALFAve'i'[" << vAux << "][" << e2 << "][" << j << "])";
 										cout << " + BigM * BETAProd-veii'[" << vAux << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "]";
-										cout << " + TPvei[" << vAux << "][" << e2 << "][" << i << "] >=";
-										cout << " TPvei'[" << vAux << "][" << e1 << "][" << j << "] + TPp[" << p << "]" << endl;
+										cout << " + TPvei[" << vAux << "][" << e1 << "][" << i << "] >=";
+										cout << " TPvei'[" << vAux << "][" << e2 << "][" << j << "] + TPp[" << p << "]" << endl;
 									}
 									BigMauternativo = TmaxP[p] + TPp[p];
 									model->add( BigMauternativo  * ( 1 - Alfa[vAux][e1][i]) + BigMauternativo  * ( 1 - Alfa[vAux][e2][j]) + BigMauternativo  * BetaProducao[vAux][e1][i][e2][j]  + TPvei[vAux][e1][i] >= TPvei[vAux][e2][j] +  TPp[p]);
@@ -1353,6 +1392,69 @@ void No::Restricao16_TPveiLimitadoPorTvei(IloArray < IloArray < IloFloatVarArray
 		}
 	}
 }
+
+
+
+
+
+
+void No::Restricao17e18_PrecedenciaTPveiTvei( IloArray<IloArray<IloBoolVarArray> > Alfa,IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > BetaTPviTvi,IloArray < IloArray < IloFloatVarArray > > TPvei,IloArray < IloArray < IloFloatVarArray > > Tvei, IloModel* model, int EscreveRestricao1, int EscreveRestricao2){
+	double BigMauternativo;
+	int v1Aux;
+	int v2Aux;
+	int vArmazena;
+	for (int e1 = 0; e1 < NE; e1++) {
+		for (int i = 0; i < TCDE[e1]; i++) {
+			for (int e2 = 0; e2 < NE; e2++) {
+				for (int j = 0; j < TCDE[e2]; j++) {
+					v1Aux = 0;
+					for (int p = 0; p < NP; p++) {
+						for (int v1 = 0; v1 < TCVP[p]; v1++) {
+							if( v1 == 0){
+								vArmazena = v1Aux;
+							}
+							for (int v2 = 0; v2 < TCVP[p]; v2++) {
+								if( v2 == 0){
+									v2Aux = vArmazena;
+								}
+								if ( i == j and e1 == e2){
+
+								}else{
+										if ( EscreveRestricao1 == 1){
+											cout << " BigM * ( 1 - ALFAvei[" << vAux << "][" << e1 << "][" << i << "] ) ";
+											cout << " + BigM * ( 1 - ALFAve'i'[" << vAux << "][" << e2 << "][" << j << "] ) ";
+											cout << " + BigM * ( 1- BETAProd-veii'[" << vAux << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "] )";
+											cout << " + TPvei'[" << vAux << "][" << e2 << "][" << j << "] >=";
+											cout << " TPvei[" << vAux << "][" << e1 << "][" << i << "] +  TPp[" << p << "] " << endl;
+										}
+										BigMauternativo = TmaxP[p] + TPp[p];
+										model->add( BigMauternativo  * ( 1 - Alfa[vAux][e1][i] ) + BigMauternativo  * ( 1 - Alfa[vAux][e2][j] ) + BigMauternativo * ( 1 - BetaProducao[vAux][e1][i][e2][j] )  + TPvei[vAux][e2][j] >= TPvei[vAux][e1][i] +  TPp[p] );
+										if ( EscreveRestricao2 == 1){
+											cout << " BigM * ( 1 - ALFAvei[" << vAux << "][" << e1 << "][" << i << "] )";
+											cout << " + BigM * ( 1 - ALFAve'i'[" << vAux << "][" << e2 << "][" << j << "])";
+											cout << " + BigM * BETAProd-veii'[" << vAux << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "]";
+											cout << " + TPvei[" << vAux << "][" << e2 << "][" << i << "] >=";
+											cout << " TPvei'[" << vAux << "][" << e1 << "][" << j << "] + TPp[" << p << "]" << endl;
+										}
+										BigMauternativo = TmaxP[p] + TPp[p];
+										model->add( BigMauternativo  * ( 1 - Alfa[vAux][e1][i]) + BigMauternativo  * ( 1 - Alfa[vAux][e2][j]) + BigMauternativo  * BetaProducao[vAux][e1][i][e2][j]  + TPvei[vAux][e1][i] >= TPvei[vAux][e2][j] +  TPp[p]);
+								}
+								v2Aux = v2Aux + 1;
+							}
+							v1Aux = v1Aux + 1;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
+
 
 void No::VerificaOuCriaPastaOut(int EscreveNaTelaResultados){
 	if(!opendir ("Out")){
@@ -1871,6 +1973,12 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 
 
 
+// Variavel BETATPviTvi
+	IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > BetaTPviTvi(env, NV);
+	CriaBetaTPviTvi(&BetaTPviTvi,Escreve );
+
+
+
 // Variavel Ze
 
 	IloFloatVarArray Ze(env,NE);
@@ -1935,8 +2043,11 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	Restricao1_AtendimentoDasDemandas(Alfa, &model);
 // Restrição  2 : de lower bound Ze
 	Restricao2_LowerBoundZe(Ze, Tvei, Alfa, &model);
+
 // Restrição  3 : de lower bound Tvi
-	//Restricao3_LowerBoundTveiPorTvp( Tvei, TPvei, Alfa, &model,EscreveRestricao3);
+	Restricao3_LowerBoundTveiPorTvp( Tvei, TPvei, Alfa, &model,EscreveRestricao3);
+
+
 // Restrição  4 : de lower bound Zr
 	Restricao4_LowerBoundZr( Zr, Tvei, Alfa, &model, EscreveRestricao4);
 // Restrição  5 e 6: de precedencia
@@ -1964,7 +2075,9 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	Restricao15_LimiteDeTempoNaPlanta(  TPvei, &model, EscreveRestricao15 );
 
 // Restrição 16
-	Restricao16_TPveiLimitadoPorTvei( TPvei, Tvei,&model, EscreveRestricao16 );
+	//Restricao16_TPveiLimitadoPorTvei( TPvei, Tvei,&model, EscreveRestricao16 );
+
+
 
 // Modelo
 	IloCplex cplex(model);
