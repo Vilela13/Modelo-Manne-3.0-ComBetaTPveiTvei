@@ -1,0 +1,2 @@
+Teste1.txt => planta atender a uma construção que está mais perto de outra planta
+Teste2.txt =>
