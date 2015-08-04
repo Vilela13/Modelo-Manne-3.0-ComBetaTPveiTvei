@@ -22,7 +22,7 @@
 #define TipoPvi vector < vector < vector < double > > >
 #define TipoTPp vector < double >
 #define TipoOmega vector <  double  >
-#define TipoSvii vector < vector < vector < vector < vector < double > > > > >
+#define TipoSvii vector < vector < vector < double  > > >
 
 #define TipoTminE vector <  double  >
 #define TipoTmaxE vector <  double  >
@@ -87,6 +87,8 @@ public:
     void LeTempoCarregamentoPlanta(int);
     void LeTempoMaximoEntreEntregasConsecultivas(int);
     void CalculaTempoMinimoDeAtendimentoEntreDuasEntregas(int);
+    void LeIntervalosNasEntregas(int);
+    void LeIntervalosNasPlantas(int);
 
     int  LeDados(char*);
 
@@ -161,37 +163,18 @@ public:
 
 	void VerificaOuCriaPastaOut(int);
 	void VerificaOuCriaPastaSol(int);
-	void InicializaVariaveisImprimir();
-
-	void PegaValoresDasVariaveisAlfa( IloCplex , IloArray<IloArray<IloBoolVarArray> >);
-	void PegaValoresDasVariaveisBeta( IloCplex ,IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > );
-	void PegaValoresDasVariaveisZe( IloCplex, IloFloatVarArray);
-	void PegaValoresDasVariaveisZr( IloCplex, IloFloatVarArray);
-	void PegaValoresDasVariaveisTvei(IloCplex, IloArray < IloArray < IloFloatVarArray > > );
-	void PegaValoresDasVariaveisTPvei(IloCplex, IloArray < IloArray < IloFloatVarArray > >);
 
 
 	void EscreveVariaveisAlfaDoModeloAposResolucao(int , int ,ofstream* , IloCplex , TipoAlfa );
-	void EscreveVariaveisBetaDoModeloAposResolucao(int , int ,ofstream* , IloCplex , IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > );
-	void EscreveVariaveisTveiDoModeloAposResolucao(int , int ,ofstream* , IloCplex , IloArray < IloArray < IloFloatVarArray > > );
-	void EscreveVariaveisTPveiDoModeloAposResolucao(int , int ,ofstream* , IloCplex, IloArray < IloArray < IloFloatVarArray > >  );
-	void EscreveVariaveisZeDoModeloAposResolucao(int , int ,ofstream*, IloCplex, IloFloatVarArray);
-	void EscreveVariaveisZrDoModeloAposResolucao(int , int ,ofstream*, IloCplex, IloFloatVarArray);
+	void EscreveVariaveisBetaDoModeloAposResolucao(int, int, ofstream*, IloCplex,  TipoBeta);
+	void EscreveVariaveisTveiDoModeloAposResolucao(int, int, ofstream*, IloCplex, TipoTvei);
+	void EscreveVariaveisTPveiDoModeloAposResolucao(int, int, ofstream*, IloCplex, TipoTPvei);
+	void EscreveVariaveisZeDoModeloAposResolucao(int, int, ofstream*, IloCplex, TipoZe);
+	void EscreveVariaveisZrDoModeloAposResolucao(int , int ,ofstream*, IloCplex, TipoZr);
 
-	void EscreveItinerarioVeiculos( int,int, ofstream*, IloCplex, IloArray<IloArray<IloBoolVarArray> >, IloArray < IloArray < IloFloatVarArray > >,IloArray < IloArray < IloFloatVarArray > > );
-	void EscreveEntregasNosClientes(int,int, ofstream*, IloCplex , IloArray<IloArray<IloBoolVarArray> > , IloArray < IloArray < IloFloatVarArray > >  );
-	void EscreveUtilizacaoVeiculos(int ,int, ofstream*, IloCplex , IloArray<IloArray<IloBoolVarArray> > , IloArray < IloArray < IloFloatVarArray > >  );
-
-
-
-// Variaveis para imprimir
-	vector < vector < vector < int > > > AlfaImprimir;
-	vector < vector < vector < vector < vector < int > > > > > BetaImprimir;
-	vector < double > ZeImprimir;
-	vector < double > ZrImprimir;
-	vector < vector < vector < double > > > TveiImprime;
-	vector < vector < vector < double > > > TPveiImprime;
-
+	void EscreveItinerarioVeiculos(int, int, ofstream*, IloCplex, TipoAlfa, TipoTvei, TipoTPvei);
+	void EscreveEntregasNosClientes(int, int, ofstream*, IloCplex, TipoAlfa, TipoTvei);
+	void EscreveUtilizacaoVeiculos(int, int, ofstream*, IloCplex, TipoAlfa, TipoTvei);
 
 
 // Funções que chama o Cplex
@@ -213,8 +196,6 @@ public:
     ~No();       // Destruidora
 };
 
-
-
 No::No(){
 	NumPlantas = 131313;
 	NumEntregas = 131313;
@@ -230,7 +211,6 @@ No::No(){
 void No::PreencheEstrutura(){
 
 /* Coloca o numero de plantas, entregas, veiculos e velocidade */
-
 	NumPlantas = NumeroDePlantasVariaveisFixas;
 	NumEntregas = NumeroDeEntregasVariaveisFixas;
 	NumVeiculos = NumeroDeVeiculosVariaveisFixas;
@@ -238,7 +218,6 @@ void No::PreencheEstrutura(){
 	TempoDeVidaConcreto = TempoDeVidaConcretoVariaveisFixas;
 
 /* Preenche o numero veiculos por planta  */
-
 	TamanhoConjuntoVeiculoPlanta.resize( NumPlantas );
 	TamanhoConjuntoVeiculoPlanta[0]=3;
 	TamanhoConjuntoVeiculoPlanta[1]=2;
@@ -261,7 +240,6 @@ void No::PreencheEstrutura(){
 	}
 
 /* Preenche o numero de demandas por entrada  */
-
 	TamanhoConjuntoDemandasEntrada.resize(NumEntregas);
 	TamanhoConjuntoDemandasEntrada[0] = 2;
 	TamanhoConjuntoDemandasEntrada[1] = 1;
@@ -277,7 +255,6 @@ void No::PreencheEstrutura(){
 	}
 
 /* Preenche as localizações das plantas e entradas  */
-
 	Localizacao.resize( NumPlantas + NumEntregas);
 	for( int i = 0 ; i < NumPlantas + NumEntregas ; i++){
 		Localizacao[i].resize( 2);
@@ -294,12 +271,10 @@ void No::PreencheEstrutura(){
 	Localizacao[5][0]= 0;	Localizacao[5][1]= -5;//Entrada 4
 
 /* Distâncias das Plantas para as Entradas */
-
 	DistanciaPlantaEntrega.resize( NumPlantas);
 	for( int i = 0; i <  NumPlantas; i++){
 		DistanciaPlantaEntrega[i].resize( NumEntregas);
 	}
-
 	for( int i = 0; i <  NumPlantas; i++){
 	    for( int j = NumPlantas; j <  (NumPlantas + NumEntregas); j++){
 	    	DistanciaPlantaEntrega[i][j-NumPlantas] = sqrt( pow( Localizacao[i][0] - Localizacao[j][0],2) + pow( Localizacao[i][1] - Localizacao[j][1],2) ) / Velocidade;
@@ -307,7 +282,6 @@ void No::PreencheEstrutura(){
 	}
 
 /* Distâncias das Entradas para as Plantas */
-
 	DistanciaEntregaPlanta.resize( NumEntregas);
 		for( int i = 0; i <  NumEntregas; i++){
 			DistanciaEntregaPlanta[i].resize( NumPlantas);
@@ -320,7 +294,6 @@ void No::PreencheEstrutura(){
 	}
 
 /* Tempo para descarregamento de cada veiculo */
-
 	TempoParaDescarregamento.resize( NumVeiculos);
 	for( int i = 0; i <  NumVeiculos; i++){
 		TempoParaDescarregamento[i].resize( NumEntregas);
@@ -338,14 +311,11 @@ void No::PreencheEstrutura(){
 		TempoNaPlanta[p] = 0.083333333; // equivalente a 5 minutos(4 min = 0.066667 ; 3min = 0.05 e 2min = 0.0333333)
 	}
 
-
 /* Tempo entre chegadas */
-
 	TempoEntreChegadas.resize(NumEntregas);
 	for( int j = 0; j <  NumEntregas; j++){
 		TempoEntreChegadas[j] = 0.3;
 	}
-
 
 /*  Tempo inicio e termino Entrada */
 	 TempoInicioEntrada.resize(NumEntregas);
@@ -366,7 +336,6 @@ void No::PreencheEstrutura(){
 	 for( int i = 0; i <  NumPlantas; i++){
 		TempoFinalPlanta[i] = 16;
 	 }
-
 
 }
 
@@ -409,7 +378,6 @@ cout << "Conjunto de Veiculos por Planta " << endl;
     	cout << endl;
     	Instancia << endl;
 	}
-
 
 cout << "Conjunto de Demandas por Entrega " << endl;
 	for( int i = 0; i <  NumEntregas; i++){
@@ -456,7 +424,6 @@ cout << "Distancia Entrega - Planta " << endl;
 	}
 
 cout << "Tempo Para Descarregamento " << endl;
-
 	for( int i = 0; i <  NumVeiculos; i++){
 	cout << '\t' << '\t' << "Veiculo " << i+1 << endl;
 	Instancia << i+1 << endl;
@@ -481,7 +448,6 @@ cout << "Tempo Para Carregamento " << endl;
 	Instancia << endl;
 
 cout << " Tempo entre chagadas " << endl;
-
 	for( int j = 0; j <  NumEntregas; j++){
 		cout << TempoEntreChegadas[j] << '\t';
 		Instancia << TempoEntreChegadas[j] << '\t';
@@ -521,7 +487,7 @@ cout << " Tempo Final Planta " << endl;
 	 cout << endl;
 	 Instancia << endl;
 
-    Instancia.close();
+	 Instancia.close();
 }
 
 void No::LeNomeInstancia(int comentarios, string* Instancia){
@@ -665,7 +631,6 @@ void No::LeDistanciaEntregaPlanta(int comentarios){
 	}
 }
 
-
 void No::LeTempoProcessamentoEntrega(int comentarios){
 	int Aux1;
 
@@ -723,13 +688,9 @@ void No::LeTempoCarregamentoPlanta(int comentarios){
 // le tempos entre chegadas
 void No::LeTempoMaximoEntreEntregasConsecultivas(int comentarios){
 	Omega.resize(NE);
-
-
-
 	if( comentarios == 1){
 		cout << " Tempo entre chagadas " << endl;
 	}
-
 	for( int e = 0; e <  NE; e++){
 		arq >>Omega[e];
 		if( comentarios == 1){
@@ -748,16 +709,9 @@ void No::CalculaTempoMinimoDeAtendimentoEntreDuasEntregas(int comentarios){
 	for( int v = 0; v <  NV; v++){
 		 Svii[v].resize(NE);
 		 for( int e1 = 0; e1 <  NE; e1++){
-			 Svii[v][e1].resize(TCDE[e1]);
-			 for (int i = 0; i < TCDE[e1]; i++) {
-				 Svii[v][e1][i].resize(NE);
-				 for( int e2 = 0; e2 <  NE; e2++){
-					 Svii[v][e1][i][e2].resize(TCDE[e2]);
-				 }
-			 }
+			 Svii[v][e1].resize(NE);;
 		 }
 	}
-
 	if( comentarios == 1){
 		cout << " Tempo para ir de uma entrada a outra " << endl;
 	}
@@ -769,19 +723,17 @@ void No::CalculaTempoMinimoDeAtendimentoEntreDuasEntregas(int comentarios){
 			}
 			for( int e1 = 0; e1 <  NE; e1++){
 				for( int e2 = 0; e2 <  NE; e2++){
-					for( int i = 0; i < TCDE[e1]; i++){
+					if( comentarios == 1){
+						cout << " Entrega [" << e1 + 1 << "] para a Entrega [" << e2+ 1 << "] = ";
+					}
+					for( int j = 0; j < TCDE[e2]; j++){
+						Svii[Aux2][e1][e2] = Dep[e1][p] + TPp[p] + Dpe[p][e2];
 						if( comentarios == 1){
-							cout << " Demanda [" << e1 + 1 << "][" << i + 1 << "] para as " << TCDE[e2] << " demandas de [" << e2+ 1 << "] = ";
+							cout << Svii[Aux2][e1][e2] << '\t';
 						}
-						for( int j = 0; j < TCDE[e2]; j++){
-							Svii[Aux2][e1][i][e2][j] = Dep[e1][p] + TPp[p] + Dpe[p][e2];
-							if( comentarios == 1){
-								cout << Svii[Aux2][e1][i][e2][j] << '\t';
-							}
-						}
-						if( comentarios == 1){
-							cout << endl;
-						}
+					}
+					if( comentarios == 1){
+						cout << endl;
 					}
 				}
 				if( comentarios == 1){
@@ -790,6 +742,66 @@ void No::CalculaTempoMinimoDeAtendimentoEntreDuasEntregas(int comentarios){
 			 }
 			Aux2 = Aux2 + 1;
 		}
+	}
+}
+
+// le  tempo inicio e final entrada
+void No::LeIntervalosNasEntregas(int comentarios){
+	TminE.resize(NE);
+	if( comentarios == 1){
+		cout << " Tempo Inicio Entrada " << endl;
+	}
+	 for( int i = 0; i <  NE; i++){
+		 arq >> TminE[i];
+		 if( comentarios == 1){
+			 cout << i + 1 << ' ' << TminE[i]<< endl;
+		 }
+	 }
+	 if( comentarios == 1){
+		 cout << endl;
+	 }
+	TmaxE.resize(NE);
+	if( comentarios == 1){
+		cout << " Tempo Final Entrada " << endl;
+	}
+	for( int i = 0; i <  NE; i++){
+		arq >> TmaxE[i];
+		if( comentarios == 1){
+			cout << i + 1 << ' ' << TmaxE[i]<< endl;
+		}
+	 }
+	if( comentarios == 1){
+		cout << endl;
+	}
+}
+
+// le  tempo inicio e final planta
+void No::LeIntervalosNasPlantas(int comentarios){
+	 TminP.resize(NP);
+	 if( comentarios == 1){
+		 cout << " Tempo Inicio Planta " << endl;
+	 }
+	 for( int i = 0; i <  NP; i++){
+		 arq >> TminP[i];
+		 if( comentarios == 1){
+			 cout << i + 1 << ' ' << TminP[i] << endl;
+		 }
+	 }
+	 if( comentarios == 1){
+		 cout << endl;
+	 }
+	TmaxP.resize(NP);
+	if( comentarios == 1){
+		cout << " Tempo Final Planta " << endl;
+	}
+	for( int i = 0; i <  NP; i++){
+		arq >> TmaxP[i];
+		if( comentarios == 1){
+			cout << i + 1 << ' ' << TmaxP[i] << endl;
+		}
+	}
+	if( comentarios == 1){
+		cout << endl;
 	}
 }
 
@@ -813,98 +825,19 @@ int No::LeDados(char *a){
 
 	arq.open(b);
 	if (arq.is_open()){
-
 		LeNomeInstancia(comentarios, &Instancia);
-
 		LeNumeroPlantasEntregasVeiculos(comentarios);
-
 		LeVelocidadeTempoVidaConcreto(comentarios);
-
 		LeVeiculoPorPlanta(comentarios);
-
 		LeDemandasPorEntrada(comentarios);
-
 		LeDistanciaPlantaEntrada(comentarios);
-
 		LeDistanciaEntregaPlanta(comentarios);
-
 		LeTempoProcessamentoEntrega(comentarios);
-
 		LeTempoCarregamentoPlanta(comentarios);
-
 		LeTempoMaximoEntreEntregasConsecultivas(comentarios);
-
 		CalculaTempoMinimoDeAtendimentoEntreDuasEntregas(comentarios);
-
-
-
-
-
-
-
-
-	// le  tempo inicio e final entrada
-
-		TminE.resize(NE);
-		if( comentarios == 1){
-			cout << " Tempo Inicio Entrada " << endl;
-		}
-		 for( int i = 0; i <  NE; i++){
-			 arq >> TminE[i];
-			 if( comentarios == 1){
-				 cout << i + 1 << ' ' << TminE[i]<< endl;
-			 }
-		 }
-		 if( comentarios == 1){
-			 cout << endl;
-		 }
-
-		TmaxE.resize(NE);
-		if( comentarios == 1){
-			cout << " Tempo Final Entrada " << endl;
-		}
-		for( int i = 0; i <  NE; i++){
-			arq >> TmaxE[i];
-			if( comentarios == 1){
-				cout << i + 1 << ' ' << TmaxE[i]<< endl;
-			}
-		 }
-		if( comentarios == 1){
-			cout << endl;
-		}
-
-	// le  tempo inicio e final planta
-		 TminP.resize(NP);
-		 if( comentarios == 1){
-			 cout << " Tempo Inicio Planta " << endl;
-		 }
-		 for( int i = 0; i <  NP; i++){
-			 arq >> TminP[i];
-			 if( comentarios == 1){
-				 cout << i + 1 << ' ' << TminP[i] << endl;
-			 }
-		 }
-		 if( comentarios == 1){
-			 cout << endl;
-		 }
-
-		TmaxP.resize(NP);
-		if( comentarios == 1){
-			cout << " Tempo Final Planta " << endl;
-		}
-		for( int i = 0; i <  NP; i++){
-			arq >> TmaxP[i];
-			if( comentarios == 1){
-				cout << i + 1 << ' ' << TmaxP[i] << endl;
-			}
-		}
-		if( comentarios == 1){
-			cout << endl;
-		}
-
-
-
-
+		LeIntervalosNasEntregas(comentarios);
+		LeIntervalosNasPlantas(comentarios);
 		arq.close();
 		return 1;
 	}else{
@@ -1100,10 +1033,12 @@ void No::Restricao_AtendimentoDasDemandas(TipoAlfa Alfa, IloModel* model, int Es
 			IloExpr expr(env);
 			for (int v = 0; v < NV; v++) {
 				expr += Alfa[v][e][i];
-				if( v < ( NV - 1 ) ) {
-					cout << " ALFAvei[" << v << "][" << e << "][" << i << "] +";
-				}else{
-					cout << " ALFAvei[" << v << "][" << e << "][" << i << "] = 1" << endl;
+				if ( Escreve == 1){
+					if( v < ( NV - 1 ) ) {
+						cout << " ALFAvei[" << v << "][" << e << "][" << i << "] +";
+					}else{
+						cout << " ALFAvei[" << v << "][" << e << "][" << i << "] = 1" << endl;
+					}
 				}
 			}
 			model->add(expr == 1);
@@ -1177,29 +1112,27 @@ void No::Restricao_PrecedenciaTvei( TipoAlfa Alfa,TipoBeta Beta,TipoTvei Tvei, I
 						if ( i == j and e1 == e2){
 
 						}else{
-							//if( e1 == e2){
-								if ( EscrveRestricao1 == 1){
-									cout << " BigM * ( 1 - ALFAvei[" << v << "][" << e1 << "][" << i << "]) +";
-									cout << " BigM * ( 1 - ALFAve'i'[" << v << "][" << e2 << "][" << j << "]) +";
-									cout << " BigM * ( 1 - BETAveie'i'[" << v << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "])";
-									cout << " + Tve'i'[" << v << "][" << e2 << "][" << j << "] >= Tvei[" << v << "][" << e1 << "][" << i << "]";
-									cout << " + Pvei[" << v << "][" << e1 << "][" << i << "]";
-									cout << " + Sveie'i'[" << v << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "]" << endl;
-								}
-								BigMauternativo = TmaxE[e1] + Pvi[v][e1][i] + Svii[v][e1][i][e2][j];
-								model->add( BigMauternativo * ( 1 - Alfa[v][e1][i] ) + BigMauternativo * ( 1 - Alfa[v][e2][j] ) + BigMauternativo * ( 1 - Beta[v][e1][i][e2][j] ) + Tvei[v][e2][j] >= Tvei[v][e1][i] + Pvi[v][e1][i] + Svii[v][e1][i][e2][j] );
-								if ( EscreveRestricao2 == 1){
-									cout << " BigM * ( 1 - ALFAvei[" << v << "][" << e1 << "][" << i << "]) +";
-									cout << " BigM * ( 1 - ALFAve'i'[" << v << "][" << e2 << "][" << j << "]) +";
-									cout << " BigM * BETAveie'i'[" << v << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "]";
-									cout << " + Tvei[" << v << "][" << e1 << "][" << i << "] >= Tvei'[" << v << "][" << e2 << "][" << j << "]";
-									cout << " + Pvi'[" << v << "][" << e2 << "][" << j << "]";
-									cout << " + Svi'i[" << v << "][" << e2 << "][" << j << "][" << e1 << "][" << i << "]" << endl;
-								}
-								BigMauternativo = TmaxE[e2] + Pvi[v][e2][j] + Svii[v][e2][j][e1][i];
-								model->add( BigMauternativo * ( 1 - Alfa[v][e1][i] ) + BigMauternativo * ( 1 - Alfa[v][e2][j] ) + BigMauternativo * Beta[v][e1][i][e2][j] + Tvei[v][e1][i] >= Tvei[v][e2][j] + Pvi[v][e2][j] + Svii[v][e2][j][e1][i] );
+							if ( EscrveRestricao1 == 1){
+								cout << " BigM * ( 1 - ALFAvei[" << v << "][" << e1 << "][" << i << "]) +";
+								cout << " BigM * ( 1 - ALFAve'i'[" << v << "][" << e2 << "][" << j << "]) +";
+								cout << " BigM * ( 1 - BETAveie'i'[" << v << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "])";
+								cout << " + Tve'i'[" << v << "][" << e2 << "][" << j << "] >= Tvei[" << v << "][" << e1 << "][" << i << "]";
+								cout << " + Pvei[" << v << "][" << e1 << "][" << i << "]";
+								cout << " + Svee'[" << v << "][" << e1 << "][" << e2 << "]" << endl;
 							}
-						//}
+							BigMauternativo = TmaxE[e1] + Pvi[v][e1][i] + Svii[v][e1][e2];
+							model->add( BigMauternativo * ( 1 - Alfa[v][e1][i] ) + BigMauternativo * ( 1 - Alfa[v][e2][j] ) + BigMauternativo * ( 1 - Beta[v][e1][i][e2][j] ) + Tvei[v][e2][j] >= Tvei[v][e1][i] + Pvi[v][e1][i] + Svii[v][e1][e2] );
+							if ( EscreveRestricao2 == 1){
+								cout << " BigM * ( 1 - ALFAvei[" << v << "][" << e1 << "][" << i << "]) +";
+								cout << " BigM * ( 1 - ALFAve'i'[" << v << "][" << e2 << "][" << j << "]) +";
+								cout << " BigM * BETAveie'i'[" << v << "][" << e1 << "][" << i << "][" << e2 << "][" << j << "]";
+								cout << " + Tvei[" << v << "][" << e1 << "][" << i << "] >= Tvei'[" << v << "][" << e2 << "][" << j << "]";
+								cout << " + Pvi'[" << v << "][" << e2 << "][" << j << "]";
+								cout << " + Svi'i[" << v << "][" << e2 << "][" << e1 << "]" << endl;
+							}
+							BigMauternativo = TmaxE[e2] + Pvi[v][e2][j] + Svii[v][e2][e1];
+							model->add( BigMauternativo * ( 1 - Alfa[v][e1][i] ) + BigMauternativo * ( 1 - Alfa[v][e2][j] ) + BigMauternativo * Beta[v][e1][i][e2][j] + Tvei[v][e1][i] >= Tvei[v][e2][j] + Pvi[v][e2][j] + Svii[v][e2][e1] );
+						}
 					}
 				}
 			}
@@ -1209,22 +1142,6 @@ void No::Restricao_PrecedenciaTvei( TipoAlfa Alfa,TipoBeta Beta,TipoTvei Tvei, I
 
 void No::Restricao_TempoMaximoEntreDescarregamentosSeguidosNaMesmaEntrega( TipoAlfa Alfa,TipoTvei Tvei, IloModel* model, int EscreveRestricao ){
 	double BigMauternativo;
-	/*
-		for (int v1 = 0; v1 < NV; v1++) {
-			for (int v2 = 0; v2 < NV; v2++) {
-				for (int e1 = 0; e1 < NE; e1++) {
-					for (int i = 0; i < (TCDE[e1] - 1); i++) {
-						if ( Escreve == 1){
-							cout << "  Tvei[" <<v1<< "][" <<e1<< "][" <<i+1<< "] >= Tvei[" <<v2<< "][" <<e1<< "][" <<i<< "] + Omega["<<e1<<"]" << endl;
-						}
-							model.add(  Tvei[v1][e1][i+1] >= Tvei[v2][e1][i] + Omega[e1]);
-					}
-				}
-			}
-		}
-
-	*/
-	// Com o Big M
 
 	for (int v1 = 0; v1 < NV; v1++) {
 		for (int v2 = 0; v2 < NV; v2++) {
@@ -1259,7 +1176,6 @@ void No::Restricao_NaoNegatividade(TipoZe Ze, TipoZr Zr, IloModel* model){
 		model->add(expr >= 0);
 		expr.end();
 	}
-
 	for (int p = 0; p < NP; p++) {
 		IloExpr expr(env);
 		expr += Zr[p];
@@ -1267,7 +1183,6 @@ void No::Restricao_NaoNegatividade(TipoZe Ze, TipoZr Zr, IloModel* model){
 		expr.end();
 	}
 }
-
 
 void No::Restricao_LowerBoundTveiPorTvei( TipoAlfa Alfa, TipoTvei Tvei, IloModel* model, int EscreveRestricao ){
 	double BigMauternativo;
@@ -1322,7 +1237,6 @@ void No::Restricao_TempoMinimoEntreDescarregamentosSeguidosNaMesmaEntrega(TipoAl
     }
 }
 
-
 void No::Restricao_PrecedenciaTPvei( TipoAlfa Alfa,TipoBeta BetaProducao,TipoTPvei TPvei, IloModel* model, int EscreveRestricao1, int EscreveRestricao2){
 	double BigMauternativo;
 	int v1Aux;
@@ -1374,7 +1288,6 @@ void No::Restricao_PrecedenciaTPvei( TipoAlfa Alfa,TipoBeta BetaProducao,TipoTPv
 		}
 	}
 }
-
 
 void No::Restricao_TempoDeVidaDoConcreto( TipoAlfa Alfa,TipoTvei Tvei, TipoTPvei TPvei, IloModel* model, int EscreveRestricao){
 	double BigMauternativo;
@@ -1432,8 +1345,6 @@ void No::Restricao_LimiteDeTempoNaPlanta( TipoTvei TPvei, IloModel* model, int E
 	}
 }
 
-
-
 void No::Restricao_TPveiLimitadoPorTvei(TipoAlfa Alfa, TipoTPvei TPvei, TipoTvei Tvei,IloModel* model, int EscreveRestricao ){
 	int vAux;
 	double BigMauternativo;
@@ -1464,11 +1375,6 @@ void No::Restricao_TPveiLimitadoPorTvei(TipoAlfa Alfa, TipoTPvei TPvei, TipoTvei
 		}
 	}
 }
-
-
-
-
-
 
 void No::Restricao_PrecedenciaTPveiTvei( TipoAlfa Alfa,TipoBeta BetaTPviTvi,TipoTPvei TPvei, TipoTvei Tvei, IloModel* model, int EscreveRestricao1, int EscreveRestricao2){
 	double BigMauternativo;
@@ -1526,12 +1432,6 @@ void No::Restricao_PrecedenciaTPveiTvei( TipoAlfa Alfa,TipoBeta BetaTPviTvi,Tipo
 	}
 }
 
-
-
-
-
-
-
 void No::VerificaOuCriaPastaOut(int EscreveNaTelaResultados){
 	if(!opendir ("Out")){
 		cout <<  "\n\n Nao tem diretorio \"Out\" !!        FUDEU MUITO!! \n" << endl;
@@ -1585,115 +1485,6 @@ void No::VerificaOuCriaPastaSol(int EscreveNaTelaResultados){
 		}
 	}
 }
-
-void No::InicializaVariaveisImprimir(){
-	AlfaImprimir.resize(NV);
-	for (int v = 0; v < NV; v++) {
-		AlfaImprimir[v].resize(NE);
-		for (int e = 0; e < NE; e++) {
-			AlfaImprimir[v][e].resize(TCDE[e]);
-		}
-	}
-
-	BetaImprimir.resize(NV);
-	for (int v = 0; v < NV; v++) {
-		BetaImprimir[v].resize(NE);
-		for (int e1 = 0; e1 < NE; e1++) {
-			BetaImprimir[v][e1].resize(TCDE[e1]);
-			for (int i = 0; i < TCDE[e1]; i++) {
-				BetaImprimir[v][e1][i].resize(NE);
-				for (int e2 = 0; e2 < NE; e2++) {
-					BetaImprimir[v][e1][i][e2].resize(TCDE[e2]);
-				}
-			}
-		}
-	}
-
-	ZeImprimir.resize(NE);
-	ZrImprimir.resize(NP);
-
-	TveiImprime.resize(NV);
-	for (int v = 0; v < NV; v++) {
-		TveiImprime[v].resize(NE);
-		for (int e = 0; e < NE; e++) {
-			TveiImprime[v][e].resize(TCDE[e]);
-		}
-	}
-
-	TPveiImprime.resize(NV);
-	for (int v = 0; v < NV; v++) {
-		TPveiImprime[v].resize(NE);
-		for (int e = 0; e < NE; e++) {
-			TPveiImprime[v][e].resize(TCDE[e]);
-		}
-	}
-}
-
-
-
-void No::PegaValoresDasVariaveisAlfa( IloCplex cplex, TipoAlfa Alfa  ){
-	for (int v = 0; v< NV; v++) {
-		for (int e = 0; e < NE; e++) {
-			for( int i = 0; i < TCDE[e]; i++){
-				AlfaImprimir[v][e][i] = cplex.getValue(Alfa[v][e][i]) ;
-			}
-		}
-	}
-}
-
-void No::PegaValoresDasVariaveisBeta( IloCplex cplex,TipoBeta Beta){
-	for (int v = 0; v< NV; v++) {
-		for (int e1 = 0; e1 < NE; e1++) {
-			for( int i = 0; i < TCDE[e1]; i++){
-				for (int e2 = 0; e2 < NE; e2++) {
-					for( int j = 0; j < TCDE[e2]; j++){
-						if( e1 == e2 and i == j){
-
-						}else{
-							if( e1 == e2){
-								BetaImprimir[v][e1][i][e2][j] = cplex.getValue(Beta[v][e1][i][e2][j]) ;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-}
-
-void No::PegaValoresDasVariaveisZe( IloCplex cplex,IloFloatVarArray Ze){
-	for (int e = 0; e < NE; e++) {
-		ZeImprimir[e] = cplex.getValue(Ze[e]);
-	}
-}
-
-void No::PegaValoresDasVariaveisZr( IloCplex cplex,IloFloatVarArray Zr){
-	for (int p = 0; p < NP; p++) {
-		ZrImprimir[p] = cplex.getValue(Zr[p]);
-	}
-}
-
-void No::PegaValoresDasVariaveisTvei(IloCplex cplex, TipoTvei Tvei){
-	for (int v = 0; v < NV; v++) {
-		for (int e = 0; e < NE; e++) {
-			for( int i = 0; i < TCDE[e]; i++){
-				TveiImprime[v][e][i] = cplex.getValue(Tvei[v][e][i]);
-			}
-		}
-	}
-}
-
-void No::PegaValoresDasVariaveisTPvei(IloCplex cplex,TipoTvei TPvei){
-	for (int v = 0; v < NV; v++) {
-		for (int e = 0; e < NE; e++) {
-			for( int i = 0; i < TCDE[e]; i++){
-				TPveiImprime[v][e][i] = cplex.getValue(TPvei[v][e][i]);
-			}
-		}	
-	}
-}
-
 
 void No::EscreveVariaveisAlfaDoModeloAposResolucao(int EscreveArquivoComRespostas, int EscreveNaTelaResultados,ofstream* logfile2, IloCplex cplex, TipoAlfa Alfa){
 	for (int v = 0; v< NV; v++) {
@@ -1815,8 +1606,6 @@ void No::EscreveVariaveisTPveiDoModeloAposResolucao(int EscreveArquivoComRespost
 	}
 }
 
-
-
 void No::EscreveVariaveisZeDoModeloAposResolucao(int EscreveArquivoComRespostas, int EscreveNaTelaResultados,ofstream* logfile2, IloCplex cplex, IloFloatVarArray Ze ){
 	for (int e = 0; e < NE; e++) {
 		for( int i = 0; i < TCDE[e]; i++){
@@ -1839,7 +1628,6 @@ void No::EscreveVariaveisZeDoModeloAposResolucao(int EscreveArquivoComRespostas,
 }
 
 void No::EscreveVariaveisZrDoModeloAposResolucao(int EscreveArquivoComRespostas, int EscreveNaTelaResultados,ofstream* logfile2, IloCplex cplex, IloFloatVarArray Zr ){
-
 	for (int p = 0; p < NP; p++) {
 		if( EscreveNaTelaResultados == 1){
 			cout << Zr[p].getName() << " [" << cplex.getValue(Zr[p]) << "]  "<< endl;
@@ -1855,10 +1643,7 @@ void No::EscreveVariaveisZrDoModeloAposResolucao(int EscreveArquivoComRespostas,
 	if( EscreveArquivoComRespostas == 1){
 		*logfile2 << endl;
 	}
-
 }
-
-
 
 void No::EscreveItinerarioVeiculos( int EscreveNaTelaResultados,int EscreveArquivoComRespostas, ofstream* logfile2, IloCplex cplex, TipoAlfa Alfa, TipoTvei Tvei, TipoTPvei TPvei){
 	int vAux;
@@ -1902,7 +1687,6 @@ void No::EscreveItinerarioVeiculos( int EscreveNaTelaResultados,int EscreveArqui
 		}
 	}
 }
-
 
 void No::EscreveEntregasNosClientes(int EscreveNaTelaResultados,int EscreveArquivoComRespostas, ofstream* logfile2, IloCplex cplex, TipoAlfa Alfa, TipoTvei Tvei){
 	int vAux;
@@ -2050,28 +1834,7 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 
 	char varName[24];
 
-
 	int Escreve;				// Escreve variaveis criadas
-	int EscreveRestricao1;
-	int EscreveRestricao3;
-	int EscreveRestricao4;
-	int EscreveRestricao5;
-	int EscreveRestricao6;
-	int EscreveRestricao7;
-
-	int EscreveRestricao9;
-	int EscreveRestricao10;
-	int EscreveRestricao11;
-	int EscreveRestricao12;
-	int EscreveRestricao13;
-	int EscreveRestricao14;
-	int EscreveRestricao15;
-
-	int  EscreveRestricao16;
-
-	int EscreveRestricao17;
-	int EscreveRestricao18;
-
 
 	int EscreveVariaveis;
 	int OutPut1;
@@ -2079,28 +1842,13 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	int SaidaPastaSeparada;
 	int EscreveArquivoComRespostas;
 	int EscreveNaTelaResultados;
+	vector < int > EscreveRestricao;
+	EscreveRestricao.resize(18+1);
+	for( int i = 1; i <= 18; i++){
+		EscreveRestricao[i] = 0;
+	}
 
 	Escreve = 0;				// Escreve as variaveis criadas
-	EscreveRestricao1 = 1;
-	EscreveRestricao3 = 0;
-	EscreveRestricao4 = 0;
-	EscreveRestricao5 = 0;
-	EscreveRestricao6 = 0;
-	EscreveRestricao7 = 0;
-
-	EscreveRestricao9 = 0;
-	EscreveRestricao10 = 0;
-	EscreveRestricao11 = 0;
-	EscreveRestricao12 = 0;
-	EscreveRestricao13 = 0;
-	EscreveRestricao14 = 0;
-	EscreveRestricao15 = 0;
-
-	 EscreveRestricao16 = 0;
-
-	 EscreveRestricao17 = 0;
-	 EscreveRestricao18 = 0;
-
 	EscreveVariaveis = 1;
 	OutPut1 = 1;
 	OutPut2 = 1;
@@ -2108,48 +1856,38 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	EscreveArquivoComRespostas = 1;
 	EscreveNaTelaResultados = 1;
 
-
 // Começa a escrever modelo do Cplex
-
 	IloModel model(env);
 
 /* Declara variaveis */
 
 // Variavel ALFA
-
-	IloArray<IloArray<IloBoolVarArray> > Alfa(env, NV);
+	TipoAlfa Alfa(env, NV);
 	CriaAlfa(&Alfa,Escreve);
 
 // Variavel BETA
-
-	IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > Beta(env, NV);
+	TipoBeta Beta(env, NV);
 	CriaBeta(&Beta,Escreve);
 
 // Variavel BETAProducao
-	IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > BetaProducao(env, NV);
+	TipoBeta BetaProducao(env, NV);
 	CriaBetaProducao(&BetaProducao,Escreve);
-
 
 	/* +++++++++++++++++++++++  Só adicionada se restrições 3, 17 e 18 estiverem ativas +++++++++++++++++++++++++++++++++ */
 // Variavel BETATPviTvi
 	//IloArray< IloArray< IloArray< IloArray< IloBoolVarArray > > > > BetaTPviTvi(env, NV);
 	//CriaBetaTPviTvi(&BetaTPviTvi,Escreve );
 
-
-
 // Variavel Ze
-
-	IloFloatVarArray Ze(env,NE);
+	TipoZe Ze(env,NE);
 	CriaZe(&Ze ,Escreve);
 
 // Variavel Zr
-
-	IloFloatVarArray Zr(env,NP);
+	TipoZr Zr(env,NP);
 	CriaZr(&Zr ,Escreve);
 
 // Variavel Tvei
-
-	IloArray < IloArray < IloFloatVarArray > > Tvei(env,NV);
+	TipoTvei Tvei(env,NV);
 	for (int v = 0; v < NV; v++) {
 		Tvei[v] = IloArray < IloFloatVarArray >(env,NE);
 		for (int e = 0; e < NE; e++) {
@@ -2171,8 +1909,7 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	}
 
 // Variavel TPvei
-
-	IloArray < IloArray < IloFloatVarArray > > TPvei(env,NV);
+	TipoTPvei TPvei(env,NV);
 	for (int v = 0; v < NV; v++) {
 		TPvei[v] = IloArray < IloFloatVarArray > (env,NV);
 		for (int e = 0; e < NE; e++) {
@@ -2197,23 +1934,23 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	FuncaoObjetivo(Ze, Zr, &model);
 
 // Restrição 1 : de que os caminhões tem que suprir as demandas
-	Restricao_AtendimentoDasDemandas(Alfa, &model, EscreveRestricao1);
+	Restricao_AtendimentoDasDemandas(Alfa, &model, EscreveRestricao[1]);
 // Restrição  2 : de lower bound Ze
 	Restricao_LowerBoundZe(Ze, Tvei, Alfa, &model);
 
 
 	/* ((((((((((((((((( Está restrição e a 17 e 18, ou a 16 )))))))))))))))))))))))))) */
 // Restrição  3 : de lower bound Tvi
-	//Restricao_LowerBoundTveiPorTvp( Tvei, TPvei, Alfa, &model,EscreveRestricao3);
+	//Restricao_LowerBoundTveiPorTvp( Tvei, TPvei, Alfa, &model,EscreveRestricao[3]);
 	/* ((((((((((((((((( Está restrição e a 17 e 18, ou a 16 )))))))))))))))))))))))))) */
 
 
 // Restrição  4 : de lower bound Zr
-	Restricao_LowerBoundZr( Zr, Tvei, Alfa, &model, EscreveRestricao4);
+	Restricao_LowerBoundZr( Zr, Tvei, Alfa, &model, EscreveRestricao[4]);
 // Restrição  5 e 6: de precedencia
-	Restricao_PrecedenciaTvei(  Alfa, Beta, Tvei, &model,  EscreveRestricao5, EscreveRestricao6);
+	Restricao_PrecedenciaTvei(  Alfa, Beta, Tvei, &model,  EscreveRestricao[5], EscreveRestricao[6]);
 // Restrição  7:
-	Restricao_TempoMaximoEntreDescarregamentosSeguidosNaMesmaEntrega(  Alfa, Tvei, &model, EscreveRestricao7 );
+	Restricao_TempoMaximoEntreDescarregamentosSeguidosNaMesmaEntrega(  Alfa, Tvei, &model, EscreveRestricao[7] );
 
 // Restrição 8 => Os Ze e Zr sempre seram positivos
 	//Restricao_NaoNegatividade(Ze, Zr, &model);
@@ -2221,30 +1958,30 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	/* %%%%%%%%%%%%%%%%%%%%%% está restrição pode ser redundante %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 // Restrição 9 => se demostrou redundante em relação a restrição 10
-    //Restricao_LowerBoundTveiPorTvei( Alfa, Tvei, &model, EscreveRestricao9 );
+    //Restricao_LowerBoundTveiPorTvei( Alfa, Tvei, &model, EscreveRestricao[9] );
 
 
 // Restrição 10
-    Restricao_TempoMinimoEntreDescarregamentosSeguidosNaMesmaEntrega(Alfa, Tvei, &model, EscreveRestricao10 );
+    Restricao_TempoMinimoEntreDescarregamentosSeguidosNaMesmaEntrega(Alfa, Tvei, &model, EscreveRestricao[10] );
 // Restrição 11 e 12
-    Restricao_PrecedenciaTPvei( Alfa, BetaProducao, TPvei, &model, EscreveRestricao11, EscreveRestricao12);
+    Restricao_PrecedenciaTPvei( Alfa, BetaProducao, TPvei, &model, EscreveRestricao[11],EscreveRestricao[12]);
 // Restrição 13
-    Restricao_TempoDeVidaDoConcreto( Alfa,Tvei,TPvei, &model,EscreveRestricao13);
+    Restricao_TempoDeVidaDoConcreto( Alfa,Tvei,TPvei, &model,EscreveRestricao[13]);
 
 // Restrição  14:
-	Restricao_LimiteDeTempoNaEntrega( Tvei, &model, EscreveRestricao14 );
+	Restricao_LimiteDeTempoNaEntrega( Tvei, &model, EscreveRestricao[14] );
 // Restrição  15:
-	Restricao_LimiteDeTempoNaPlanta(  TPvei, &model, EscreveRestricao15 );
+	Restricao_LimiteDeTempoNaPlanta(  TPvei, &model, EscreveRestricao[15] );
 
 	/* [[[[[[[[[[[[[[[[ Está restrição ou as restrições 3, 17 e 18  ]]]]]]]]]]]]] */
 // Restrição 16
-	Restricao_TPveiLimitadoPorTvei( Alfa, TPvei, Tvei,&model, EscreveRestricao16 );
+	Restricao_TPveiLimitadoPorTvei( Alfa, TPvei, Tvei,&model, EscreveRestricao[16] );
 	/* [[[[[[[[[[[[[[[[ Está restrição ou as restrições 3, 17 e 18  ]]]]]]]]]]]]] */
 
 
 	/* ((((((((((((((((( Está restrição e a 3, ou a 16 )))))))))))))))))))))))))) */
 // Restrição 17 e 18
-	//Restricao_PrecedenciaTPveiTvei( Alfa,BetaTPviTvi,TPvei,Tvei, &model, EscreveRestricao17,EscreveRestricao18);
+	//Restricao_PrecedenciaTPveiTvei( Alfa,BetaTPviTvi,TPvei,Tvei, &model, EscreveRestricao[17],EscreveRestricao[18]);
 	/* ((((((((((((((((( Está restrição e a 3, ou a 16 )))))))))))))))))))))))))) */
 
 
@@ -2326,19 +2063,6 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 			logfile2 << "Tempo = " << tempo << " segundos. " << endl << endl;
 		}
 
-	// inicializa variaveis para imprimir
-
-		InicializaVariaveisImprimir();
-
-	// Coloca valor das variaveis do modelo na estrutura do programa
-
-		PegaValoresDasVariaveisAlfa( cplex, Alfa);
-		PegaValoresDasVariaveisBeta( cplex, Beta);
-		PegaValoresDasVariaveisZe( cplex, Ze);
-		PegaValoresDasVariaveisZr( cplex, Zr);
-		PegaValoresDasVariaveisTvei( cplex,  Tvei);
-		PegaValoresDasVariaveisTPvei( cplex, TPvei);
-
 		if( EscreveVariaveis == 1){
 	// Imprimi Variaveis
 			EscreveVariaveisAlfaDoModeloAposResolucao(EscreveArquivoComRespostas,  EscreveNaTelaResultados, &logfile2,  cplex, Alfa);
@@ -2370,8 +2094,5 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 
 No::~No(){
 }
-
-
-
 
 #endif /* MODELO_HPP_ */
