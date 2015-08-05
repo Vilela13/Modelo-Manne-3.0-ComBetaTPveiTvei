@@ -90,7 +90,7 @@ public:
     void LeIntervalosNasEntregas(int);
     void LeIntervalosNasPlantas(int);
 
-    int  LeDados(char*);
+    int  LeDados(char*, int );
 
 // Le arquivo para resolver o CPLEX, parametros
     ifstream arq;
@@ -782,14 +782,11 @@ void No::LeIntervalosNasPlantas(int comentarios){
 }
 
 // Le dados
-int No::LeDados(char *a){
+int No::LeDados(char *a, int comentarios){
 
-	int comentarios;
 	char *b;
 	string Instancia;
 	string CaminhoArquivo1;
-
-	comentarios = 1;		// Imprime conteudo lido se valor é 1
 
 // Abre arquivo das instâncias
 
@@ -1727,7 +1724,7 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	}
 
 	Escreve = 0;				// Escreve as variaveis criadas
-	EscreveVariaveis = 1;
+	EscreveVariaveis = 0;
 	OutPut1 = 1;
 	OutPut2 = 1;
 	SaidaPastaSeparada = 0;

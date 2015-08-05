@@ -10,6 +10,8 @@ int main(int argc, char **argv) {
 		list<char*> ListaInstancias;
 		string Nome;
 
+		int EscreveDadosLidosNaTela;
+
 		list<char*>::iterator it;
 
 		ofstream ArquivoExcelResposta;
@@ -22,6 +24,7 @@ int main(int argc, char **argv) {
 		double Gap;
 		double Tempo;
 
+		EscreveDadosLidosNaTela = 0;
 
 	// -------------------------- Le arquivo com as instancias de Solomon e as guarda em uma lista ----------------------- //
 
@@ -137,7 +140,7 @@ int main(int argc, char **argv) {
 				ListaInstancias.pop_front();
 				cout << " Modelo <= " << a << endl << endl;
 
-				if( Instancia->LeDados(a) == 1){
+				if( Instancia->LeDados(a, EscreveDadosLidosNaTela) == 1){
 
 					resolveu = Instancia->Cplex(a, Status, SolucaoPrimal, SolucaoDual, Gap, Tempo);
 					cout << endl << endl << " Resolveu = " << resolveu << endl ;

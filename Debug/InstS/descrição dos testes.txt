@@ -1,2 +1,3 @@
 Teste1.txt => planta atender a uma construção que está mais perto de outra planta
-Teste2.txt =>
+Teste2.txt => planta atender a uma construção que está mais perto de outra planta, uma entrega tem mais de uma demanda
+Teste3.txt => planta atender a uma construção que está mais perto de outra planta, duas entregas tem mais de uma demanda
