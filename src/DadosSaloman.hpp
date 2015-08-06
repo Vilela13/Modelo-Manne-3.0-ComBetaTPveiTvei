@@ -531,9 +531,9 @@ void DadosSaloman::CriaPastaDat(){
 void DadosSaloman::CriarInstanciaSaloman(char* a){
 
 
-	NumeroVERSAO = 49;
+	//NumeroVERSAO = 49;
 	//NumeroVERSAO = 50;
-	//NumeroVERSAO = 51;
+	NumeroVERSAO = 51;
 
 	TempoDeDescarga = 0.1666667; // equivaelente a 10 minutos
 	TemproEntreEntregas = 0.1666667; // equivaelente a 10 minutos
@@ -645,6 +645,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
             HoraInicioPlanta.resize(NumeroPlantas + 1);
             HoraFinalPlanta.resize(NumeroPlantas + 1);
 
+
             NoPlanta[1] = 4;	HoraInicioPlanta[1] = 7; 	HoraFinalPlanta[1] = 18;
             //NoPlanta[2] = 11;	HoraInicioPlanta[2] = 7; 	HoraFinalPlanta[2] = 18;
             //NoPlanta[3] = 19;	HoraInicioPlanta[3] = 7; 	HoraFinalPlanta[3] = 18;
@@ -653,6 +654,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
             NoCliente.resize(	NumeroClientes	+	1);
             HoraInicioCliente.resize(	NumeroClientes	+	1);
             HoraFinalCliente.resize( 	NumeroClientes	+	1);
+            NumeroCarretas.resize( NumeroClientes + 1 ); // vetor que guarda o numero de carretas por cliente
 
         /*
         //dados com o gerador => NumeroVERSAO = 49;
@@ -694,6 +696,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                 NoCliente.resize(	NumeroClientes	+	1);
                 HoraInicioCliente.resize(	NumeroClientes	+	1);
                 HoraFinalCliente.resize( 	NumeroClientes	+	1);
+                NumeroCarretas.resize( NumeroClientes + 1 ); // vetor que guarda o numero de carretas por cliente
 
                 cout << " +++++++++++  [ R ]  Plantas (" << NumeroPlantas << ")    Construcoes (" << NumeroClientes << ") ++++++++++++++++++" << endl;
 
@@ -794,7 +797,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 
                     //cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia C ####################################################################################################" << endl << endl << endl;
 
-                    NumeroPlantas 	= 3;
+                    NumeroPlantas 	= 2;
 
                     NoPlanta.resize(NumeroPlantas + 1);
                     HoraInicioPlanta.resize(NumeroPlantas + 1);
@@ -802,9 +805,11 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 
                     NoPlanta[1] = 4 ;/*15; 22;*/	HoraInicioPlanta[1] = 7; 	HoraFinalPlanta[1] = 18;
                     NoPlanta[2] = 15;	HoraInicioPlanta[2] = 7; 	HoraFinalPlanta[2] = 18;
-                    NoPlanta[3] = 22;	HoraInicioPlanta[3] = 7; 	HoraFinalPlanta[3] = 18;
+                    //NoPlanta[3] = 22;	HoraInicioPlanta[3] = 7; 	HoraFinalPlanta[3] = 18;
 
-                    NumeroClientes 	=22;
+
+
+                    NumeroClientes 	= 15;
                     NoCliente.resize(	NumeroClientes	+	1);
                     HoraInicioCliente.resize(	NumeroClientes	+	1);
                     HoraFinalCliente.resize( 	NumeroClientes	+	1);
@@ -813,14 +818,16 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                     cout << " +++++++++++ [ C ]  Plantas (" << NumeroPlantas << ")    Construcoes (" << NumeroClientes << ") ++++++++++++++++++" << endl;
 
                 //dados com o gerador => NumeroVERSAO = 49;			************************************ Realizado *******************************************************
-                	NoCliente[1] = 1;		HoraInicioCliente[1] = 8;		HoraFinalCliente[1] = 8.5;		NumeroCarretas[1] = 3; // Gerada com o rand com raiz de 49
+/*                    NoCliente[1] = 1;		HoraInicioCliente[1] = 8;		HoraFinalCliente[1] = 8.5;		NumeroCarretas[1] = 3; // Gerada com o rand com raiz de 49
                     NoCliente[2] = 2;		HoraInicioCliente[2] = 8.5;	 	HoraFinalCliente[2] = 9.5;		NumeroCarretas[2] = 5;
                     NoCliente[3] = 3;		HoraInicioCliente[3] = 9;	 	HoraFinalCliente[3] = 10.5;		NumeroCarretas[3] = 4;
                     NoCliente[4] = 5;		HoraInicioCliente[4] = 9.5;	 	HoraFinalCliente[4] = 10.5;		NumeroCarretas[4] = 2;
                     NoCliente[5] = 6;		HoraInicioCliente[5] = 10;	 	HoraFinalCliente[5] = 11;		NumeroCarretas[5] = 4;
+
                     NoCliente[6] = 7;		HoraInicioCliente[6] = 10;	 	HoraFinalCliente[6] = 11.5;		NumeroCarretas[6] = 1;
                     NoCliente[7] = 8;		HoraInicioCliente[7] = 10.5; 	HoraFinalCliente[7] = 11.5;		NumeroCarretas[7] = 1;
                     NoCliente[8] = 9;		HoraInicioCliente[8] = 11;	 	HoraFinalCliente[8] = 12;		NumeroCarretas[8] = 2;
+
                     NoCliente[9] = 10;		HoraInicioCliente[9] = 11.5; 	HoraFinalCliente[9] = 12.5;		NumeroCarretas[9] = 5;
                     NoCliente[10] = 11;		HoraInicioCliente[10] = 12;	 	HoraFinalCliente[10] = 13;		NumeroCarretas[10] = 4;		// Menos de 300 segundo
 
@@ -829,7 +836,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                     NoCliente[13] = 14;		HoraInicioCliente[13] = 8.5;	HoraFinalCliente[13] = 10;		NumeroCarretas[13] = 5;
                     NoCliente[14] = 16;		HoraInicioCliente[14] = 9.5;	HoraFinalCliente[14] = 11;		NumeroCarretas[14] = 1;
                     NoCliente[15] = 17;		HoraInicioCliente[15] = 10;	 	HoraFinalCliente[15] = 11;		NumeroCarretas[15] = 1;
-                    NoCliente[16] = 18;		HoraInicioCliente[16] = 10;	 	HoraFinalCliente[16] = 11.5;	NumeroCarretas[16] = 4;
+  	  	  	  	  	 NoCliente[16] = 18;		HoraInicioCliente[16] = 10;	 	HoraFinalCliente[16] = 11.5;	NumeroCarretas[16] = 4;
                     NoCliente[17] = 19;		HoraInicioCliente[17] = 10.5;	HoraFinalCliente[17] = 12;		NumeroCarretas[17] = 3;		// Menos de 3 segundo
 
                     NoCliente[18] = 20;		HoraInicioCliente[18] = 8;	 	HoraFinalCliente[18] = 9;		NumeroCarretas[18] = 1;
@@ -837,66 +844,75 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                     NoCliente[20] = 23;		HoraInicioCliente[20] = 8;	 	HoraFinalCliente[20] = 9;		NumeroCarretas[20] = 3;
                     NoCliente[21] = 24;		HoraInicioCliente[21] = 9;	 	HoraFinalCliente[21] = 10.5;	NumeroCarretas[21] = 4;
                     NoCliente[22] = 25;		HoraInicioCliente[22] = 10;	 	HoraFinalCliente[22] = 11;		NumeroCarretas[22] = 4;		// com 14 segundos
+*/
 
                 //dados com o gerador => NumeroVERSAO = 50;         ************************************ Realizado *******************************************************
-         /*         NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
-                    NoCliente[2] = 2;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 9;		//1 (2)
-                    NoCliente[3] = 3;		HoraInicioCliente[3] = 8;	 HoraFinalCliente[3] = 9;		//4	(3)
-                    NoCliente[4] = 5;		HoraInicioCliente[4] = 8;	 HoraFinalCliente[4] = 9.5;		//1	(5)
-                    NoCliente[5] = 6;		HoraInicioCliente[5] = 8.5;	 HoraFinalCliente[5] = 10;		//4	(6)
-                    NoCliente[6] = 7;		HoraInicioCliente[6] = 8;	 HoraFinalCliente[6] = 9;		//4	(7)
-                    NoCliente[7] = 8;		HoraInicioCliente[7] = 9;	 HoraFinalCliente[7] = 10.5;	//2	(8)
-                    NoCliente[8] = 9;		HoraInicioCliente[8] = 9;	 HoraFinalCliente[8] = 11;		//4	(9)
-                    NoCliente[9] = 10;		HoraInicioCliente[9] = 9.5;	 HoraFinalCliente[9] = 10.5;	//5	(10)
-                    NoCliente[10] = 11;		HoraInicioCliente[10] = 10;	 HoraFinalCliente[10] = 11;		//3	(11)				// Resolvido com 1segundo
+/*                    NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 	HoraFinalCliente[1] = 8.5;		NumeroCarretas[1] = 3;
+                    NoCliente[2] = 2;		HoraInicioCliente[2] = 8;	 	HoraFinalCliente[2] = 9;		NumeroCarretas[2] = 1;
+                    NoCliente[3] = 3;		HoraInicioCliente[3] = 8;	 	HoraFinalCliente[3] = 9;		NumeroCarretas[3] = 4;
+                    NoCliente[4] = 5;		HoraInicioCliente[4] = 8;	 	HoraFinalCliente[4] = 9.5;		NumeroCarretas[4] = 1;
+                    NoCliente[5] = 6;		HoraInicioCliente[5] = 8.5;	 	HoraFinalCliente[5] = 10;		NumeroCarretas[5] = 4;
 
-                    NoCliente[11] = 12;		HoraInicioCliente[11] = 8;	 HoraFinalCliente[11] = 9;		//4	(12)
-                    NoCliente[12] = 13;		HoraInicioCliente[12] = 8; 	 HoraFinalCliente[12] = 9;		//4	(13)
-                    NoCliente[13] = 14;		HoraInicioCliente[13] = 8.5; 	 HoraFinalCliente[13] = 9;		//1	(14)
-                    NoCliente[14] = 16;		HoraInicioCliente[14] = 8;	 HoraFinalCliente[14] = 10;	//4	(16)
-                    NoCliente[15] = 17;		HoraInicioCliente[15] = 9;	 HoraFinalCliente[15] = 11;		//5	(17)
-                    NoCliente[16] = 18;		HoraInicioCliente[16] = 8;	 HoraFinalCliente[16] = 11;	//4	(18)
-                    NoCliente[17] = 19;		HoraInicioCliente[17] = 9;	 HoraFinalCliente[17] = 11.5;		//4	(19)			// Resolvido com 333 segundos
 
-                    NoCliente[18] = 20;		HoraInicioCliente[18] = 8;	 HoraFinalCliente[18] = 9;		//5	(20)
-                    NoCliente[19] = 21;		HoraInicioCliente[19] = 8.5; 	 HoraFinalCliente[19] = 10;		//3	(21)
-                    NoCliente[20] = 23;		HoraInicioCliente[20] = 8;	 HoraFinalCliente[20] = 10;		//2	(23)
-                    NoCliente[21] = 24;		HoraInicioCliente[21] = 9;	 HoraFinalCliente[21] = 11;		//2	(24)
-                    NoCliente[22] = 25;		HoraInicioCliente[22] = 9;	 HoraFinalCliente[22] = 11.5;	        //2	(25)		// Resolvido com 160 segundos
-                    */
+                    NoCliente[6] = 7;		HoraInicioCliente[6] = 9;	 	HoraFinalCliente[6] = 10.5;		NumeroCarretas[6] = 4;
+                    NoCliente[7] = 8;		HoraInicioCliente[7] = 10;	 	HoraFinalCliente[7] = 11;		NumeroCarretas[7] = 2;
+                    NoCliente[8] = 9;		HoraInicioCliente[8] = 10;	 	HoraFinalCliente[8] = 11.5;		NumeroCarretas[8] = 4;
+
+                    NoCliente[9] = 10;		HoraInicioCliente[9] = 10.5;	 	HoraFinalCliente[9] = 12;		NumeroCarretas[9] = 5;
+                    NoCliente[10] = 11;		HoraInicioCliente[10] = 11;	 	HoraFinalCliente[10] = 12.5;		NumeroCarretas[10] = 3;				// Resolvido com 1segundo
+
+                    NoCliente[11] = 12;		HoraInicioCliente[11] = 8;	 	HoraFinalCliente[11] = 9;		NumeroCarretas[11] = 4;
+                    NoCliente[12] = 13;		HoraInicioCliente[12] = 8; 	 	HoraFinalCliente[12] = 9;		NumeroCarretas[12] = 4;
+                    NoCliente[13] = 14;		HoraInicioCliente[13] = 8.5; 	HoraFinalCliente[13] = 9;		NumeroCarretas[13] = 1;
+                    NoCliente[14] = 16;		HoraInicioCliente[14] = 8;	 	HoraFinalCliente[14] = 10;		NumeroCarretas[14] = 4;
+                    NoCliente[15] = 17;		HoraInicioCliente[15] = 9;	 	HoraFinalCliente[15] = 11;		NumeroCarretas[15] = 5;
+
+                    NoCliente[16] = 18;		HoraInicioCliente[16] = 10;	 	HoraFinalCliente[16] = 11.5;		NumeroCarretas[16] = 4;
+                    NoCliente[17] = 19;		HoraInicioCliente[17] = 10.5;	 	HoraFinalCliente[17] = 12;	NumeroCarretas[17] = 4;			// Resolvido com 333 segundos
+
+                    NoCliente[18] = 20;		HoraInicioCliente[18] = 8;	 	HoraFinalCliente[18] = 9;		NumeroCarretas[18] = 5;
+                    NoCliente[19] = 21;		HoraInicioCliente[19] = 8.5; 	HoraFinalCliente[19] = 10;		NumeroCarretas[19] = 3;
+                    NoCliente[20] = 23;		HoraInicioCliente[20] = 8;	 	HoraFinalCliente[20] = 10;		NumeroCarretas[20] = 2;
+                    NoCliente[21] = 24;		HoraInicioCliente[21] = 9;	 	HoraFinalCliente[21] = 11;		NumeroCarretas[21] = 2;
+                    NoCliente[22] = 25;		HoraInicioCliente[22] = 9;	 	HoraFinalCliente[22] = 11.5;	NumeroCarretas[22] = 2;		// Resolvido com 160 segundos
+*/
+
                 //dados com o gerador => NumeroVERSAO = 51;			************************************ Realizado *******************************************************
-         /*         NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 9;		//4 	(1)
-                    NoCliente[2] = 2;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 9;		//3 	(2)
-                    NoCliente[3] = 3;		HoraInicioCliente[3] = 8.5;	 HoraFinalCliente[3] = 9.5;		//3	(3)
-                    NoCliente[4] = 5;		HoraInicioCliente[4] = 9;	 HoraFinalCliente[4] = 10;		//4	(5)
-                    NoCliente[5] = 6;		HoraInicioCliente[5] = 9;	 HoraFinalCliente[5] = 10.5;		//4	(6)
-                    NoCliente[6] = 7;		HoraInicioCliente[6] = 9.5;	 HoraFinalCliente[6] = 11;		//5	(7)
-                    NoCliente[7] = 8;		HoraInicioCliente[7] = 10;	 HoraFinalCliente[7] = 11.5;		//4	(8)
-                    NoCliente[8] = 9;		HoraInicioCliente[8] = 10.5;	 HoraFinalCliente[8] = 12;		//3	(9)
-                    NoCliente[9] = 10;		HoraInicioCliente[9] = 11;	 HoraFinalCliente[9] = 12;		//2	(10)
-                    NoCliente[10] = 11;		HoraInicioCliente[10] = 11.5;	 HoraFinalCliente[10] = 13;		//5	(11)				// Resolveu 14 segundos
+                        NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 	HoraFinalCliente[1] = 9;		NumeroCarretas[1] = 4;
+                    NoCliente[2] = 2;		HoraInicioCliente[2] = 8;	 	HoraFinalCliente[2] = 9;		NumeroCarretas[2] = 3;
+                    NoCliente[3] = 3;		HoraInicioCliente[3] = 8.5;	 	HoraFinalCliente[3] = 9.5;		NumeroCarretas[3] = 3;
+                    NoCliente[4] = 5;		HoraInicioCliente[4] = 9;	 	HoraFinalCliente[4] = 10;		NumeroCarretas[4] = 4;
+                    NoCliente[5] = 6;		HoraInicioCliente[5] = 9;	 	HoraFinalCliente[5] = 10.5;		NumeroCarretas[5] = 4;
 
-                    NoCliente[11] = 12;		HoraInicioCliente[11] = 8;	 HoraFinalCliente[11] = 9;		//5	(12)
-                    NoCliente[12] = 13;		HoraInicioCliente[12] = 8; 	 HoraFinalCliente[12] = 9.5;		//4	(13)
-                    NoCliente[13] = 14;		HoraInicioCliente[13] = 9; 	 HoraFinalCliente[13] = 11;		//5	(14)
-                    NoCliente[14] = 16;		HoraInicioCliente[14] = 10;	 HoraFinalCliente[14] = 11;		//2	(16)
-                    NoCliente[15] = 17;		HoraInicioCliente[15] = 10;	 HoraFinalCliente[15] = 12;		//4	(17)
-                    NoCliente[16] = 18;		HoraInicioCliente[16] = 11.5;	 HoraFinalCliente[16] = 12.5;		//3	(18)
-                    NoCliente[17] = 19;		HoraInicioCliente[17] = 11.5;	 HoraFinalCliente[17] = 13;		//4	(19)				// com 168 segundos
+                    NoCliente[6] = 7;		HoraInicioCliente[6] = 9.5;	 	HoraFinalCliente[6] = 11;		NumeroCarretas[6] = 5;
+                    NoCliente[7] = 8;		HoraInicioCliente[7] = 10;	 	HoraFinalCliente[7] = 11.5;		NumeroCarretas[7] = 4;
+                    NoCliente[8] = 9;		HoraInicioCliente[8] = 10.5;	HoraFinalCliente[8] = 12;		NumeroCarretas[8] = 3;
+                    /*
+                    NoCliente[9] = 10;		HoraInicioCliente[9] = 11;	 	HoraFinalCliente[9] = 12;		NumeroCarretas[9] = 2;
+                    NoCliente[10] = 11;		HoraInicioCliente[10] = 11.5;	HoraFinalCliente[10] = 13;		NumeroCarretas[10] = 5;				// Resolveu 14 segundos
+*/
+                    NoCliente[9] = 12;		HoraInicioCliente[9] = 8;	 	HoraFinalCliente[9] = 9;		NumeroCarretas[9] = 5;
+                    NoCliente[10] = 13;		HoraInicioCliente[10] = 8; 	 	HoraFinalCliente[10] = 10;		NumeroCarretas[10] = 4;
+                    NoCliente[11] = 14;		HoraInicioCliente[11] = 9.5; 	HoraFinalCliente[11] = 11.5;	NumeroCarretas[11] = 5;
+                    NoCliente[12] = 16;		HoraInicioCliente[12] = 11;	 	HoraFinalCliente[12] = 12;		NumeroCarretas[12] = 2;
+                    NoCliente[13] = 17;		HoraInicioCliente[13] = 11;		HoraFinalCliente[13] = 12.5;	NumeroCarretas[13] = 4;
 
-                    NoCliente[18] = 20;		HoraInicioCliente[18] = 8;	 HoraFinalCliente[18] = 9;		//1	(20)
-                    NoCliente[19] = 21;		HoraInicioCliente[19] = 8; 	 HoraFinalCliente[19] = 9;		//4	(21)
-                    NoCliente[20] = 23;		HoraInicioCliente[20] = 8.5;	 HoraFinalCliente[20] = 9;		//2	(23)
-                    NoCliente[21] = 24;		HoraInicioCliente[21] = 9;	 HoraFinalCliente[21] = 10;		//3	(24)
-                    NoCliente[22] = 25;		HoraInicioCliente[22] = 9;	 HoraFinalCliente[22] = 10.5;	        //4	(25)			// com 210 segundos
-                     */
+                    NoCliente[14] = 18;		HoraInicioCliente[14] = 11.5;	HoraFinalCliente[14] = 12.5;	NumeroCarretas[14] = 3;
+                    NoCliente[15] = 19;		HoraInicioCliente[15] = 11.5;	HoraFinalCliente[15] = 13;		NumeroCarretas[15] = 4;			// com 168 segundos
+/*
+                    NoCliente[18] = 20;		HoraInicioCliente[18] = 8;	 	HoraFinalCliente[18] = 9;		NumeroCarretas[18] = 1;
+                    NoCliente[19] = 21;		HoraInicioCliente[19] = 8; 	 	HoraFinalCliente[19] = 9;		NumeroCarretas[19] = 4;
+                    NoCliente[20] = 23;		HoraInicioCliente[20] = 8.5;	HoraFinalCliente[20] = 9;		NumeroCarretas[20] = 2;
+                    NoCliente[21] = 24;		HoraInicioCliente[21] = 9;	 	HoraFinalCliente[21] = 10;		NumeroCarretas[21] = 3;
+                    NoCliente[22] = 25;		HoraInicioCliente[22] = 9;	 	HoraFinalCliente[22] = 10.5;	NumeroCarretas[22] = 4;			// com 210 segundos
+*/
 
-                    NumeroCaminhoes = 30;
+                    NumeroCaminhoes = 20;
 
                     CaminhoesPlanta.resize(NumeroPlantas + 1);
                     CaminhoesPlanta[1] = 10;
                     CaminhoesPlanta[2] = 10;
-                    CaminhoesPlanta[3] = 10;
+                    //CaminhoesPlanta[3] = 10;
 
                     Velocidade 		= 30;
                 }else{
@@ -917,17 +933,19 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                         NoCliente.resize(	NumeroClientes	+	1);
                         HoraInicioCliente.resize(	NumeroClientes	+	1);
                         HoraFinalCliente.resize( 	NumeroClientes	+	1);
+                        NumeroCarretas.resize( NumeroClientes + 1 ); // vetor que guarda o numero de carretas por cliente
 
                         //cout << " +++++++++++ [ r-C ]   Plantas (" << NumeroPlantas << ")    Construcoes (" << NumeroClientes << ") ++++++++++++++++++" << endl;
 
                     //dados com o gerador => NumeroVERSAO = 49;			************************************ Realizado *******************************************************
-       /*                 NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
+              /*        NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
                         NoCliente[2] = 2;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 9;		//5 (2)
                         NoCliente[3] = 5;		HoraInicioCliente[3] = 8.5;	 HoraFinalCliente[3] = 10;		//4	(3)
 
                         NoCliente[4] = 14;		HoraInicioCliente[4] =8;	 HoraFinalCliente[4] = 8.5;	//2
                         NoCliente[5] = 16;		HoraInicioCliente[5] = 8;	 HoraFinalCliente[5] = 9;		//4	(6)
 */
+
                     //dados com o gerador => NumeroVERSAO = 50;         ************************************ Realizado *******************************************************
   /*                     NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;		//3 (1)
                         NoCliente[2] = 2;		HoraInicioCliente[2] = 8;	 HoraFinalCliente[2] = 8.5;		//1 (2)
@@ -936,6 +954,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                         NoCliente[4] = 14;		HoraInicioCliente[4] = 8;	 HoraFinalCliente[4] = 8.5;		//1	(5)
                         NoCliente[5] = 16;		HoraInicioCliente[5] = 8;	 HoraFinalCliente[5] = 9;		//4	(6)
 */
+
                     //dados com o gerador => NumeroVERSAO = 51;			************************************ Realizado *******************************************************
 /*
                       NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 9;		//4 	(1)
@@ -945,6 +964,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                         NoCliente[4] = 14;		HoraInicioCliente[4] = 8;	 HoraFinalCliente[4] = 9;		//4	(5)
                         NoCliente[5] = 16;		HoraInicioCliente[5] = 8;	 HoraFinalCliente[5] = 9;		//4	(6)
 */
+
                         NumeroCaminhoes = 20;
 
                         CaminhoesPlanta.resize(NumeroPlantas + 1);
@@ -971,6 +991,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                             NoCliente.resize(	NumeroClientes	+	1);
                             HoraInicioCliente.resize(	NumeroClientes	+	1);
                             HoraFinalCliente.resize( 	NumeroClientes	+	1);
+                            NumeroCarretas.resize( NumeroClientes + 1 ); // vetor que guarda o numero de carretas por cliente
 
                             cout << " +++++++++++   [ r-R ]  Plantas (" << NumeroPlantas << ")    Construcoes (" << NumeroClientes << ") ++++++++++++++++++" << endl;
 
@@ -1044,7 +1065,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
      */
 
         for(int c =1; c <= NumeroClientes; c++){
-                NumeroCarretas[c] = (rand()%5) + 1;
+                //NumeroCarretas[c] = (rand()%5) + 1;
                 //InstanciaSaloman << " No" << i << " ";
                 InstanciaSaloman << NumeroCarretas[c] ;
                 for( int i= 1; i <= NumeroCarretas[c] ; i++){

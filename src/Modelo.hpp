@@ -1727,7 +1727,7 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 	EscreveVariaveis = 0;
 	OutPut1 = 1;
 	OutPut2 = 1;
-	SaidaPastaSeparada = 0;
+	SaidaPastaSeparada = 1;
 	EscreveArquivoComRespostas = 1;
 	EscreveNaTelaResultados = 1;
 
@@ -1829,7 +1829,7 @@ int No::Cplex(char *a, int &status, double &primal, double &dual, double &gap, d
 
 // Modelo
 	IloCplex cplex(model);
-	cplex.exportModel("model.lp");
+	//cplex.exportModel("model.lp");
 
 // Cria pasta OUT
 	VerificaOuCriaPastaOut(EscreveNaTelaResultados);
