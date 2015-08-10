@@ -533,7 +533,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 
 	//NumeroVERSAO = 49;
 	//NumeroVERSAO = 50;
-	NumeroVERSAO = 51;
+	//NumeroVERSAO = 51;
 
 	TempoDeDescarga = 0.1666667; // equivaelente a 10 minutos
 	TemproEntreEntregas = 0.1666667; // equivaelente a 10 minutos
@@ -680,19 +680,21 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
             if( NomeInstancia[0] == 'R' ){
                 //Inicializa Parametros
 
-                //cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia R ####################################################################################################" << endl << endl << endl;
+                cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia R ####################################################################################################" << endl << endl << endl;
 
-                NumeroPlantas 	= 1;
+                NumeroPlantas 	= 3;
 
                 NoPlanta.resize(NumeroPlantas + 1);
                 HoraInicioPlanta.resize(NumeroPlantas + 1);
                 HoraFinalPlanta.resize(NumeroPlantas + 1);
 
-                NoPlanta[1] = 1;	HoraInicioPlanta[1] = 7; 	HoraFinalPlanta[1] = 18;
+                //NoPlanta[1] = 1;	HoraInicioPlanta[1] = 7; 	HoraFinalPlanta[1] = 18;
                 //NoPlanta[2] = 5;	HoraInicioPlanta[2] = 7; 	HoraFinalPlanta[2] = 18;
                 //NoPlanta[3] = 4;	HoraInicioPlanta[3] = 7; 	HoraFinalPlanta[3] = 18;
 
-                NumeroClientes 	= 9;
+
+
+                NumeroClientes 	= 15;
                 NoCliente.resize(	NumeroClientes	+	1);
                 HoraInicioCliente.resize(	NumeroClientes	+	1);
                 HoraFinalCliente.resize( 	NumeroClientes	+	1);
@@ -701,31 +703,32 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                 cout << " +++++++++++  [ R ]  Plantas (" << NumeroPlantas << ")    Construcoes (" << NumeroClientes << ") ++++++++++++++++++" << endl;
 
          //dados com o gerador => NumeroVERSAO = 49;			************************************ Realizado *******************************************************
-/*              NoCliente[1] = 3;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;			NumeroCarretas[1] = 3;
-				NoCliente[2] = 7;		HoraInicioCliente[2] = 8.5;	 HoraFinalCliente[2] = 9.5;		    NumeroCarretas[2] = 5;
-				NoCliente[3] = 8;		HoraInicioCliente[3] = 9;	 HoraFinalCliente[3] = 10.5;		NumeroCarretas[3] = 4;
-				NoCliente[4] = 9;		HoraInicioCliente[4] = 9.5;	 HoraFinalCliente[4] = 11;	    	NumeroCarretas[4] = 2;
-				NoCliente[5] = 10;		HoraInicioCliente[5] = 10;	 HoraFinalCliente[5] = 11.5;		NumeroCarretas[5] = 4;
-				NoCliente[6] = 11;		HoraInicioCliente[6] = 11;	 HoraFinalCliente[6] = 12;	    	NumeroCarretas[6] = 1;
-				NoCliente[7] = 18;		HoraInicioCliente[7] = 11.5;	 HoraFinalCliente[7] = 12.5;	NumeroCarretas[7] = 1;
-				NoCliente[8] = 19;		HoraInicioCliente[8] = 12.5; HoraFinalCliente[8] = 14;        	NumeroCarretas[8] = 2;
-				NoCliente[9] = 20;		HoraInicioCliente[9] = 13; 	 HoraFinalCliente[9] = 14.5;		NumeroCarretas[9] = 5;
+                /*      NoCliente[1] = 3;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 8.5;			NumeroCarretas[1] = 3;
+				NoCliente[2] = 7;		HoraInicioCliente[2] = 8.5;	 	HoraFinalCliente[2] = 9.5;		    NumeroCarretas[2] = 5;
+				NoCliente[3] = 8;		HoraInicioCliente[3] = 9;	 	HoraFinalCliente[3] = 10.5;			NumeroCarretas[3] = 4;
+				NoCliente[4] = 9;		HoraInicioCliente[4] = 9.5;	 	HoraFinalCliente[4] = 11;	    	NumeroCarretas[4] = 2;
+				NoCliente[5] = 10;		HoraInicioCliente[5] = 10;	 	HoraFinalCliente[5] = 11.5;			NumeroCarretas[5] = 4;
+				NoCliente[6] = 11;		HoraInicioCliente[6] = 11;	 	HoraFinalCliente[6] = 12;	    	NumeroCarretas[6] = 1;
+				NoCliente[7] = 18;		HoraInicioCliente[7] = 11.5;	HoraFinalCliente[7] = 12.5;			NumeroCarretas[7] = 1;
+				NoCliente[8] = 19;		HoraInicioCliente[8] = 12.5; 	HoraFinalCliente[8] = 14;        	NumeroCarretas[8] = 2;
+				NoCliente[9] = 20;		HoraInicioCliente[9] = 13; 	 	HoraFinalCliente[9] = 14.5;			NumeroCarretas[9] = 5;
 
-                NoCliente[10] = 2;		HoraInicioCliente[10] = 8;	 HoraFinalCliente[10] = 9;		    NumeroCarretas[10] = 4;
-                NoCliente[11] = 13; 	HoraInicioCliente[11] = 8.5;	 HoraFinalCliente[11] = 9;		NumeroCarretas[11] = 3;
-                NoCliente[12] = 6;		HoraInicioCliente[12] = 8.5; 	HoraFinalCliente[12] = 10;		NumeroCarretas[12] = 2;
-                NoCliente[13] = 14;		HoraInicioCliente[13] = 9.5;	 HoraFinalCliente[13] = 12;		NumeroCarretas[13] = 5;
-                NoCliente[14] = 15;		HoraInicioCliente[14] = 9.5;	 HoraFinalCliente[14] = 10;		NumeroCarretas[14] = 1;
-                NoCliente[15] = 16;		HoraInicioCliente[15] = 10.5;	 HoraFinalCliente[15] = 11;		NumeroCarretas[15] = 1;
-                NoCliente[16] = 17;		HoraInicioCliente[16] = 10.5;	 HoraFinalCliente[16] = 12;		NumeroCarretas[16] = 4;
+                NoCliente[10] = 2;		HoraInicioCliente[10] = 8;	 	HoraFinalCliente[10] = 9;			NumeroCarretas[10] = 4;
+				NoCliente[11] = 13;	 	HoraInicioCliente[11] = 8.5;	HoraFinalCliente[11] = 9;			NumeroCarretas[11] = 3;
+				NoCliente[12] = 6;		HoraInicioCliente[12] = 8.5; 	HoraFinalCliente[12] = 10;			NumeroCarretas[12] = 2;
+				NoCliente[13] = 14;		HoraInicioCliente[13] = 9.5;	HoraFinalCliente[13] = 11.5;		NumeroCarretas[13] = 5;
+				NoCliente[14] = 15;		HoraInicioCliente[14] = 10.5;	HoraFinalCliente[14] = 11.5;		NumeroCarretas[14] = 1;
 
-                NoCliente[17] = 12;		HoraInicioCliente[17] = 8;	 HoraFinalCliente[17] = 9;		    NumeroCarretas[17] = 3;
-                NoCliente[18] = 21;		HoraInicioCliente[18] = 8;	 HoraFinalCliente[18] = 8.5;		NumeroCarretas[18] = 1;
-                NoCliente[19] = 22;		HoraInicioCliente[19] = 8.5; 	HoraFinalCliente[19] = 9.5;		NumeroCarretas[19] = 4;
-                NoCliente[20] = 23;		HoraInicioCliente[20] = 10;	 HoraFinalCliente[20] = 13;			NumeroCarretas[20] = 3;
-                NoCliente[21] = 24;		HoraInicioCliente[21] = 10.5;	 HoraFinalCliente[21] = 13.5;   NumeroCarretas[21] = 4;
-                NoCliente[22] = 25;		HoraInicioCliente[22] = 11;	 HoraFinalCliente[22] = 14;			NumeroCarretas[22] = 4;
-  */
+               NoCliente[15] = 16;		HoraInicioCliente[15] = 11;	 	HoraFinalCliente[15] = 11.5;		NumeroCarretas[15] = 1;
+               NoCliente[16] = 17;		HoraInicioCliente[16] = 10.5;	HoraFinalCliente[16] = 12;			NumeroCarretas[16] = 4;
+
+                NoCliente[17] = 12;		HoraInicioCliente[17] = 8;	 	HoraFinalCliente[17] = 9;		    NumeroCarretas[17] = 3;
+                NoCliente[18] = 21;		HoraInicioCliente[18] = 8.5;	HoraFinalCliente[18] = 9;			NumeroCarretas[18] = 1;
+                NoCliente[19] = 22;		HoraInicioCliente[19] = 8.5; 	HoraFinalCliente[19] = 9.5;			NumeroCarretas[19] = 4;
+                NoCliente[20] = 23;		HoraInicioCliente[20] = 9;	 	HoraFinalCliente[20] = 10.5;		NumeroCarretas[20] = 3;
+                NoCliente[21] = 24;		HoraInicioCliente[21] = 9;	 	HoraFinalCliente[21] = 11;   		NumeroCarretas[21] = 4;
+                NoCliente[22] = 25;		HoraInicioCliente[22] = 9.5;	HoraFinalCliente[22] = 11.5;		NumeroCarretas[22] = 4;
+ */
 
         //dados com o gerador => NumeroVERSAO = 50;			************************************ Realizado ***********************************************************
                 /*NoCliente[1] = 3;		HoraInicioCliente[1] = 8;	 HoraFinalCliente[1] = 9;		    NumeroCarretas[1] = 3;
@@ -740,22 +743,25 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 
                 NoCliente[10] = 2;		HoraInicioCliente[10] = 8;	 HoraFinalCliente[10] = 9;		    NumeroCarretas[10] = 3;
                 NoCliente[11] = 13; 	HoraInicioCliente[11] = 8.5;	 HoraFinalCliente[11] = 10;		NumeroCarretas[11] = 4;
-                NoCliente[12] = 6;		HoraInicioCliente[12] = 9.5; 	HoraFinalCliente[12] = 12;		NumeroCarretas[12] = 4;
+                NoCliente[12] = 6;		HoraInicioCliente[12] = 9.5; 	HoraFinalCliente[12] = 11;		NumeroCarretas[12] = 4;
                 NoCliente[13] = 14;		HoraInicioCliente[13] = 10;	 HoraFinalCliente[13] = 11;		    NumeroCarretas[13] = 1;
-                NoCliente[14] = 15;		HoraInicioCliente[14] = 10;	 HoraFinalCliente[14] = 12.5;		NumeroCarretas[14] = 4;
-                NoCliente[15] = 16;		HoraInicioCliente[15] = 11;	 HoraFinalCliente[15] = 13.5;		NumeroCarretas[15] = 5;
-                NoCliente[16] = 17;		HoraInicioCliente[16] = 11.5;	 HoraFinalCliente[16] = 14;		NumeroCarretas[16] = 4;
+                NoCliente[14] = 15;		HoraInicioCliente[14] = 10;	 HoraFinalCliente[14] = 11.5;		NumeroCarretas[14] = 4;
 
-                NoCliente[17] = 12;		HoraInicioCliente[17] = 8;	 HoraFinalCliente[17] = 9;		    NumeroCarretas[17] = 4;
-                NoCliente[18] = 21;		HoraInicioCliente[18] = 8.5;	 HoraFinalCliente[18] = 10;		NumeroCarretas[18] = 5;
-                NoCliente[19] = 22;		HoraInicioCliente[19] = 9.5; 	HoraFinalCliente[19] = 12;		NumeroCarretas[19] = 3;
-                NoCliente[20] = 23;		HoraInicioCliente[20] = 11;	 HoraFinalCliente[20] = 12.5;		NumeroCarretas[20] = 2;
-                NoCliente[21] = 24;		HoraInicioCliente[21] = 12;	 HoraFinalCliente[21] = 13.5;       NumeroCarretas[21] = 2;
-                NoCliente[22] = 25;		HoraInicioCliente[22] = 12.5;	 HoraFinalCliente[22] = 14;		NumeroCarretas[22] = 2;
-                 */
+                NoCliente[15] = 16;		HoraInicioCliente[15] = 10.5;	 HoraFinalCliente[15] = 12.5;		NumeroCarretas[15] = 5;
+                NoCliente[16] = 17;		HoraInicioCliente[16] = 11;	 HoraFinalCliente[16] = 12;		NumeroCarretas[16] = 4;
+
+
+                NoCliente[17] = 12;		HoraInicioCliente[17] = 8;	 	HoraFinalCliente[17] = 9;		    NumeroCarretas[17] = 4;
+                NoCliente[18] = 21;		HoraInicioCliente[18] = 8.5;	HoraFinalCliente[18] = 10;			NumeroCarretas[18] = 5;
+                NoCliente[19] = 22;		HoraInicioCliente[19] = 9; 		HoraFinalCliente[19] = 10.5;		NumeroCarretas[19] = 3;
+                NoCliente[20] = 23;		HoraInicioCliente[20] = 9.5;	HoraFinalCliente[20] = 10.5;		NumeroCarretas[20] = 2;
+                NoCliente[21] = 24;		HoraInicioCliente[21] = 10;		HoraFinalCliente[21] = 11;       	NumeroCarretas[21] = 2;
+                NoCliente[22] = 25;		HoraInicioCliente[22] = 12.5;	HoraFinalCliente[22] = 14;			NumeroCarretas[22] = 2;
+*/
 
         //dados com o gerador => NumeroVERSAO = 51;		************************************ Realizado ***********************************************************
-                NoCliente[1] = 3;		HoraInicioCliente[1] = 8;	 	HoraFinalCliente[1] = 9;		NumeroCarretas[1] = 4;
+
+                /*NoCliente[1] = 3;		HoraInicioCliente[1] = 8;	 	HoraFinalCliente[1] = 9;		NumeroCarretas[1] = 4;
                 NoCliente[2] = 7;		HoraInicioCliente[2] = 8.5;	 	HoraFinalCliente[2] = 9.5;		NumeroCarretas[2] = 3;
                 NoCliente[3] = 8;		HoraInicioCliente[3] = 8;	 	HoraFinalCliente[3] = 9.5;		NumeroCarretas[3] = 3;
                 NoCliente[4] = 9;		HoraInicioCliente[4] = 9;	 	HoraFinalCliente[4] = 10.5;		NumeroCarretas[4] = 4;
@@ -764,29 +770,31 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                 NoCliente[7] = 18;		HoraInicioCliente[7] = 12.5;	HoraFinalCliente[7] = 14.5;		NumeroCarretas[7] = 4;
                 NoCliente[8] = 19;		HoraInicioCliente[8] = 13; 		HoraFinalCliente[8] = 15;      	NumeroCarretas[8] = 3;
                 NoCliente[9] = 20;		HoraInicioCliente[9] = 13.5; 	HoraFinalCliente[9] = 15;		NumeroCarretas[9] = 2;
-                /*
+
                 NoCliente[10] = 2;		HoraInicioCliente[10] = 8;		HoraFinalCliente[10] = 9.5;		NumeroCarretas[10] = 5;
-                NoCliente[11] = 13; 	HoraInicioCliente[11] = 8.5;	HoraFinalCliente[11] = 10;		NumeroCarretas[11] = 5;
-                NoCliente[12] = 6;		HoraInicioCliente[12] = 9.5; 	HoraFinalCliente[12] = 12.5;	NumeroCarretas[12] = 4;
-                NoCliente[13] = 14;		HoraInicioCliente[13] = 10;	 	HoraFinalCliente[13] = 13;	 	NumeroCarretas[13] = 5;
-                NoCliente[14] = 15;		HoraInicioCliente[14] = 12;	 	HoraFinalCliente[14] = 14; 		NumeroCarretas[14] = 2;
-                NoCliente[15] = 16;		HoraInicioCliente[15] = 13;	 	HoraFinalCliente[15] = 14.5; 	NumeroCarretas[15] = 4;
-                NoCliente[16] = 17;		HoraInicioCliente[16] = 13.5;	HoraFinalCliente[16] = 15;	 	NumeroCarretas[16] = 3;
+				NoCliente[11] = 13; 	HoraInicioCliente[11] = 8.5;	HoraFinalCliente[11] = 10;		NumeroCarretas[11] = 5;
+				NoCliente[12] = 6;		HoraInicioCliente[12] = 9.5; 	HoraFinalCliente[12] = 11;		NumeroCarretas[12] = 4;
+				NoCliente[13] = 14;		HoraInicioCliente[13] = 10;	 	HoraFinalCliente[13] = 12;	 	NumeroCarretas[13] = 5;
+				NoCliente[14] = 15;		HoraInicioCliente[14] = 11.5;	HoraFinalCliente[14] = 12; 		NumeroCarretas[14] = 2;
 
-                NoCliente[17] = 12;		HoraInicioCliente[17] = 8;	 	HoraFinalCliente[17] = 9.5;		NumeroCarretas[17] = 4;
+				NoCliente[15] = 16;		HoraInicioCliente[15] = 11.5;	HoraFinalCliente[15] = 13; 		NumeroCarretas[15] = 4;
+                NoCliente[16] = 17;		HoraInicioCliente[16] = 12;		HoraFinalCliente[16] = 13.5;	NumeroCarretas[16] = 3;
+
+
+                NoCliente[17] = 12;		HoraInicioCliente[17] = 8;	 	HoraFinalCliente[17] = 9;		NumeroCarretas[17] = 4;
                 NoCliente[18] = 21;		HoraInicioCliente[18] = 8.5;	HoraFinalCliente[18] = 9;		NumeroCarretas[18] = 1;
-                NoCliente[19] = 22;		HoraInicioCliente[19] = 8.5; 	HoraFinalCliente[19] = 10.5;	NumeroCarretas[19] = 4;
-                NoCliente[20] = 23;		HoraInicioCliente[20] = 9.5;	HoraFinalCliente[20] = 12.5;	NumeroCarretas[20] = 2;
-                NoCliente[21] = 24;		HoraInicioCliente[21] = 11;	 	HoraFinalCliente[21] = 13;    	NumeroCarretas[21] = 3;
+                NoCliente[19] = 22;		HoraInicioCliente[19] = 8.5; 	HoraFinalCliente[19] = 9.5;		NumeroCarretas[19] = 4;
+                NoCliente[20] = 23;		HoraInicioCliente[20] = 9;		HoraFinalCliente[20] = 10.5;	NumeroCarretas[20] = 2;
+                NoCliente[21] = 24;		HoraInicioCliente[21] = 9.5;	HoraFinalCliente[21] = 11;    	NumeroCarretas[21] = 3;
                 NoCliente[22] = 25;		HoraInicioCliente[22] = 11.5;	HoraFinalCliente[22] = 13.5;	NumeroCarretas[22] = 4;
-                 */
+*/
 
-                NumeroCaminhoes = 10;
+                NumeroCaminhoes = 30;
 
                 CaminhoesPlanta.resize(NumeroPlantas + 1);
                 CaminhoesPlanta[1] = 10;
-                //CaminhoesPlanta[2] = 10;
-                //CaminhoesPlanta[3] = 10;
+                CaminhoesPlanta[2] = 10;
+                CaminhoesPlanta[3] = 10;
 
                 Velocidade 		= 30;
 
@@ -1065,20 +1073,20 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
      */
 
         for(int c =1; c <= NumeroClientes; c++){
-                NumeroCarretas[c] = (rand()%5) + 1;
-                //InstanciaSaloman << " No" << i << " ";
-                InstanciaSaloman << NumeroCarretas[c] ;
-                for( int i= 1; i <= NumeroCarretas[c] ; i++){
-                    InstanciaSaloman << " " << i;
-                }
-                InstanciaSaloman << endl;
+        	//NumeroCarretas[c] = (rand()%5) + 1;
+			//InstanciaSaloman << " No" << i << " ";
+			InstanciaSaloman << NumeroCarretas[c] ;
+			for( int i= 1; i <= NumeroCarretas[c] ; i++){
+				InstanciaSaloman << " " << i;
+			}
+			InstanciaSaloman << endl;
         }
 
         // Preenche as localizações das plantas e entradas
 
         for(int p =1; p <= NumeroPlantas; p++){
             for(int i =1; i <= NumeroClientes; i++){
-                    InstanciaSaloman << sqrt( pow( Coordenadas[ NoPlanta[p] ][0] - Coordenadas[	NoCliente[i] ][0],2) + pow( Coordenadas[ NoPlanta[p] ][1] - Coordenadas[ NoCliente[i] ][1],2) ) / Velocidade << " ";
+            	InstanciaSaloman << sqrt( pow( Coordenadas[ NoPlanta[p] ][0] - Coordenadas[	NoCliente[i] ][0],2) + pow( Coordenadas[ NoPlanta[p] ][1] - Coordenadas[ NoCliente[i] ][1],2) ) / Velocidade << " ";
             }
             InstanciaSaloman << endl;
         }
