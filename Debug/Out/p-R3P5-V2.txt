@@ -1,0 +1,206 @@
+Tried aggregator 1 time.
+MIP Presolve eliminated 5400 rows and 1 columns.
+MIP Presolve modified 7496060 coefficients.
+Reduced MIP has 1367595 rows, 69408 columns, and 6602520 nonzeros.
+Reduced MIP has 66690 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 5.90 sec. (2775.48 ticks)
+Probing fixed 240 vars, tightened 0 bounds.
+Probing time = 3.91 sec. (342.68 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 442040 rows and 22082 columns.
+Reduced MIP has 925555 rows, 47326 columns, and 4473960 nonzeros.
+Reduced MIP has 45088 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 2.13 sec. (1303.17 ticks)
+Probing time = 3.78 sec. (85.37 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 925555 rows, 47326 columns, and 4473960 nonzeros.
+Reduced MIP has 45088 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 1.70 sec. (1081.42 ticks)
+Probing time = 3.17 sec. (85.59 ticks)
+Clique table members: 45.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 8 threads.
+Root relaxation solution time = 16.21 sec. (3380.78 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+      0     0      -11.0973  1110                    -11.0973     4373         
+      0     0      -10.4100  1068                  Cuts: 1716     5617         
+Elapsed time = 23.19 sec. (10000.01 ticks) for 244597 of 927069 candidates for flow covers
+Elapsed time = 48.12 sec. (20000.07 ticks) for 379993 of 927069 candidates for flow covers
+Elapsed time = 72.20 sec. (30000.07 ticks) for 500118 of 927069 candidates for flow covers
+Elapsed time = 95.05 sec. (40000.13 ticks) for 620240 of 927069 candidates for flow covers
+Elapsed time = 118.65 sec. (50000.17 ticks) for 757672 of 927069 candidates for flow covers
+Elapsed time = 144.11 sec. (60000.22 ticks) for 877194 of 927069 candidates for flow covers
+      0     0       -9.3665  1047                  Cuts: 1248     5909         
+Elapsed time = 28.85 sec. (10000.02 ticks) for 246468 of 927389 candidates for flow covers
+Elapsed time = 56.25 sec. (20000.04 ticks) for 384856 of 927389 candidates for flow covers
+Elapsed time = 83.10 sec. (30000.10 ticks) for 509043 of 927389 candidates for flow covers
+Elapsed time = 108.48 sec. (40000.18 ticks) for 633140 of 927389 candidates for flow covers
+Elapsed time = 135.44 sec. (50000.26 ticks) for 771310 of 927389 candidates for flow covers
+Elapsed time = 159.91 sec. (60000.26 ticks) for 894878 of 927389 candidates for flow covers
+      0     0       -8.8000  1025                  Cuts: 1532     6093         
+Elapsed time = 28.33 sec. (10000.03 ticks) for 249805 of 927860 candidates for flow covers
+Elapsed time = 53.90 sec. (20000.11 ticks) for 391014 of 927860 candidates for flow covers
+Elapsed time = 77.86 sec. (30000.18 ticks) for 518958 of 927860 candidates for flow covers
+Elapsed time = 103.36 sec. (40000.23 ticks) for 647336 of 927860 candidates for flow covers
+Elapsed time = 128.75 sec. (50000.32 ticks) for 785798 of 927860 candidates for flow covers
+Elapsed time = 152.20 sec. (60000.41 ticks) for 912573 of 927860 candidates for flow covers
+      0     0       -8.1899   999                  Cuts: 1610     6186         
+Elapsed time = 25.65 sec. (10000.09 ticks) for 253220 of 928297 candidates for flow covers
+Elapsed time = 51.42 sec. (20000.18 ticks) for 399016 of 928297 candidates for flow covers
+Elapsed time = 80.53 sec. (30000.20 ticks) for 531079 of 928297 candidates for flow covers
+Elapsed time = 106.39 sec. (40000.20 ticks) for 665677 of 928297 candidates for flow covers
+Elapsed time = 130.58 sec. (50000.24 ticks) for 805107 of 928297 candidates for flow covers
+      0     0       -7.5649   969                  Cuts: 1303     6409         
+Elapsed time = 27.35 sec. (10000.02 ticks) for 265362 of 928629 candidates for flow covers
+Elapsed time = 55.15 sec. (20000.07 ticks) for 423686 of 928629 candidates for flow covers
+Elapsed time = 80.23 sec. (30000.15 ticks) for 572317 of 928629 candidates for flow covers
+Elapsed time = 108.57 sec. (40000.21 ticks) for 727980 of 928629 candidates for flow covers
+Elapsed time = 134.77 sec. (50000.29 ticks) for 872017 of 928629 candidates for flow covers
+      0     0       11.9471   922                  Cuts: 2415     7308         
+Elapsed time = 29.59 sec. (10000.03 ticks) for 268460 of 929292 candidates for flow covers
+Elapsed time = 58.12 sec. (20000.08 ticks) for 433102 of 929292 candidates for flow covers
+Elapsed time = 86.34 sec. (30000.11 ticks) for 589680 of 929292 candidates for flow covers
+Elapsed time = 113.26 sec. (40000.16 ticks) for 755560 of 929292 candidates for flow covers
+Elapsed time = 141.52 sec. (50000.23 ticks) for 915292 of 929292 candidates for flow covers
+      0     0       12.9635   901                  Cuts: 1505     7694         
+Elapsed time = 30.00 sec. (10000.03 ticks) for 269494 of 929440 candidates for flow covers
+Elapsed time = 59.21 sec. (20000.04 ticks) for 433218 of 929440 candidates for flow covers
+Elapsed time = 87.05 sec. (30000.07 ticks) for 595566 of 929440 candidates for flow covers
+Elapsed time = 113.98 sec. (40000.07 ticks) for 763108 of 929440 candidates for flow covers
+      0     0       13.9014   893                  Cuts: 1612     7997         
+Elapsed time = 27.52 sec. (10000.08 ticks) for 269433 of 929908 candidates for flow covers
+Elapsed time = 56.49 sec. (20000.09 ticks) for 431407 of 929908 candidates for flow covers
+Elapsed time = 84.56 sec. (30000.11 ticks) for 595411 of 929908 candidates for flow covers
+Elapsed time = 112.14 sec. (40000.17 ticks) for 764272 of 929908 candidates for flow covers
+      0     0       15.1734   864                  Cuts: 1500     8243         
+Elapsed time = 26.21 sec. (10000.03 ticks) for 278322 of 930206 candidates for flow covers
+Elapsed time = 51.87 sec. (20000.05 ticks) for 452186 of 930206 candidates for flow covers
+Elapsed time = 78.49 sec. (30000.13 ticks) for 620495 of 930206 candidates for flow covers
+Elapsed time = 104.63 sec. (40000.21 ticks) for 797525 of 930206 candidates for flow covers
+      0     0       16.0260   857                  Cuts: 1522     8431         
+Elapsed time = 26.88 sec. (10000.02 ticks) for 270055 of 930514 candidates for flow covers
+Elapsed time = 53.91 sec. (20000.07 ticks) for 445164 of 930514 candidates for flow covers
+Elapsed time = 79.73 sec. (30000.12 ticks) for 614217 of 930514 candidates for flow covers
+Elapsed time = 107.51 sec. (40000.18 ticks) for 784756 of 930514 candidates for flow covers
+      0     0       16.9401   855                  Cuts: 1952     8700         
+Elapsed time = 26.07 sec. (10000.03 ticks) for 272544 of 930848 candidates for flow covers
+Elapsed time = 52.42 sec. (20000.11 ticks) for 445027 of 930848 candidates for flow covers
+Elapsed time = 79.42 sec. (30000.12 ticks) for 605642 of 930848 candidates for flow covers
+Elapsed time = 106.01 sec. (40000.12 ticks) for 775140 of 930848 candidates for flow covers
+      0     0       17.5370   839                  Cuts: 1708     8999         
+Elapsed time = 26.02 sec. (10000.02 ticks) for 276007 of 931112 candidates for flow covers
+Elapsed time = 54.04 sec. (20000.07 ticks) for 453241 of 931112 candidates for flow covers
+Elapsed time = 81.55 sec. (30000.07 ticks) for 619963 of 931112 candidates for flow covers
+Elapsed time = 109.47 sec. (40000.14 ticks) for 798280 of 931112 candidates for flow covers
+      0     0       17.9123   844                  Cuts: 1466     9196         
+Elapsed time = 25.31 sec. (10000.02 ticks) for 273211 of 931321 candidates for flow covers
+Elapsed time = 49.21 sec. (20000.06 ticks) for 441742 of 931321 candidates for flow covers
+Elapsed time = 74.69 sec. (30000.06 ticks) for 610228 of 931321 candidates for flow covers
+Elapsed time = 99.45 sec. (40000.15 ticks) for 791652 of 931321 candidates for flow covers
+      0     0       18.7241   823                  Cuts: 1574     9556         
+Elapsed time = 25.82 sec. (10000.04 ticks) for 277539 of 931525 candidates for flow covers
+Elapsed time = 50.14 sec. (20000.11 ticks) for 451400 of 931525 candidates for flow covers
+Elapsed time = 77.85 sec. (30000.11 ticks) for 627829 of 931525 candidates for flow covers
+Elapsed time = 102.93 sec. (40000.15 ticks) for 817230 of 931525 candidates for flow covers
+      0     0       19.2165   882                  Cuts: 2114     9780         
+Elapsed time = 25.66 sec. (10000.02 ticks) for 266565 of 931732 candidates for flow covers
+Elapsed time = 54.19 sec. (20000.11 ticks) for 431880 of 931732 candidates for flow covers
+Elapsed time = 78.31 sec. (30000.18 ticks) for 599564 of 931732 candidates for flow covers
+Elapsed time = 104.51 sec. (40000.24 ticks) for 780516 of 931732 candidates for flow covers
+      0     0       19.3959   927                  Cuts: 2551    10019         
+Elapsed time = 25.90 sec. (10000.03 ticks) for 257234 of 932302 candidates for flow covers
+Elapsed time = 53.13 sec. (20000.08 ticks) for 410413 of 932302 candidates for flow covers
+Elapsed time = 77.71 sec. (30000.15 ticks) for 566410 of 932302 candidates for flow covers
+Elapsed time = 103.94 sec. (40000.18 ticks) for 735297 of 932302 candidates for flow covers
+Elapsed time = 130.50 sec. (50000.27 ticks) for 900316 of 932302 candidates for flow covers
+      0     0       19.6211   946                  Cuts: 2567    10260         
+Elapsed time = 26.45 sec. (10000.07 ticks) for 254963 of 932738 candidates for flow covers
+Elapsed time = 52.15 sec. (20000.11 ticks) for 403820 of 932738 candidates for flow covers
+Elapsed time = 76.23 sec. (30000.13 ticks) for 556077 of 932738 candidates for flow covers
+Elapsed time = 102.67 sec. (40000.18 ticks) for 726017 of 932738 candidates for flow covers
+Elapsed time = 129.29 sec. (50000.23 ticks) for 862402 of 932738 candidates for flow covers
+      0     0       19.6557   983                  Cuts: 2761    10413         
+Elapsed time = 25.94 sec. (10000.04 ticks) for 253093 of 933300 candidates for flow covers
+Elapsed time = 50.77 sec. (20000.11 ticks) for 402224 of 933300 candidates for flow covers
+Elapsed time = 75.29 sec. (30000.13 ticks) for 543970 of 933300 candidates for flow covers
+Elapsed time = 99.58 sec. (40000.14 ticks) for 705933 of 933300 candidates for flow covers
+Elapsed time = 125.13 sec. (50000.16 ticks) for 848695 of 933300 candidates for flow covers
+      0     0       19.6565  1025                  Cuts: 3210    10551         
+Elapsed time = 20.48 sec. (10000.05 ticks) for 251310 of 933800 candidates for flow covers
+Elapsed time = 41.37 sec. (20000.10 ticks) for 392558 of 933800 candidates for flow covers
+Elapsed time = 63.46 sec. (30000.16 ticks) for 527509 of 933800 candidates for flow covers
+Elapsed time = 84.65 sec. (40000.21 ticks) for 685410 of 933800 candidates for flow covers
+Elapsed time = 105.57 sec. (50000.27 ticks) for 830258 of 933800 candidates for flow covers
+      0     0       19.6583   974                  Cuts: 1770    10755         
+Elapsed time = 19.13 sec. (10000.01 ticks) for 277155 of 933370 candidates for flow covers
+Elapsed time = 41.38 sec. (20000.02 ticks) for 437519 of 933370 candidates for flow covers
+Elapsed time = 63.39 sec. (30000.06 ticks) for 586208 of 933370 candidates for flow covers
+Elapsed time = 84.28 sec. (40000.13 ticks) for 768451 of 933370 candidates for flow covers
+      0     0       19.6594   985                  Cuts: 4693    11128         
+Heuristic still looking.
+      0     2       19.6781   952                     19.6594    11149         
+Elapsed time = 3202.87 sec. (1191335.66 ticks, tree = 0.01 MB, solutions = 0)
+      1     3       39.1998   914                     19.6594    11293         
+      2     4       19.9895   944                     19.6594    11508         
+      4     4       39.7995   884                     20.1723    11558         
+      7     7       50.5253   878                     20.1723    12240         
+     10    10       58.9532   863                     20.1723    12607         
+     12    10       51.5619   863                     30.0089    13000         
+     14    12       59.1228   886                     30.0089    13487         
+     15    13       59.8904   878                     30.0089    13765         
+     20    18       39.0279   957                     30.0089    14446         
+     25    21       50.5641   912                     30.0089    15758         
+Elapsed time = 3258.60 sec. (1203614.13 ticks, tree = 0.01 MB, solutions = 0)
+     39    23       40.2112   965                     30.0089    16653         
+     44    28       59.0131   988                     30.0089    17686         
+     52    30       51.7721   939                     30.0089    19142         
+     63    41       48.5302   913                     30.0089    19937         
+     71    45       48.5468   908                     30.0089    20123         
+     87    52       48.6328   912                     30.0089    21930         
+     94    57       58.5468   866                     30.0089    23026         
+    108    71       68.6335   980                     30.0089    25622         
+    110    73       58.9336   665                     30.0089    26114         
+    124    79       57.8135   883                     30.0089    28473         
+Elapsed time = 3379.49 sec. (1220356.52 ticks, tree = 11.30 MB, solutions = 0)
+    143    96       89.6681   648                     30.0089    29921         
+    154   105    infeasible                           30.0089    31437         
+    162   113       68.7310   764                     30.0089    32080         
+    178   127       70.3977   716                     30.0089    33538         
+    186   134       77.3523   754                     30.0089    34714         
+    263   196       67.1363   618                     30.0089    39732         
+    269   202       77.2785   689                     30.0089    42139         
+    280   207      107.5420   513                     30.0089    43301         
+    287   214       85.0709   578                     30.0089    45160         
+    293   220       86.0175   676                     30.0089    45778         
+Elapsed time = 3486.20 sec. (1236510.09 ticks, tree = 3.21 MB, solutions = 0)
+    301   228       86.5923   631                     30.0089    46807         
+    315   238      112.8587   498                     30.0089    48645         
+    322   245      102.5203   525                     30.0089    49173         
+    331   252      118.0056   502                     30.0089    50032         
+    339   260      117.6955   487                     30.0089    51105         
+    347   268      117.8513   450                     30.0089    52511         
+    355   276      118.0180   454                     30.0089    53082         
+    363   282      117.8513   452                     30.0089    53790         
+    371   290      118.1591   460                     30.0089    55223         
+    383   302      117.1444   458                     30.0089    56479         
+Elapsed time = 3545.68 sec. (1250222.25 ticks, tree = 12.36 MB, solutions = 0)
+    392   311      117.8513   450                     30.0089    56935         
+    394   313      116.8921   515                     30.0089    57118         
+
+Implied bound cuts applied:  3725
+Flow cuts applied:  1
+Mixed integer rounding cuts applied:  3888
+Gomory fractional cuts applied:  1
+
+Root node processing (before b&c):
+  Real time             = 3198.55 sec. (1189998.27 ticks)
+Parallel b&c, 8 threads:
+  Real time             =  403.27 sec. (68381.02 ticks)
+  Sync time (average)   =   63.98 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) = 3601.81 sec. (1258379.29 ticks)
