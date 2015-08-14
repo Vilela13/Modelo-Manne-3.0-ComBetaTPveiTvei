@@ -803,7 +803,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                 if(NomeInstancia[0] == 'C' ){
                     //Inicializa Parametros
 
-                    cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia C ####################################################################################################" << endl << endl << endl;
+                    //cout << endl << endl << endl << " Nao devia ter entrado para escrever dados da Instancia C ####################################################################################################" << endl << endl << endl;
 
                     NumeroPlantas 	= 2;
 
@@ -855,7 +855,16 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
                     */
 
 
-
+                    NoCliente[1] = 1;		HoraInicioCliente[1] = 8;		HoraFinalCliente[1] = 13;		NumeroCarretas[1] = 4; // Gerada com o rand com raiz de 49
+					NoCliente[2] = 2;		HoraInicioCliente[2] = 8;	 	HoraFinalCliente[2] = 13;		NumeroCarretas[2] = 5;
+					NoCliente[3] = 3;		HoraInicioCliente[3] = 8;	 	HoraFinalCliente[3] = 13;		NumeroCarretas[3] = 5;
+					NoCliente[4] = 5;		HoraInicioCliente[4] = 8;	 	HoraFinalCliente[4] = 13;		NumeroCarretas[4] = 4;
+					NoCliente[5] = 6;		HoraInicioCliente[5] = 8;	 	HoraFinalCliente[5] = 13;		NumeroCarretas[5] = 5;
+					NoCliente[6] = 12;		HoraInicioCliente[6] = 8;	 	HoraFinalCliente[6] = 13;		NumeroCarretas[6] = 4;
+					NoCliente[7] = 13;		HoraInicioCliente[7] = 8; 		HoraFinalCliente[7] = 13;		NumeroCarretas[7] = 4;
+					NoCliente[8] = 14;		HoraInicioCliente[8] = 8;		HoraFinalCliente[8] = 13;		NumeroCarretas[8] = 4;
+					NoCliente[9] = 16;		HoraInicioCliente[9] = 8;		HoraFinalCliente[9] = 13;		NumeroCarretas[9] = 4;
+					NoCliente[10] = 17;		HoraInicioCliente[10] = 8;	 	HoraFinalCliente[10] = 13;		NumeroCarretas[10] = 5;
 
                 //dados com o gerador => NumeroVERSAO = 50;         ************************************ Realizado *******************************************************
 /*                    NoCliente[1] = 1;		HoraInicioCliente[1] = 8;	 	HoraFinalCliente[1] = 8.5;		NumeroCarretas[1] = 3;
@@ -1076,7 +1085,7 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
      */
 
         for(int c =1; c <= NumeroClientes; c++){
-        	NumeroCarretas[c] = (rand()%2) + 4;
+        	//NumeroCarretas[c] = (rand()%2) + 4;
 			//InstanciaSaloman << " No" << i << " ";
 			InstanciaSaloman << NumeroCarretas[c] ;
 			for( int i= 1; i <= NumeroCarretas[c] ; i++){

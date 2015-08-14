@@ -1,0 +1,267 @@
+rm -rf  ./src/Git-Manne-Robson-1.o  ./src/Git-Manne-Robson-1.d  Git-Manne-Robson-1
+ 
+Building file: ../src/Git-Manne-Robson-1.cpp
+Invoking: Cross G++ Compiler
+g++ -DIL_STD -I/home/lapo/cplex/cplex126/concert/include -I/home/lapo/cplex/cplex126/cplex/include -O0 -g3 -Wall -c -fmessage-length=0 -m64 -O -fPIC -fexceptions -DIL_STD -MMD -MP -MF"src/Git-Manne-Robson-1.d" -MT"src/Git-Manne-Robson-1.d" -o "src/Git-Manne-Robson-1.o" -c "../src/Git-Manne-Robson-1.cpp"
+Finished building: ../src/Git-Manne-Robson-1.cpp
+ 
+Building target: Git-Manne-Robson-1
+Invoking: Cross G++ Linker
+g++ -L/home/lapo/cplex/cplex126/concert/lib/x86-64_linux/static_pic -L/home/lapo/cplex/cplex126/cplex/lib/x86-64_linux/static_pic -o "Git-Manne-Robson-1"  ./src/Git-Manne-Robson-1.o   -lconcert -lilocplex -lcplex -lpthread -lm
+Finished building target: Git-Manne-Robson-1
+ 
+ 
+   Arqmazena nome de instancias 
+ 
+ Modelo <= p-C2P5DaJam-V1.txt
+
+ Tem diretorio "Out" !!  
+ Tem diretorio "Sol" !!  
+
+
+ arquivo a gravar a ssolucao ./Sol/p-C2P5DaJam-V1.txt
+
+Solution status = 1 [Feasible] 
+Solution primal cost = 132.904
+Solution dual cost = 36.3545
+Gap = 72.6461%
+Tempo = 3600.19 segundos. 
+
+     Planta 1
+ Veiculo 1
+	 Entrega[Construcao->1][Job->1] carrega as 9.15, sai da planta as 9.24, chega a entrega1 as 9.34 e sai as  9.50, retorna a planta as 9.60
+ Veiculo 2
+	 Entrega[Construcao->3][Job->3] carrega as 10.82, sai da planta as 10.91, chega a entrega3 as 10.97 e sai as  11.14, retorna a planta as 11.21
+	 Entrega[Construcao->4][Job->1] carrega as 7.82, sai da planta as 7.90, chega a entrega4 as 8.00 e sai as  8.17, retorna a planta as 8.27
+ Veiculo 3
+	 Entrega[Construcao->4][Job->2] carrega as 7.98, sai da planta as 8.07, chega a entrega4 as 8.17 e sai as  8.33, retorna a planta as 8.43
+ Veiculo 4
+	 Entrega[Construcao->1][Job->3] carrega as 9.49, sai da planta as 9.57, chega a entrega1 as 9.67 e sai as  9.84, retorna a planta as 9.94
+ Veiculo 5
+	 Entrega[Construcao->4][Job->3] carrega as 8.15, sai da planta as 8.23, chega a entrega4 as 8.33 e sai as  8.50, retorna a planta as 8.60
+	 Entrega[Construcao->7][Job->3] carrega as 8.80, sai da planta as 8.89, chega a entrega7 as 9.59 e sai as  9.76, retorna a planta as 10.47
+ Veiculo 6
+	 Entrega[Construcao->1][Job->2] carrega as 9.32, sai da planta as 9.40, chega a entrega1 as 9.50 e sai as  9.67, retorna a planta as 9.77
+	 Entrega[Construcao->8][Job->4] carrega as 10.24, sai da planta as 10.33, chega a entrega8 as 11.20 e sai as  11.37, retorna a planta as 12.24
+ Veiculo 7
+	 Entrega[Construcao->5][Job->5] carrega as 12.58, sai da planta as 12.66, chega a entrega5 as 12.73 e sai as  12.90, retorna a planta as 12.98
+	 Entrega[Construcao->10][Job->5] carrega as 8.07, sai da planta as 8.15, chega a entrega10 as 8.98 e sai as  9.15, retorna a planta as 9.98
+ Veiculo 8
+	 Entrega[Construcao->5][Job->2] carrega as 12.08, sai da planta as 12.16, chega a entrega5 as 12.23 e sai as  12.40, retorna a planta as 12.48
+	 Entrega[Construcao->8][Job->3] carrega as 10.08, sai da planta as 10.16, chega a entrega8 as 11.03 e sai as  11.20, retorna a planta as 12.08
+ Veiculo 9
+	 Entrega[Construcao->5][Job->1] carrega as 11.91, sai da planta as 11.99, chega a entrega5 as 12.07 e sai as  12.23, retorna a planta as 12.31
+	 Entrega[Construcao->7][Job->4] carrega as 8.97, sai da planta as 9.05, chega a entrega7 as 9.76 e sai as  9.93, retorna a planta as 10.63
+ Veiculo 10
+	 Entrega[Construcao->10][Job->1] carrega as 7.40, sai da planta as 7.48, chega a entrega10 as 8.32 e sai as  8.48, retorna a planta as 9.32
+     Planta 2
+ Veiculo 11
+	 Entrega[Construcao->6][Job->1] carrega as 12.01, sai da planta as 12.09, chega a entrega6 as 12.33 e sai as  12.50, retorna a planta as 12.73
+	 Entrega[Construcao->7][Job->1] carrega as 9.00, sai da planta as 9.08, chega a entrega7 as 9.26 e sai as  9.43, retorna a planta as 9.61
+	 Entrega[Construcao->8][Job->2] carrega as 10.61, sai da planta as 10.69, chega a entrega8 as 10.87 e sai as  11.03, retorna a planta as 11.21
+	 Entrega[Construcao->10][Job->3] carrega as 8.39, sai da planta as 8.47, chega a entrega10 as 8.65 e sai as  8.82, retorna a planta as 9.00
+ Veiculo 12
+	 Entrega[Construcao->1][Job->4] carrega as 8.83, sai da planta as 8.91, chega a entrega1 as 9.84 e sai as  10.00, retorna a planta as 10.93
+	 Entrega[Construcao->5][Job->3] carrega as 11.56, sai da planta as 11.64, chega a entrega5 as 12.40 e sai as  12.57, retorna a planta as 13.33
+	 Entrega[Construcao->10][Job->2] carrega as 8.22, sai da planta as 8.30, chega a entrega10 as 8.48 e sai as  8.65, retorna a planta as 8.83
+ Veiculo 13
+	 Entrega[Construcao->2][Job->3] carrega as 7.78, sai da planta as 7.86, chega a entrega2 as 8.76 e sai as  8.93, retorna a planta as 9.82
+	 Entrega[Construcao->3][Job->2] carrega as 9.86, sai da planta as 9.94, chega a entrega3 as 10.81 e sai as  10.97, retorna a planta as 11.84
+ Veiculo 14
+	 Entrega[Construcao->3][Job->1] carrega as 9.69, sai da planta as 9.77, chega a entrega3 as 10.64 e sai as  10.81, retorna a planta as 11.68
+	 Entrega[Construcao->4][Job->4] carrega as 7.53, sai da planta as 7.61, chega a entrega4 as 8.50 e sai as  8.67, retorna a planta as 9.55
+	 Entrega[Construcao->6][Job->3] carrega as 12.34, sai da planta as 12.43, chega a entrega6 as 12.66 e sai as  12.83, retorna a planta as 13.07
+ Veiculo 15
+	 Entrega[Construcao->2][Job->5] carrega as 8.11, sai da planta as 8.20, chega a entrega2 as 9.09 e sai as  9.26, retorna a planta as 10.16
+	 Entrega[Construcao->3][Job->4] carrega as 10.19, sai da planta as 10.27, chega a entrega3 as 11.14 e sai as  11.31, retorna a planta as 12.18
+	 Entrega[Construcao->6][Job->2] carrega as 12.18, sai da planta as 12.26, chega a entrega6 as 12.50 e sai as  12.66, retorna a planta as 12.90
+ Veiculo 16
+	 Entrega[Construcao->2][Job->4] carrega as 7.95, sai da planta as 8.03, chega a entrega2 as 8.93 e sai as  9.09, retorna a planta as 9.99
+	 Entrega[Construcao->3][Job->5] carrega as 10.36, sai da planta as 10.44, chega a entrega3 as 11.31 e sai as  11.47, retorna a planta as 12.34
+ Veiculo 17
+	 Entrega[Construcao->2][Job->2] carrega as 7.61, sai da planta as 7.70, chega a entrega2 as 8.59 e sai as  8.76, retorna a planta as 9.66
+	 Entrega[Construcao->9][Job->3] carrega as 10.11, sai da planta as 10.19, chega a entrega9 as 10.36 e sai as  10.52, retorna a planta as 10.69
+ Veiculo 18
+	 Entrega[Construcao->2][Job->1] carrega as 7.45, sai da planta as 7.53, chega a entrega2 as 8.43 e sai as  8.59, retorna a planta as 9.49
+	 Entrega[Construcao->5][Job->4] carrega as 11.72, sai da planta as 11.81, chega a entrega5 as 12.57 e sai as  12.73, retorna a planta as 13.50
+	 Entrega[Construcao->9][Job->2] carrega as 9.94, sai da planta as 10.02, chega a entrega9 as 10.19 e sai as  10.36, retorna a planta as 10.52
+ Veiculo 19
+	 Entrega[Construcao->6][Job->4] carrega as 12.51, sai da planta as 12.59, chega a entrega6 as 12.83 e sai as  13.00, retorna a planta as 13.23
+	 Entrega[Construcao->9][Job->4] carrega as 10.27, sai da planta as 10.36, chega a entrega9 as 10.52 e sai as  10.69, retorna a planta as 10.86
+	 Entrega[Construcao->10][Job->4] carrega as 8.55, sai da planta as 8.64, chega a entrega10 as 8.82 e sai as  8.98, retorna a planta as 9.16
+ Veiculo 20
+	 Entrega[Construcao->7][Job->2] carrega as 9.16, sai da planta as 9.25, chega a entrega7 as 9.43 e sai as  9.59, retorna a planta as 9.77
+	 Entrega[Construcao->8][Job->1] carrega as 10.44, sai da planta as 10.52, chega a entrega8 as 10.70 e sai as  10.87, retorna a planta as 11.05
+	 Entrega[Construcao->9][Job->1] carrega as 9.77, sai da planta as 9.86, chega a entrega9 as 10.02 e sai as  10.19, retorna a planta as 10.36
+
+
+           Tempo de entrega em cada cliente         
+ Cliente 1	[ 8.00	<=		9.34[v1]	9.50[v6]	9.67[v4]	9.84[v12]	<=	13.00]
+ Cliente 2	[ 8.00	<=		8.43[v18]	8.59[v17]	8.76[v13]	8.93[v16]	9.09[v15]	<=	13.00]
+ Cliente 3	[ 8.00	<=		10.64[v14]	10.81[v13]	10.97[v2]	11.14[v15]	11.31[v16]	<=	13.00]
+ Cliente 4	[ 8.00	<=		8.00[v2]	8.17[v3]	8.33[v5]	8.50[v14]	<=	13.00]
+ Cliente 5	[ 8.00	<=		12.07[v9]	12.23[v8]	12.40[v12]	12.57[v18]	12.73[v7]	<=	13.00]
+ Cliente 6	[ 8.00	<=		12.33[v11]	12.50[v15]	12.66[v14]	12.83[v19]	<=	13.00]
+ Cliente 7	[ 8.00	<=		9.26[v11]	9.43[v20]	9.59[v5]	9.76[v9]	<=	13.00]
+ Cliente 8	[ 8.00	<=		10.70[v20]	10.87[v11]	11.03[v8]	11.20[v6]	<=	13.00]
+ Cliente 9	[ 8.00	<=		10.02[v20]	10.19[v18]	10.36[v17]	10.52[v19]	<=	13.00]
+ Cliente 10	[ 8.00	<=		8.32[v10]	8.48[v12]	8.65[v11]	8.82[v19]	8.98[v7]	<=	13.00]
+
+
+           Veiculos usados         
+Planta 1
+  Veiculo 1 	[clientes ->	   1(9.3372) ]
+  Veiculo 2 	[clientes ->	   3(10.9744)    4(8) ]
+  Veiculo 3 	[clientes ->	   4(8.16667) ]
+  Veiculo 4 	[clientes ->	   1(9.67053) ]
+  Veiculo 5 	[clientes ->	   4(8.33333)    7(9.59234) ]
+  Veiculo 6 	[clientes ->	   1(9.50387)    8(11.2014) ]
+  Veiculo 7 	[clientes ->	   5(12.7342)    10(8.98333) ]
+  Veiculo 8 	[clientes ->	   5(12.2342)    8(11.0347) ]
+  Veiculo 9 	[clientes ->	   5(12.0675)    7(9.75901) ]
+  Veiculo 10 	[clientes ->	   10(8.31667) ]
+
+Planta 2
+  Veiculo 11 	[clientes ->	   6(12.3293)    7(9.25901)    8(10.868)    10(8.65) ]
+  Veiculo 12 	[clientes ->	   1(9.8372)    5(12.4009)    10(8.48333) ]
+  Veiculo 13 	[clientes ->	   2(8.75996)    3(10.8077) ]
+  Veiculo 14 	[clientes ->	   3(10.6411)    4(8.5)    6(12.6627) ]
+  Veiculo 15 	[clientes ->	   2(9.09329)    3(11.1411)    6(12.496) ]
+  Veiculo 16 	[clientes ->	   2(8.92663)    3(11.3077) ]
+  Veiculo 17 	[clientes ->	   2(8.59329)    9(10.3552) ]
+  Veiculo 18 	[clientes ->	   2(8.42663)    5(12.5675)    9(10.1885) ]
+  Veiculo 19 	[clientes ->	   6(12.8293)    9(10.5218)    10(8.81667) ]
+  Veiculo 20 	[clientes ->	   7(9.42568)    8(10.7014)    9(10.0218) ]
+
+
+
+ Resolveu = 1
+ Modelo <= p-C2P5DaJm-V1.txt
+
+ Tem diretorio "Out" !!  
+ status = (0)
+
+
+ Resolveu = 0
+ Modelo <= p-C2P5DaJap-V1.txt
+
+ Tem diretorio "Out" !!  
+ Tem diretorio "Sol" !!  
+
+
+ arquivo a gravar a ssolucao ./Sol/p-C2P5DaJap-V1.txt
+
+Solution status = 1 [Feasible] 
+Solution primal cost = 131.188
+Solution dual cost = 39.543
+Gap = 69.8578%
+Tempo = 3600.6 segundos. 
+
+     Planta 1
+ Veiculo 1
+	 Entrega[Construcao->4][Job->3] carrega as 8.15, sai da planta as 8.23, chega a entrega4 as 8.33 e sai as  8.50, retorna a planta as 8.60
+	 Entrega[Construcao->6][Job->3] carrega as 11.45, sai da planta as 11.53, chega a entrega6 as 12.33 e sai as  12.50, retorna a planta as 13.30
+	 Entrega[Construcao->7][Job->4] carrega as 8.71, sai da planta as 8.79, chega a entrega7 as 9.50 e sai as  9.67, retorna a planta as 10.37
+ Veiculo 2
+	 Entrega[Construcao->1][Job->2] carrega as 9.12, sai da planta as 9.20, chega a entrega1 as 9.30 e sai as  9.47, retorna a planta as 9.57
+	 Entrega[Construcao->2][Job->4] carrega as 8.63, sai da planta as 8.71, chega a entrega2 as 8.83 e sai as  9.00, retorna a planta as 9.12
+	 Entrega[Construcao->5][Job->3] carrega as 12.18, sai da planta as 12.26, chega a entrega5 as 12.33 e sai as  12.50, retorna a planta as 12.57
+	 Entrega[Construcao->9][Job->4] carrega as 9.57, sai da planta as 9.65, chega a entrega9 as 10.58 e sai as  10.74, retorna a planta as 11.67
+ Veiculo 3
+	 Entrega[Construcao->1][Job->3] carrega as 9.28, sai da planta as 9.37, chega a entrega1 as 9.47 e sai as  9.63, retorna a planta as 9.73
+	 Entrega[Construcao->2][Job->2] carrega as 8.29, sai da planta as 8.38, chega a entrega2 as 8.50 e sai as  8.66, retorna a planta as 8.78
+	 Entrega[Construcao->3][Job->1] carrega as 10.35, sai da planta as 10.43, chega a entrega3 as 10.50 e sai as  10.67, retorna a planta as 10.73
+	 Entrega[Construcao->3][Job->5] carrega as 11.02, sai da planta as 11.10, chega a entrega3 as 11.17 e sai as  11.33, retorna a planta as 11.40
+	 Entrega[Construcao->4][Job->1] carrega as 7.82, sai da planta as 7.90, chega a entrega4 as 8.00 e sai as  8.17, retorna a planta as 8.27
+	 Entrega[Construcao->5][Job->4] carrega as 12.34, sai da planta as 12.43, chega a entrega5 as 12.50 e sai as  12.67, retorna a planta as 12.74
+ Veiculo 4
+	 Entrega[Construcao->1][Job->4] carrega as 9.45, sai da planta as 9.53, chega a entrega1 as 9.63 e sai as  9.80, retorna a planta as 9.90
+	 Entrega[Construcao->2][Job->5] carrega as 8.79, sai da planta as 8.88, chega a entrega2 as 9.00 e sai as  9.16, retorna a planta as 9.28
+	 Entrega[Construcao->3][Job->4] carrega as 10.85, sai da planta as 10.93, chega a entrega3 as 11.00 e sai as  11.17, retorna a planta as 11.23
+	 Entrega[Construcao->5][Job->5] carrega as 12.51, sai da planta as 12.59, chega a entrega5 as 12.67 e sai as  12.83, retorna a planta as 12.91
+ Veiculo 5
+	 Entrega[Construcao->10][Job->2] carrega as 7.25, sai da planta as 7.33, chega a entrega10 as 8.17 e sai as  8.33, retorna a planta as 9.17
+ Veiculo 6
+	 Entrega[Construcao->3][Job->3] carrega as 10.68, sai da planta as 10.77, chega a entrega3 as 10.83 e sai as  11.00, retorna a planta as 11.07
+	 Entrega[Construcao->5][Job->2] carrega as 12.01, sai da planta as 12.09, chega a entrega5 as 12.17 e sai as  12.33, retorna a planta as 12.41
+ Veiculo 7
+	 Entrega[Construcao->2][Job->3] carrega as 8.46, sai da planta as 8.54, chega a entrega2 as 8.66 e sai as  8.83, retorna a planta as 8.95
+	 Entrega[Construcao->8][Job->4] carrega as 10.15, sai da planta as 10.23, chega a entrega8 as 11.11 e sai as  11.28, retorna a planta as 12.15
+ Veiculo 8
+	 Entrega[Construcao->6][Job->1] carrega as 11.12, sai da planta as 11.20, chega a entrega6 as 12.00 e sai as  12.17, retorna a planta as 12.97
+	 Entrega[Construcao->7][Job->2] carrega as 8.38, sai da planta as 8.46, chega a entrega7 as 9.17 e sai as  9.33, retorna a planta as 10.04
+ Veiculo 9
+	 Entrega[Construcao->8][Job->2] carrega as 9.82, sai da planta as 9.90, chega a entrega8 as 10.78 e sai as  10.94, retorna a planta as 11.82
+	 Entrega[Construcao->10][Job->1] carrega as 7.08, sai da planta as 7.17, chega a entrega10 as 8.00 e sai as  8.17, retorna a planta as 9.00
+ Veiculo 10
+	 Entrega[Construcao->1][Job->1] carrega as 8.95, sai da planta as 9.03, chega a entrega1 as 9.13 e sai as  9.30, retorna a planta as 9.40
+	 Entrega[Construcao->5][Job->1] carrega as 11.84, sai da planta as 11.93, chega a entrega5 as 12.00 e sai as  12.17, retorna a planta as 12.24
+	 Entrega[Construcao->8][Job->1] carrega as 9.65, sai da planta as 9.73, chega a entrega8 as 10.61 e sai as  10.78, retorna a planta as 11.65
+     Planta 2
+ Veiculo 11
+	 Entrega[Construcao->6][Job->4] carrega as 12.18, sai da planta as 12.26, chega a entrega6 as 12.50 e sai as  12.67, retorna a planta as 12.90
+	 Entrega[Construcao->9][Job->3] carrega as 10.16, sai da planta as 10.24, chega a entrega9 as 10.41 e sai as  10.58, retorna a planta as 10.74
+ Veiculo 12
+	 Entrega[Construcao->2][Job->1] carrega as 7.35, sai da planta as 7.43, chega a entrega2 as 8.33 e sai as  8.50, retorna a planta as 9.39
+	 Entrega[Construcao->6][Job->2] carrega as 11.85, sai da planta as 11.93, chega a entrega6 as 12.17 e sai as  12.33, retorna a planta as 12.57
+ Veiculo 13
+ Veiculo 14
+	 Entrega[Construcao->3][Job->2] carrega as 9.71, sai da planta as 9.80, chega a entrega3 as 10.67 e sai as  10.83, retorna a planta as 11.70
+	 Entrega[Construcao->4][Job->2] carrega as 7.20, sai da planta as 7.28, chega a entrega4 as 8.17 e sai as  8.33, retorna a planta as 9.22
+ Veiculo 15
+	 Entrega[Construcao->7][Job->3] carrega as 9.07, sai da planta as 9.15, chega a entrega7 as 9.33 e sai as  9.50, retorna a planta as 9.68
+	 Entrega[Construcao->10][Job->3] carrega as 8.07, sai da planta as 8.15, chega a entrega10 as 8.33 e sai as  8.50, retorna a planta as 8.68
+ Veiculo 16
+	 Entrega[Construcao->4][Job->4] carrega as 7.53, sai da planta as 7.61, chega a entrega4 as 8.50 e sai as  8.67, retorna a planta as 9.55
+ Veiculo 17
+	 Entrega[Construcao->7][Job->1] carrega as 8.74, sai da planta as 8.82, chega a entrega7 as 9.00 e sai as  9.17, retorna a planta as 9.35
+	 Entrega[Construcao->8][Job->3] carrega as 10.68, sai da planta as 10.76, chega a entrega8 as 10.94 e sai as  11.11, retorna a planta as 11.29
+ Veiculo 18
+	 Entrega[Construcao->10][Job->5] carrega as 8.40, sai da planta as 8.49, chega a entrega10 as 8.67 e sai as  8.83, retorna a planta as 9.01
+ Veiculo 19
+	 Entrega[Construcao->9][Job->2] carrega as 9.99, sai da planta as 10.08, chega a entrega9 as 10.24 e sai as  10.41, retorna a planta as 10.58
+	 Entrega[Construcao->10][Job->4] carrega as 8.24, sai da planta as 8.32, chega a entrega10 as 8.50 e sai as  8.67, retorna a planta as 8.85
+ Veiculo 20
+	 Entrega[Construcao->9][Job->1] carrega as 9.83, sai da planta as 9.91, chega a entrega9 as 10.08 e sai as  10.24, retorna a planta as 10.41
+
+
+           Tempo de entrega em cada cliente         
+ Cliente 1	[ 9.00	<=		9.13[v10]	9.30[v2]	9.47[v3]	9.63[v4]	<=	10.00]
+ Cliente 2	[ 8.30	<=		8.33[v12]	8.50[v3]	8.66[v7]	8.83[v2]	9.00[v4]	<=	9.30]
+ Cliente 3	[ 10.50	<=		10.50[v3]	10.67[v14]	10.83[v6]	11.00[v4]	11.17[v3]	<=	11.50]
+ Cliente 4	[ 8.00	<=		8.00[v3]	8.17[v14]	8.33[v1]	8.50[v16]	<=	9.00]
+ Cliente 5	[ 12.00	<=		12.00[v10]	12.17[v6]	12.33[v2]	12.50[v3]	12.67[v4]	<=	13.00]
+ Cliente 6	[ 12.00	<=		12.00[v8]	12.17[v12]	12.33[v1]	12.50[v11]	<=	13.00]
+ Cliente 7	[ 9.00	<=		9.00[v17]	9.17[v8]	9.33[v15]	9.50[v1]	<=	10.00]
+ Cliente 8	[ 10.50	<=		10.61[v10]	10.78[v9]	10.94[v17]	11.11[v7]	<=	11.50]
+ Cliente 9	[ 10.00	<=		10.08[v20]	10.24[v19]	10.41[v11]	10.58[v2]	<=	11.00]
+ Cliente 10	[ 8.00	<=		8.00[v9]	8.17[v5]	8.33[v15]	8.50[v19]	8.67[v18]	<=	9.00]
+
+
+           Veiculos usados         
+Planta 1
+  Veiculo 1 	[clientes ->	   4(8.33333)    6(12.3333)    7(9.5) ]
+  Veiculo 2 	[clientes ->	   1(9.30072)    2(8.83053)    5(12.3333)    9(10.5775) ]
+  Veiculo 3 	[clientes ->	   1(9.46738)    2(8.4972)    3(10.5) (11.1667)    4(8)    5(12.5) ]
+  Veiculo 4 	[clientes ->	   1(9.63405)    2(8.9972)    3(11)    5(12.6667) ]
+  Veiculo 5 	[clientes ->	   10(8.16667) ]
+  Veiculo 6 	[clientes ->	   3(10.8333)    5(12.1667) ]
+  Veiculo 7 	[clientes ->	   2(8.66386)    8(11.109) ]
+  Veiculo 8 	[clientes ->	   6(12)    7(9.16667) ]
+  Veiculo 9 	[clientes ->	   8(10.7757)    10(8) ]
+  Veiculo 10 	[clientes ->	   1(9.13405)    5(12)    8(10.609) ]
+
+Planta 2
+  Veiculo 11 	[clientes ->	   6(12.5)    9(10.4108) ]
+  Veiculo 12 	[clientes ->	   2(8.33053)    6(12.1667) ]
+  Veiculo 14 	[clientes ->	   3(10.6667)    4(8.16667) ]
+  Veiculo 15 	[clientes ->	   7(9.33333)    10(8.33333) ]
+  Veiculo 16 	[clientes ->	   4(8.5) ]
+  Veiculo 17 	[clientes ->	   7(9)    8(10.9423) ]
+  Veiculo 18 	[clientes ->	   10(8.66667) ]
+  Veiculo 19 	[clientes ->	   9(10.2441)    10(8.5) ]
+  Veiculo 20 	[clientes ->	   9(10.0775) ]
+
+
+
+ Resolveu = 1

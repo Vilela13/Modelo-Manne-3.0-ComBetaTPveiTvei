@@ -28,6 +28,8 @@
 
 #include <time.h>
 
+#include <math.h>
+
 
 #include <dirent.h> 	// Manipulação de arquivos em C (meu caso, ver se arquivo existe)
 
