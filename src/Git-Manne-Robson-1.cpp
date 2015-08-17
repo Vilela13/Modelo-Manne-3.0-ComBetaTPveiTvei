@@ -51,9 +51,10 @@ int main(int argc, char **argv) {
 
 	// -------------------------- Le nome dos arquivos Solomon, carrega os dados, cria arquivo do R, Excel e cria arquivo que pode ser lido pelo Modelo ----------------------- //
 
-		DadosSaloman *InstanciaSaloman = new DadosSaloman;
+		DadosSaloman *InstanciaSaloman;
 
 		while( ListaInstancias.size() > 0){
+			InstanciaSaloman = new DadosSaloman;
 			it = ListaInstancias.begin();
 			a = *it;
 			ListaInstancias.pop_front();
@@ -75,8 +76,8 @@ int main(int argc, char **argv) {
 
 			InstanciaSaloman->EscreverComandosExcel(a);					// Não implementado ainda
 			cout << " entrei 3 - escreve comandos excel" << endl;
+			free(InstanciaSaloman);
 		}
-		free(InstanciaSaloman);
 
 
 	//Cria instancia manual
@@ -103,6 +104,7 @@ int main(int argc, char **argv) {
 				//cout << a  << endl ;
 				ListaInstancias.push_back(a);
 				ArquivoInstancia >> Nome;
+
 			}
 			ArquivoInstancia.close();
 
@@ -112,7 +114,7 @@ int main(int argc, char **argv) {
 
 			char Saida[200];
 			int TamanhoEntrda;
-			strcpy (Saida,"Res-");				// coloca Res- no char*
+			strcpy (Saida,"R-");				// coloca Res- no char*
 			TamanhoEntrda = strcspn (Instancias,".");	// Ve o tamanho do char* passado na entrada
 			if(TamanhoEntrda > 12){				// Fixa o tamanho minimo da string
 				TamanhoEntrda = 12;
@@ -157,7 +159,9 @@ int main(int argc, char **argv) {
 					ArquivoExcelResposta << " " <<   SolucaoPrimal << '\t' <<  " " << SolucaoDual << '\t' << " " <<   Gap << '\t' <<  " " << Tempo << '\n';
 
 				}
+				cout << endl << endl << " Antes do free " << endl << endl;
 				free(Instancia);
+				cout << endl << endl << " Depois do free " << endl << endl;
 			}
 
 			ArquivoExcelResposta.close();
@@ -168,8 +172,10 @@ int main(int argc, char **argv) {
 			cout << "\n \n Arquivo inexistente! \n \n";
 			return 0;
 		}
+		free( Instancias );
 
 
+		ListaInstancias.clear();
 	}else{
 		cout << "\n \n Passagem de parametros errada \n \n";
 		return 0;
