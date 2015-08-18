@@ -51,9 +51,8 @@ public:
 	char *aux1;
 	string CaminhoArquivo1;
 	string CaminhoArquivo2;
-	string Nome;
-	string NomeAux;
-	string Versao;
+	//string Nome;
+
 	string Dados;
 	string TXT;
 	int NumeroVERSAO;
@@ -78,24 +77,24 @@ public:
 
 // Funções
 
-	void CarregarNumeroNosCoordenadas( char*);
+	void CarregarNumeroNosCoordenadas( string);
 
 	void EscreverDadosLidosInstanciaSaloman();
 
 	ifstream Instancia;
 
-	void EscreverComandosR(char*,char );
+	void EscreverComandosR(string,char );
 
 	ofstream ComandosR;
 
-	void EscreverComandosExcel(char*);
+	void EscreverComandosExcel(string);
 
 	ofstream ComandosExcel;
 
 	void CriaPastaInstS();
 	void CriaPastaDat();
 
-	void CriarInstanciaSaloman(char*);
+	void CriarInstanciaSaloman(string);
 
 	ofstream InstanciaSaloman;
 	ofstream DadosInstanciaSalomonCriada;
@@ -105,20 +104,26 @@ public:
 };
 
 DadosSaloman::DadosSaloman(){
-	AuxiliarInt = 13131313;
-	Capacidade  = 13131313;
-	NumeroNosDadosSaloman = 13131313;
-	NumeroVeiculos = 13131313;
-	x = 13131313;
-	y = 13131313;
+	AuxiliarInt = 13;
+	Capacidade  = 13;
+	NumeroNosDadosSaloman = 13;
+	NumeroVeiculos = 13;
+	x = 13;
+	y = 13;
 
 }
 
-void DadosSaloman::CarregarNumeroNosCoordenadas( char* a){
+void DadosSaloman::CarregarNumeroNosCoordenadas( string Nome){
 
 	int EscreveDadosLidos = 0;
 
-	Instancia.open(a);
+	char *cstr;
+	cstr = new char[Nome.length() + 1];
+	strcpy(cstr, Nome.c_str());
+
+	Instancia.open(cstr);
+
+	delete [] cstr;
 
 	Instancia >> NomeInstancia;
 
@@ -232,7 +237,7 @@ void DadosSaloman::EscreverDadosLidosInstanciaSaloman(){
 
 }
 
-void DadosSaloman::EscreverComandosR(char* a, char TipoArquivoSaida){
+void DadosSaloman::EscreverComandosR(string Nome, char TipoArquivoSaida){
 
 	//int LimiteplotarX;
 	//int LimiteplotarY;
@@ -248,10 +253,15 @@ void DadosSaloman::EscreverComandosR(char* a, char TipoArquivoSaida){
 	PosicaoTextoY = 2;
 	TamanhoLetraLegenda = 2;
 
-	char *b;
+
+
 	string TipoComando;
 	string NomeArquivoComandoR;
+	char *cstr;
+
 	TipoComando = "./ComR/CmdR-";
+	TipoComando += Nome;
+
 
 
 	if(!opendir ("ComR")){
@@ -278,130 +288,130 @@ void DadosSaloman::EscreverComandosR(char* a, char TipoArquivoSaida){
 	}
 
 
-		b = new char[TipoComando.size()+1];
-		b[TipoComando.size()]=0;
-		memcpy(b,TipoComando.c_str(),TipoComando.size());
-		strcat(b,a);
+	cout << endl <<  " Arquivo do comando R = " <<   TipoComando << endl << endl;
 
-		cout << endl <<  " Arquivo do comando R = " <<   b << endl << endl;
+	cstr = new char[TipoComando.length() + 1];
+	strcpy(cstr, TipoComando.c_str());
 
-		ComandosR.open(b);
+	ComandosR.open(cstr);
 
-		ComandosR << "require(ggplot2) "<< endl;
+	delete [] cstr;
 
-
-		ComandosR << "Dados <- data.frame(nomes = c(" ;
-		ComandosR << "\"N" << "0" << "\"";
-		for( int c = 1; c <= NumeroClientes; c++){
-			ComandosR << "," << "\"C" <<  c << "(" <<  NumeroCarretas[c] << ")"<<  "\"";
-		}
-		for( int p = 1; p <= NumeroPlantas; p++){
-			ComandosR << ","<< "\"P" <<  p <<  "\"";
-		}
-		ComandosR << ")" << endl;
-
-		//cout << " Aqui 1 " << endl;
-
-		ComandosR << ", x <- c(" ;
-		ComandosR << Coordenadas[0][0] ;
-		for( int c = 1; c <= NumeroClientes; c++){
-			ComandosR << ","<<  Coordenadas[	NoCliente[c] ][0] ;
-		}
-		for( int p = 1; p <= NumeroPlantas; p++){
-			ComandosR << ","<<  Coordenadas[ NoPlanta[p] ][0] ;
-		}
-		ComandosR << ")" << endl;
-
-		ComandosR << ", y <- c(" ;
-		ComandosR << Coordenadas[0][1] ;
-		for( int c = 1; c <= NumeroClientes; c++){
-			ComandosR << ","<<  Coordenadas[	NoCliente[c] ][1] ;
-		}
-		for( int p = 1; p <= NumeroPlantas; p++){
-			ComandosR << ","<<  Coordenadas[ NoPlanta[p] ][1] ;
-		}
-		ComandosR << ")" << endl;
-
-		ComandosR << ", tipo <- c(" ;
-		ComandosR << "3" ;
-		for( int c = 1; c <= NumeroClientes; c++){
-				ComandosR << ",6" ;
-		}
-		for( int p = 1; p <= NumeroPlantas; p++){
-				ComandosR << ",4" ;
-		}
-		ComandosR << ")" << endl;
-
-		ComandosR << ", tamanho <- c(" ;
-		ComandosR << "1" ;
-		for( int c = 1; c <= NumeroClientes; c++){
-				ComandosR << ",1" ;
-		}
-		for( int p = 1; p <= NumeroPlantas; p++){
-			ComandosR << ",2" ;
-		}
-		ComandosR << ")" << endl << ")"<< endl;
+	ComandosR << "require(ggplot2) "<< endl;
 
 
-		if(!opendir ("Imagens")){
-				cout <<  "\n Nao tem diretorio Imagens!!           FUDEU MUITO!! \n" << endl;
+	ComandosR << "Dados <- data.frame(nomes = c(" ;
+	ComandosR << "\"N" << "0" << "\"";
+	for( int c = 1; c <= NumeroClientes; c++){
+		ComandosR << "," << "\"C" <<  c << "(" <<  NumeroCarretas[c] << ")"<<  "\"";
+	}
+	for( int p = 1; p <= NumeroPlantas; p++){
+		ComandosR << ","<< "\"P" <<  p <<  "\"";
+	}
+	ComandosR << ")" << endl;
 
-				if( system("mkdir Imagens;") == 0){
-					cout << " Criou pasta Imagens " << endl;
-				}else{
-					cout << " Problema ao criar pasta Imagens " << endl;
-				}
-		}
+	//cout << " Aqui 1 " << endl;
 
-		//NomeArquivoComandoR = "./Imagens/";
-		NomeArquivoComandoR += a;
+	ComandosR << ", x <- c(" ;
+	ComandosR << Coordenadas[0][0] ;
+	for( int c = 1; c <= NumeroClientes; c++){
+		ComandosR << ","<<  Coordenadas[	NoCliente[c] ][0] ;
+	}
+	for( int p = 1; p <= NumeroPlantas; p++){
+		ComandosR << ","<<  Coordenadas[ NoPlanta[p] ][0] ;
+	}
+	ComandosR << ")" << endl;
 
-		NomeArquivoComandoR.resize( NomeArquivoComandoR.size() - 4 );
+	ComandosR << ", y <- c(" ;
+	ComandosR << Coordenadas[0][1] ;
+	for( int c = 1; c <= NumeroClientes; c++){
+		ComandosR << ","<<  Coordenadas[	NoCliente[c] ][1] ;
+	}
+	for( int p = 1; p <= NumeroPlantas; p++){
+		ComandosR << ","<<  Coordenadas[ NoPlanta[p] ][1] ;
+	}
+	ComandosR << ")" << endl;
+
+	ComandosR << ", tipo <- c(" ;
+	ComandosR << "3" ;
+	for( int c = 1; c <= NumeroClientes; c++){
+			ComandosR << ",6" ;
+	}
+	for( int p = 1; p <= NumeroPlantas; p++){
+			ComandosR << ",4" ;
+	}
+	ComandosR << ")" << endl;
+
+	ComandosR << ", tamanho <- c(" ;
+	ComandosR << "1" ;
+	for( int c = 1; c <= NumeroClientes; c++){
+			ComandosR << ",1" ;
+	}
+	for( int p = 1; p <= NumeroPlantas; p++){
+		ComandosR << ",2" ;
+	}
+	ComandosR << ")" << endl << ")"<< endl;
+
+
+	if(!opendir ("Imagens")){
+			cout <<  "\n Nao tem diretorio Imagens!!           FUDEU MUITO!! \n" << endl;
+
+			if( system("mkdir Imagens;") == 0){
+				cout << " Criou pasta Imagens " << endl;
+			}else{
+				cout << " Problema ao criar pasta Imagens " << endl;
+			}
+	}
+
+	//NomeArquivoComandoR = "./Imagens/";
+	NomeArquivoComandoR += Nome;
+
+	NomeArquivoComandoR.resize( NomeArquivoComandoR.size() - 4 );
 
 
 
-	// Cria Post Script
-		if (TipoArquivoSaida == '1'){
-			NomeArquivoComandoR += ".ps";
+// Cria Post Script
+	if (TipoArquivoSaida == '1'){
+		NomeArquivoComandoR += ".ps";
 
-			ComandosR << "postscript('" << NomeArquivoComandoR << "')" << endl;
-        }
+		ComandosR << "postscript('" << NomeArquivoComandoR << "')" << endl;
+	}
 
-    // Criar PNG
-        if (TipoArquivoSaida == '2'){
+// Criar PNG
+	if (TipoArquivoSaida == '2'){
 
-			NomeArquivoComandoR += ".png";
-			ComandosR << "png('" << NomeArquivoComandoR << "')" << endl;
-        }
+		NomeArquivoComandoR += ".png";
+		ComandosR << "png('" << NomeArquivoComandoR << "')" << endl;
+	}
 
-    // Criar Jpeg
-		if (TipoArquivoSaida == '3'){
+// Criar Jpeg
+	if (TipoArquivoSaida == '3'){
 
-			NomeArquivoComandoR += ".jpg";
-			ComandosR << "jpeg('" << NomeArquivoComandoR << "')" << endl;
-        }
+		NomeArquivoComandoR += ".jpg";
+		ComandosR << "jpeg('" << NomeArquivoComandoR << "')" << endl;
+	}
 
-	 // Criar PDF
-		if (TipoArquivoSaida == '4'){
+ // Criar PDF
+	if (TipoArquivoSaida == '4'){
 
-			NomeArquivoComandoR += ".pdf";
-			ComandosR << "pdf('" << NomeArquivoComandoR << "')" << endl;
-        }
+		NomeArquivoComandoR += ".pdf";
+		ComandosR << "pdf('" << NomeArquivoComandoR << "')" << endl;
+	}
 
-        ComandosR << "ggplot(Dados, aes(x,y)) + geom_point(aes(shape = factor(tipo),size =tamanho) ) + scale_size_continuous(range = c(3,4))";
-        ComandosR << "+ scale_shape(solid = FALSE)+  geom_text(aes(label=nomes),";
-        ComandosR << " hjust= " << PosicaoTextoX << ",vjust=" << PosicaoTextoY  ;
-        ComandosR << " ,size = " << TamanhoLetraLegenda << ")";
-        ComandosR << "+ xlim( min(x)- 10, max(x)+10 ) + ylim( min(y)-10,max(y)+10 )" << endl; //ComandosR << "+ xlim(0," << LimiteplotarX << ") + ylim(0," << LimiteplotarY << ")" << endl;
-		ComandosR << "dev.off() ;" << endl;
+	ComandosR << "ggplot(Dados, aes(x,y)) + geom_point(aes(shape = factor(tipo),size =tamanho) ) + scale_size_continuous(range = c(3,4))";
+	ComandosR << "+ scale_shape(solid = FALSE)+  geom_text(aes(label=nomes),";
+	ComandosR << " hjust= " << PosicaoTextoX << ",vjust=" << PosicaoTextoY  ;
+	ComandosR << " ,size = " << TamanhoLetraLegenda << ")";
+	ComandosR << "+ xlim( min(x)- 10, max(x)+10 ) + ylim( min(y)-10,max(y)+10 )" << endl; //ComandosR << "+ xlim(0," << LimiteplotarX << ") + ylim(0," << LimiteplotarY << ")" << endl;
+	ComandosR << "dev.off() ;" << endl;
 
-		ComandosR.close();
+	ComandosR.close();
 
-		//cout << " Aqui 3" << endl;
+	//cout << " Aqui 3" << endl;
 
 }
 
-void DadosSaloman::EscreverComandosExcel(char* a){
+void DadosSaloman::EscreverComandosExcel(string Nome){
 
 	/*
 	char *b;
@@ -426,9 +436,9 @@ void DadosSaloman::EscreverComandosExcel(char* a){
 
 	*/
 
-	char *b;
 	string TipoComando;
 	TipoComando = "./ComE/CmdE-";
+	TipoComando += Nome;
 
 
 
@@ -456,14 +466,15 @@ void DadosSaloman::EscreverComandosExcel(char* a){
 		cout << " Tem diretorio \"ComE\" !!  " << endl;
 	}
 
-	b = new char[TipoComando.size()+1];
-	b[TipoComando.size()]=0;
-	memcpy(b,TipoComando.c_str(),TipoComando.size());
-	strcat(b,a);
+	char *cstr;
+	cstr = new char[TipoComando.length() + 1];
+	strcpy(cstr, TipoComando.c_str());
 
-	//cout << " galo => " << b << endl << endl;
+	cout << " Comando E (cstr) => " << cstr << " TipoComaTipoComandondo = " << TipoComando <<  endl << endl;
 
-	ComandosExcel.open(b);
+	ComandosExcel.open(cstr);
+
+	delete [] cstr;
 
 	//cout << " Doido " << endl << endl;
 
@@ -528,8 +539,13 @@ void DadosSaloman::CriaPastaDat(){
 	}
 }
 
-void DadosSaloman::CriarInstanciaSaloman(char* a){
+void DadosSaloman::CriarInstanciaSaloman(string Nome){
 
+
+	string NomeAux;
+	string Versao;
+
+	char *cstr;
 
 	NumeroVERSAO = 49;
 	//NumeroVERSAO = 50;
@@ -547,7 +563,6 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 
 // Cria o nome da instancia para o modelo
 
-	Nome.assign(a);
 	if( Nome.size() > 3){
 		Nome.resize(Nome.size()-4);
 		if( NomeInstancia[0] == 'R' || NomeInstancia[0] == 'C'){
@@ -586,16 +601,12 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
             }
         }
 		Versao += NumeroVERSAO;
-		Nome.insert(Nome.size(),Versao);
 		NomeAux = Nome;
+		NomeAux += Versao;
 		TXT = ".txt";
-		Nome.insert(Nome.size(),TXT);
+		NomeAux += TXT;
 
-		cout << "      Nome da Instancia Solomon = " << Nome << endl << endl;
-
-		a = new char[Nome.size()+1];
-		a[Nome.size()]=0;
-		memcpy(a,Nome.c_str(),Nome.size());
+		cout << "      Nome da Instancia Solomon = " << NomeAux << endl << endl;
 
 	}else{
 		cout << "Arquivo passado com tamanho invaldo " <<  Nome << endl ;
@@ -606,32 +617,39 @@ void DadosSaloman::CriarInstanciaSaloman(char* a){
 	//CaminhoArquivo1 = "./";
 	CaminhoArquivo1 = "./InstS/";
 
-	b = new char[CaminhoArquivo1.size()+1];
-	b[CaminhoArquivo1.size()]=0;
-	memcpy(b,CaminhoArquivo1.c_str(),CaminhoArquivo1.size());
-	strcat(b,a);
+	CaminhoArquivo1 += NomeAux;
 
-	cout << endl << "  Arquivo = " << a << "  Caminho = " << b << endl;
+
+	cout << endl << "  Arquivo = " << NomeAux << "  Caminho = " << CaminhoArquivo1 << endl;
 
 // Cria arquivo para guardar os dados da instancia criada
 
 	if( NomeInstancia[0] == 'R' || NomeInstancia[0] == 'C' || NomeInstancia[0] == 'r'){
-        InstanciaSaloman.open(b);
+
+		cstr = new char[CaminhoArquivo1.length() + 1];
+		strcpy(cstr, CaminhoArquivo1.c_str());
+
+        InstanciaSaloman.open(cstr);
+
+        delete [] cstr;
 
         CriaPastaDat();
 
         CaminhoArquivo2 = "./Dat/";
 
-        aux1 = new char[CaminhoArquivo2.size()+1];
-        aux1[CaminhoArquivo2.size()]=0;
-        memcpy(aux1,CaminhoArquivo2.c_str(),CaminhoArquivo2.size());
-        strcat(aux1,a);
-        DadosInstanciaSalomonCriada.open(aux1);
+        CaminhoArquivo2 += NomeAux;
 
-        cout << endl << "  Caminho salvar em pasta Dat = " << aux1 << endl;
+        cstr = new char[CaminhoArquivo2.length() + 1];
+        strcpy(cstr, CaminhoArquivo2.c_str());
 
-        DadosInstanciaSalomonCriada << b << endl;
-        InstanciaSaloman << NomeInstancia << endl;
+        DadosInstanciaSalomonCriada.open(cstr);
+
+        delete [] cstr;
+
+        cout << endl << "  Caminho salvar em pasta Dat = " << CaminhoArquivo2 << endl;
+
+        DadosInstanciaSalomonCriada << NomeAux << endl;
+        InstanciaSaloman << NomeAux << endl;
 
         if(NomeInstancia[0] == 'R' && NomeInstancia[1] == 'C'){
 

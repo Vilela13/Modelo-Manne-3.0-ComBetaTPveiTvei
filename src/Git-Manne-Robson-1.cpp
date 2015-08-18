@@ -6,13 +6,13 @@ int main(int argc, char **argv) {
 
 	if( argc == 2){
 
-		char *a;
-		list<char*> ListaInstancias;
+		list<string> ListaInstancias;
 		string Nome;
+
 
 		int EscreveDadosLidosNaTela;
 
-		list<char*>::iterator it;
+		list<string>::iterator it;
 
 		ofstream ArquivoExcelResposta;
 
@@ -36,11 +36,8 @@ int main(int argc, char **argv) {
 			ArquivoInstanciaSaloman >> Nome;
 			cout << " \n   Arqmazena nome de instancias \n " << endl;
 			while( Nome != "EOF"){
-				a = new char[Nome.size()+1];
-				a[Nome.size()]=0;
-				memcpy(a,Nome.c_str(),Nome.size());
-				cout << "  " << a  << endl ;
-				ListaInstancias.push_back(a);
+				cout << "  " << Nome  << endl ;
+				ListaInstancias.push_back(Nome);
 				ArquivoInstanciaSaloman >> Nome;
 			}
 
@@ -56,37 +53,46 @@ int main(int argc, char **argv) {
 		while( ListaInstancias.size() > 0){
 			InstanciaSaloman = new DadosSaloman;
 			it = ListaInstancias.begin();
-			a = *it;
+			Nome = *it;
 			ListaInstancias.pop_front();
 			//cout <<  " ai 1" << endl;
 
-			cout << a << endl;
+			cout << Nome << endl;
 			//cout <<  " ai 2" << endl;
 
-			InstanciaSaloman->CarregarNumeroNosCoordenadas(a);
-			//InstanciaSaloman->EscreverDadosLidosInstanciaSaloman();
+
 			cout << " entrei 0 - carrega dados" << endl;
+			InstanciaSaloman->CarregarNumeroNosCoordenadas(Nome);
+			InstanciaSaloman->EscreverDadosLidosInstanciaSaloman();
+			cout << " sai 0 - carrega dados" << endl;
 
-			InstanciaSaloman->CriarInstanciaSaloman(a);
 			cout << " entrei 1 - escreve Instancia Salomon" << endl;
+			InstanciaSaloman->CriarInstanciaSaloman(Nome);
+			cout << " sai 1 - escreve Instancia Salomon" << endl;
 
-			InstanciaSaloman->EscreverComandosR(a,'4');
-			// 1 => .ps	  2 =>.png   3 =>.jpeg    4 =>.pdf
 			cout << " entrei 2 - escreve comandos R" << endl;
+			InstanciaSaloman->EscreverComandosR(Nome,'4');
+			// 1 => .ps	  2 =>.png   3 =>.jpeg    4 =>.pdf
+			cout << " sai 2 - escreve comandos R" << endl;
 
-			InstanciaSaloman->EscreverComandosExcel(a);					// Não implementado ainda
 			cout << " entrei 3 - escreve comandos excel" << endl;
+			InstanciaSaloman->EscreverComandosExcel(Nome);					// Não implementado ainda
+			cout << " sai 3 - escreve comandos excel" << endl;
 			free(InstanciaSaloman);
+
+
+
+
 		}
 
-
+/*
 	//Cria instancia manual
-	/*	No PreInstancia;
+	    //No PreInstancia;
 
 //Cria instância que criei na mão
-		PreInstancia.PreencheEstrutura();
-		PreInstancia.CriaTXT();
-	*/
+		//PreInstancia.PreencheEstrutura();
+		//PreInstancia.CriaTXT();
+
 
 	// Resolve o problema
 
@@ -167,13 +173,16 @@ int main(int argc, char **argv) {
 			ArquivoExcelResposta.close();
 
 			cout << "\n \n Galo Doido! \n \n";
+
+
+
 			return 1;
 		}else{
 			cout << "\n \n Arquivo inexistente! \n \n";
 			return 0;
 		}
 		free( Instancias );
-
+*/
 
 		ListaInstancias.clear();
 	}else{
